@@ -7,39 +7,39 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <style>
         /* ═══════════════════════════════════════════════════════════════
-           AIRLOCK WEBSITE - REDESIGN v2
-           Palette: In-game UI aesthetic - dark, warm, aged paper / bone white
-           No blues. No teals. Amber accents. Damaged/worn edges.
+           AIRLOCK WEBSITE - REDESIGN v3
+           Palette: Warm near-black + bone white, matches in-game HUD + Zoho form
+           No blues. No teals. No amber. Grounded survival HUD aesthetic.
         ═══════════════════════════════════════════════════════════════ */
         :root {
-            /* ── Core palette from in-game module UI ── */
-            --col-void:          #171a1f;   /* page background */
-            --col-deep:          #131619;   /* slightly darker (footer etc) */
-            --col-panel:         #2d2c2d;   /* card / panel background */
-            --col-panel-raised:  #363536;   /* slightly lighter panel (video labels etc) */
+            /* ── Core palette - warm near-black + bone (matches Zoho form) ── */
+            --col-void:          #1a1a18;   /* page background - warm near-black */
+            --col-deep:          #0f0f0d;   /* darker warm black (footer etc) */
+            --col-panel:         #232321;   /* card / panel background */
+            --col-panel-raised:  #3a3a36;   /* slightly lighter panel */
 
             /* Borders - none by default, only on hover */
             --col-border:        transparent;
             --col-border-bright: transparent;
-            --col-border-hover:  #b2b3b2;   /* hover border */
+            --col-border-hover:  #c8c4b4;   /* hover border - bone */
 
             /* Text */
-            --col-cream:         #b0aeaa;   /* primary text - slightly darker */
-            --col-bone:          #8c8a87;   /* secondary text */
-            --col-parchment:     #636160;   /* muted / label text */
-            --col-dim:           #444342;   /* very muted */
+            --col-cream:         #c8c4b4;   /* primary text - bone (matches Zoho form border) */
+            --col-bone:          #a8a49a;   /* secondary text */
+            --col-parchment:     #7a7770;   /* muted / label text */
+            --col-dim:           #4a4944;   /* very muted */
 
-            /* Accent - now neutral grey, no orange */
-            --col-amber:         #b0aeaa;   /* matches primary text */
-            --col-amber-hot:     #c8c6c2;   /* slightly brighter grey */
-            --col-amber-dim:     #555452;   /* dim grey */
-            --col-amber-glow:    rgba(176,174,170,0.12);
-            --col-amber-glow-lg: rgba(176,174,170,0.22);
+            /* Accent - neutral bone, no orange */
+            --col-amber:         #c8c4b4;   /* matches primary text - legacy var name */
+            --col-amber-hot:     #e8e4d8;   /* brighter bone */
+            --col-amber-dim:     #5a5954;   /* dim grey */
+            --col-amber-glow:    rgba(200,196,180,0.12);
+            --col-amber-glow-lg: rgba(200,196,180,0.22);
 
             /* Buttons */
-            --col-btn-bg:        #3d3c3d;
-            --col-btn-text:      #cdcbc7;
-            --col-btn-hover:     #4a494a;
+            --col-btn-bg:        #3a3a36;
+            --col-btn-text:      #c8c4b4;
+            --col-btn-hover:     #4a4944;
 
             /* Fonts */
             --font-display: 'Bebas Neue', sans-serif;
@@ -84,8 +84,8 @@
             position: fixed;
             top: 0; left: 0; right: 0;
             z-index: 1000;
-            background: rgba(23,26,31,0.97);
-            border-bottom: 1px solid rgba(178,179,178,0.15);
+            background: rgba(42,39,33,0.97);
+            border-bottom: 1px solid rgba(200,196,180,0.15);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
         }
@@ -143,6 +143,14 @@
 
         .nav-links a:hover { color: var(--col-amber); }
         .nav-links a:hover::after { width: 100%; }
+
+        /* Active section highlight - set by scroll-spy JS */
+        .nav-links a.active {
+            color: var(--col-cream);
+            font-weight: 700;
+            letter-spacing: 0.16em;
+        }
+        .nav-links a.active::after { width: 100%; }
 
         .nav-controls {
             display: flex;
@@ -1298,7 +1306,7 @@
                 flex-direction: column;
                 position: absolute;
                 top: 100%; left: 0; right: 0;
-                background: rgba(9,8,11,0.98);
+                background: rgba(42,39,33,0.98);
                 padding: 1rem 5%;
                 border-bottom: 1px solid var(--col-border-amber);
                 gap: 1rem;
@@ -1343,6 +1351,46 @@
             .cta-button { text-align: center; }
             section { padding: 4rem 4%; }
         }
+
+        /* ── NEWSLETTER SECTION ────────────────────────────────────── */
+        #newsletter {
+            background: var(--col-deep);
+            text-align: center;
+        }
+
+        .newsletter-content {
+            max-width: 720px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.6rem;
+        }
+
+        .newsletter-intro {
+            color: var(--col-bone);
+            font-size: 0.92rem;
+            line-height: 1.9;
+            max-width: 620px;
+            text-align: center;
+        }
+
+        .newsletter-intro strong { color: var(--col-cream); }
+
+        .newsletter-form-wrap {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 0.5rem;
+        }
+
+        /* Keep the Zoho form block from inheriting hostile styles */
+        .newsletter-form-wrap #customForm { max-width: 100%; }
+
+        @media (max-width: 600px) {
+            #newsletter { padding: 4rem 4%; }
+            .newsletter-form-wrap #customForm > div { width: 100% !important; }
+        }
     </style>
 </head>
 <body>
@@ -1364,6 +1412,7 @@
                 <li><a href="#roadmap">Roadmap</a></li>
                 <li><a href="#media">Media</a></li>
                 <li><a href="#devdiary">Dev Diary</a></li>
+                <li><a href="#newsletter">Newsletter</a></li>
                 <li><a href="#support">Support Us</a></li>
             </ul>
             <div class="nav-controls">
@@ -2003,6 +2052,112 @@
         </div>
     </section>
 
+    <!-- NEWSLETTER SECTION -->
+    <section id="newsletter">
+        <h2 class="section-title fade-in">Join The Bunker</h2>
+        <div class="newsletter-content">
+            <p class="newsletter-intro fade-in">
+                Want to know what's actually happening inside the bunker? Subscribe to the AIRLOCK dev newsletter for honest updates from a solo dev. New builds, new features, behind the scenes dev diaries, and the occasional broken thing I'm too tired to fix. <strong>No spam, no fluff, no marketing nonsense.</strong> Just the real story as AIRLOCK comes together.
+            </p>
+
+            <div class="newsletter-form-wrap fade-in">
+                <!--Zoho Campaigns Web-Optin Form's Header Code Starts Here-->
+                <script type="text/javascript" src="https://zcv2-zcmp.maillist-manage.eu/js/optin.min.js" onload="setupSF('sf3z82145c7db59714333cca57c5c97405d7b9cd2d17f825a5c10ab22af05142cbec','ZCFORMVIEW',false,'light',false,'0')"></script>
+                <script type="text/javascript">
+                    function runOnFormSubmit_sf3z82145c7db59714333cca57c5c97405d7b9cd2d17f825a5c10ab22af05142cbec(th){
+                        /*Before submit, if you want to trigger your event, "include your code here"*/
+                    };
+                </script>
+                <!--Zoho Campaigns Web-Optin Form's Header Code Ends Here-->
+
+                <!--Zoho Campaigns Web-Optin Form Starts Here-->
+                <div id="sf3z82145c7db59714333cca57c5c97405d7b9cd2d17f825a5c10ab22af05142cbec" data-type="signupform" style="opacity: 1;">
+                    <div id="customForm">
+                        <div name="SIGNUP_BODY" changeitem="BG_IMAGE" style="width: 450px; height: 470px; position: relative; font-family: Arial; background-color: rgb(26, 26, 24); margin: auto; overflow: hidden; border-color: rgb(200, 196, 180); border-style: solid">
+                            <div changeitem="ELEGANTFORM_IMAGE" style="width: 100%; height: 100%; position: absolute; bottom: 0">
+                                <img style="width: 100%; height: 100%; position: relative; visibility: hidden">
+                            </div>
+                            <div style="position: relative; font-family: &quot;Arial&quot;; background-color: rgb(255, 255, 255)">
+                                <link rel="stylesheet">
+                                <div style="text-align: center; width: 100%; float: left; position: relative; z-index: 2; margin-top: 50px">
+                                    <div style="width: 100%; color: rgb(255, 255, 255); font-size: 30px; margin: 5px 0; font-weight: 700; font-family: &quot;Poppins&quot;, &quot;Arial&quot;, sans-serif; line-height: 30px">JOIN THE BUNKER</div>
+                                    <div style="width: 100%; color: rgb(255, 255, 255); font-size: 30px; margin: 3px 0; font-weight: 400; font-family: &quot;Poppins&quot;, &quot;Arial&quot;, sans-serif"></div>
+                                    <div style="color: rgb(200, 196, 180); font-family: Poppins, Arial, sans-serif; font-weight: 600; font-size: 62px; margin: 0px; line-height: 60px; background-color: rgb(58, 58, 54)">GET DEV UPDATES</div>
+                                    <div style="color: rgb(255, 255, 255); font-family: Poppins, Arial, sans-serif; font-weight: 600; font-size: 28px; display: block; line-height: 40px; margin: 0px; width: 450px">FROM IRONBRIDGE</div>
+                                    <div style="color: rgb(255, 255, 255); font-family: &quot;Poppins&quot;, &quot;Arial&quot;, sans-serif; font-weight: 700; font-size: 20px; display: block; line-height: 40px; margin: 0"></div>
+                                    <div style="font-size: 22px; color: rgb(255, 255, 255); line-height: 1.5; width: 100%; float: left; margin: 0 0 15px; text-align: center; font-weight: 300"></div>
+                                </div>
+                            </div>
+                            <div style="position:relative;">
+                                <div id="Zc_SignupSuccess" style="display:none;position:absolute;margin-left:4%;width:90%;background-color: white; padding: 3px; border: 3px solid rgb(194, 225, 154);  margin-top: 10px;margin-bottom:10px;word-break:break-all">
+                                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                        <tbody>
+                                            <tr>
+                                                <td width="10%">
+                                                    <img class="successicon" src="https://zcv2-zcmp.maillist-manage.eu/images/challangeiconenable.jpg" align="absmiddle">
+                                                </td>
+                                                <td>
+                                                    <span id="signupSuccessMsg" style="color: rgb(73, 140, 132); font-family: sans-serif; font-size: 14px;word-break:break-word">&nbsp;&nbsp;Thank you for Signing Up</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <form method="POST" id="zcampaignOptinForm" style="margin: 0px; width: 100%; color: rgb(255, 255, 255); width: 100%; float: left; text-align: center" action="https://zcv2-zcmp.maillist-manage.eu/weboptin.zc" target="_zcSignup">
+                                <div style="background-color: rgb(255, 235, 232); padding: 10px; color: rgb(210, 0, 0); font-size: 11px; border: 1px solid rgb(255, 217, 211); opacity: 1; position: absolute; width: 80%; box-shadow: rgb(27, 27, 27) 0px 5px 12px 0px; margin: -50px 10%; z-index: 2; box-sizing: border-box; display: none" id="errorMsgDiv">Please correct the marked field(s) below.</div>
+                                <div style="text-align: center; width: 275px; height: 40px; margin: auto; display: inline-block; z-index: 99; position: relative; margin-bottom: 5px">
+                                    <div id="Zc_SignupSuccess" style="position: absolute; width: 87%; background-color: white; padding: 3px; border: 3px solid rgb(194, 225, 154); word-break: break-all; opacity: 1; display: none">
+                                        <div style="width: 20px; padding: 5px; display: table-cell">
+                                            <img class="successicon" src="https://campaigns.zoho.com/images/challangeiconenable.jpg" style="width: 20px">
+                                        </div>
+                                        <div style="display: table-cell">
+                                            <span id="signupSuccessMsg" style="color: rgb(73, 140, 132); font-family: sans-serif; font-size: 14px; line-height: 30px; display: block"></span>
+                                        </div>
+                                    </div>
+                                    <input placeholder="Put your Email Address Here" changeitem="SIGNUP_FORM_FIELD" name="CONTACT_EMAIL" id="EMBED_FORM_EMAIL_LABEL" type="text" style="border: 0; background-color: rgb(255, 255, 255); width: 100%; height: 100%; z-index: 4; outline: none; padding: 5px 5px; box-sizing: border-box; color: rgb(136, 136, 136); font-family: &quot;Poppins&quot;, &quot;Arial&quot;, sans-serif; text-align: center; font-size: 14px">
+                                </div>
+                                <div style="position: relative; width: 275px; height: 37px; margin-top: 15px; display: inline-block">
+                                    <input type="button" style="text-align: center; border-radius: 0px; background-color: rgb(58, 58, 54); width: 100%; height: 100%; z-index: 5; border: 0px; color: rgb(255, 255, 255); cursor: pointer; outline: none; font-family: Poppins, Arial; margin-top: 0px; font-size: 16px; font-weight: 700" name="SIGNUP_SUBMIT_BUTTON" id="zcWebOptin" value="Tell Me Everything!">
+                                </div>
+                                <input type="hidden" id="fieldBorder" value="">
+                                <input type="hidden" id="submitType" name="submitType" value="optinCustomView">
+                                <input type="hidden" id="emailReportId" name="emailReportId" value="">
+                                <input type="hidden" id="formType" name="formType" value="QuickForm">
+                                <input type="hidden" name="zx" id="cmpZuid" value="14aee095a2">
+                                <input type="hidden" name="zcvers" value="2.0">
+                                <input type="hidden" name="oldListIds" id="allCheckedListIds" value="">
+                                <input type="hidden" id="mode" name="mode" value="OptinCreateView">
+                                <input type="hidden" id="zcld" name="zcld" value="13e40ad815e00614">
+                                <input type="hidden" id="zctd" name="zctd" value="13e40ad815e00539">
+                                <input type="hidden" id="document_domain" value="">
+                                <input type="hidden" id="zc_Url" value="zcv2-zcmp.maillist-manage.eu">
+                                <input type="hidden" id="new_optin_response_in" value="0">
+                                <input type="hidden" id="duplicate_optin_response_in" value="0">
+                                <input type="hidden" name="zc_trackCode" id="zc_trackCode" value="ZCFORMVIEW">
+                                <input type="hidden" id="zc_formIx" name="zc_formIx" value="3z82145c7db59714333cca57c5c97405d7b9cd2d17f825a5c10ab22af05142cbec">
+                                <input type="hidden" id="viewFrom" value="URL_ACTION">
+                                <span style="display: none" id="dt_CONTACT_EMAIL">1,true,6,Contact Email,2</span>
+                                <span style="display: none" id="dt_FIRSTNAME">1,false,1,First Name,2</span>
+                                <span style="display: none" id="dt_LASTNAME">1,false,1,Last Name,2</span>
+                            </form>
+                        </div>
+                    </div>
+                    <img src="https://zcv2-zcmp.maillist-manage.eu/images/spacer.gif" id="refImage" onload="referenceSetter(this)" style="display:none;">
+                </div>
+                <input type="hidden" id="signupFormType" value="QuickForm_Vertical">
+                <div id="zcOptinOverLay" oncontextmenu="return false" style="display:none;text-align: center; background-color: rgb(0, 0, 0); opacity: 0.5; z-index: 100; position: fixed; width: 100%; top: 0px; left: 0px; height: 988px;"></div>
+                <div id="zcOptinSuccessPopup" style="display:none;z-index: 9999;width: 800px; height: 40%;top: 84px;position: fixed; left: 26%;background-color: #FFFFFF;border-color: #E6E6E6; border-style: solid; border-width: 1px;  box-shadow: 0 1px 10px #424242;padding: 35px;">
+                    <span style="position: absolute;top: -16px;right:-14px;z-index:99999;cursor: pointer;" id="closeSuccess">
+                        <img src="https://zcv2-zcmp.maillist-manage.eu/images/videoclose.png">
+                    </span>
+                    <div id="zcOptinSuccessPanel"></div>
+                </div>
+                <!--Zoho Campaigns Web-Optin Form Ends Here-->
+            </div>
+        </div>
+    </section>
+
     <!-- SUPPORT SECTION -->
     <section id="support">
         <h2 class="section-title fade-in">Join My Journey</h2>
@@ -2160,6 +2315,36 @@
         document.querySelectorAll('.fade-in').forEach(el => {
             observer.observe(el);
         });
+
+        // SCROLL SPY - highlight the nav link for whichever section is on screen
+        (function() {
+            const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+            const sections = [];
+            navLinks.forEach(link => {
+                const id = link.getAttribute('href').slice(1);
+                const el = document.getElementById(id);
+                if (el) sections.push({ id, el, link });
+            });
+
+            if (!sections.length) return;
+
+            const spyObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const match = sections.find(s => s.el === entry.target);
+                    if (!match) return;
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(l => l.classList.remove('active'));
+                        match.link.classList.add('active');
+                    }
+                });
+            }, {
+                // trigger when the section's middle crosses the middle of the viewport
+                rootMargin: '-45% 0px -45% 0px',
+                threshold: 0
+            });
+
+            sections.forEach(s => spyObserver.observe(s.el));
+        })();
 
         // PARTICLE EFFECTS - DUST (bone white/cream motes rising)
         (function() {
