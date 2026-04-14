@@ -3,70 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AIRLOCK — A post-apocalyptic survival base-builder by Ironbridge Games</title>
+    <title>AIRLOCK - A post-apocalyptic survival base-builder by Ironbridge Games</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <style>
+        /* ═══════════════════════════════════════════════════════════════
+           AIRLOCK WEBSITE - REDESIGN v2
+           Palette: In-game UI aesthetic - dark, warm, aged paper / bone white
+           No blues. No teals. Amber accents. Damaged/worn edges.
+        ═══════════════════════════════════════════════════════════════ */
         :root {
-            --col-orange: #E8470A;
-            --col-amber: #CC7010;
-            --col-amber-dim: rgba(204,112,16,0.10);
-            --col-amber-hover: rgba(204,112,16,0.22);
-            --col-amber-glow: rgba(204,112,16,0.18);
-            --col-void: #080808;
-            --col-deep: #0D1618;
-            --col-panel: #1A2830;
-            --col-bg-mid: #253848;
-            --col-steel-dark: #1E2E3A;
-            --col-steel-mid: #2E4252;
-            --col-steel: #3D5568;
-            --col-teal: #486480;
-            --col-teal-light: #6890B0;
-            --col-fog: #8AAABA;
-            --col-moonlight: #AABECB;
-            --col-white: #FFFFFF;
-            --col-white-55: rgba(255,255,255,0.55);
-            --col-white-38: rgba(255,255,255,0.38);
-            --col-white-28: rgba(255,255,255,0.28);
-            --col-white-20: rgba(255,255,255,0.20);
-            --col-white-10: rgba(255,255,255,0.10);
+            /* ── Core palette from in-game module UI ── */
+            --col-void:          #171a1f;   /* page background */
+            --col-deep:          #131619;   /* slightly darker (footer etc) */
+            --col-panel:         #2d2c2d;   /* card / panel background */
+            --col-panel-raised:  #363536;   /* slightly lighter panel (video labels etc) */
+
+            /* Borders - none by default, only on hover */
+            --col-border:        transparent;
+            --col-border-bright: transparent;
+            --col-border-hover:  #b2b3b2;   /* hover border */
+
+            /* Text */
+            --col-cream:         #b0aeaa;   /* primary text - slightly darker */
+            --col-bone:          #8c8a87;   /* secondary text */
+            --col-parchment:     #636160;   /* muted / label text */
+            --col-dim:           #444342;   /* very muted */
+
+            /* Accent - now neutral grey, no orange */
+            --col-amber:         #b0aeaa;   /* matches primary text */
+            --col-amber-hot:     #c8c6c2;   /* slightly brighter grey */
+            --col-amber-dim:     #555452;   /* dim grey */
+            --col-amber-glow:    rgba(176,174,170,0.12);
+            --col-amber-glow-lg: rgba(176,174,170,0.22);
+
+            /* Buttons */
+            --col-btn-bg:        #3d3c3d;
+            --col-btn-text:      #cdcbc7;
+            --col-btn-hover:     #4a494a;
+
+            /* Fonts */
             --font-display: 'Bebas Neue', sans-serif;
-            --font-mono: 'Share Tech Mono', monospace;
+            --font-mono:    'Share Tech Mono', monospace;
         }
 
-        * {
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: var(--font-mono);
-            color: var(--col-white-55);
+            color: var(--col-cream);
             background-color: var(--col-void);
-            line-height: 1.6;
+            line-height: 1.7;
+            overflow-x: hidden;
         }
 
-        /* NAVIGATION */
+        /* Subtle grain overlay across the whole page for that aged/worn feel */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+        }
+
+        /* ── SCROLLBAR ─────────────────────────────────────────────── */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: var(--col-void); }
+        ::-webkit-scrollbar-thumb { background: var(--col-amber-dim); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--col-amber); }
+
+        /* ── NAVIGATION ────────────────────────────────────────────── */
         nav {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             z-index: 1000;
-            background: linear-gradient(180deg, rgba(8,8,8,0.8) 0%, rgba(8,8,8,0.3) 100%);
-            backdrop-filter: blur(8px);
-            padding: 1.5rem 2rem;
-            border-bottom: 1px solid var(--col-white-10);
+            background: rgba(23,26,31,0.97);
+            border-bottom: 1px solid rgba(178,179,178,0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
 
         .nav-container {
             max-width: 100%;
             margin: 0 auto;
-            padding: 0 3%;
+            padding: 0.9rem 4%;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -78,49 +105,44 @@
         }
 
         .nav-logo img {
-            height: 28px;
-            opacity: 0.85;
-            transition: opacity 0.3s ease;
+            height: 26px;
+            opacity: 0.9;
+            filter: brightness(1.1) sepia(0.3);
+            transition: opacity 0.3s ease, filter 0.3s ease;
         }
 
         .nav-logo:hover img {
             opacity: 1;
+            filter: brightness(1.2) sepia(0.1);
         }
 
         .nav-links {
             display: flex;
-            gap: 2.5rem;
+            gap: 2.2rem;
             list-style: none;
         }
 
         .nav-links a {
-            color: var(--col-white-55);
+            color: var(--col-bone);
             text-decoration: none;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
+            font-size: 0.72rem;
+            letter-spacing: 0.14em;
             text-transform: uppercase;
-            transition: all 0.3s ease;
+            transition: color 0.2s ease;
             position: relative;
         }
 
         .nav-links a::after {
             content: '';
             position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
+            bottom: -3px; left: 0;
+            width: 0; height: 1px;
             background: var(--col-amber);
-            transition: width 0.3s ease;
+            transition: width 0.25s ease;
         }
 
-        .nav-links a:hover {
-            color: var(--col-amber);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
+        .nav-links a:hover { color: var(--col-amber); }
+        .nav-links a:hover::after { width: 100%; }
 
         .nav-controls {
             display: flex;
@@ -136,13 +158,15 @@
 
         .music-toggle {
             background: none;
-            border: 1px solid var(--col-steel);
-            color: var(--col-white-55);
-            padding: 0.5rem 0.8rem;
+            border: 1px solid rgba(178,179,178,0.3);
+            color: var(--col-parchment);
+            padding: 0.4rem 0.85rem;
             cursor: pointer;
             font-family: var(--font-mono);
-            font-size: 0.75rem;
-            transition: all 0.3s ease;
+            font-size: 0.68rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            transition: all 0.25s ease;
             white-space: nowrap;
         }
 
@@ -158,80 +182,90 @@
 
         .vol-slider {
             -webkit-appearance: none;
-            width: 60px;
-            height: 2px;
-            background: linear-gradient(to right, var(--col-amber) var(--vol, 65%), var(--col-white-10) var(--vol, 65%));
+            appearance: none;
+            width: 72px;
+            height: 3px;
+            background: linear-gradient(to right, var(--col-amber) var(--vol, 65%), var(--col-border-bright) var(--vol, 65%));
             outline: none;
-            cursor: pointer;
             opacity: 0;
+            pointer-events: none;
             transition: opacity 0.3s ease;
-            flex-shrink: 0;
+            cursor: pointer;
         }
 
         .vol-slider.visible {
-            opacity: 0.7;
-        }
-
-        .vol-slider:hover {
-            opacity: 1 !important;
+            opacity: 1;
+            pointer-events: auto;
         }
 
         .vol-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 10px;
-            height: 10px;
+            width: 10px; height: 10px;
             border-radius: 50%;
-            background: var(--col-white);
-            border: 1.5px solid var(--col-amber);
-            cursor: pointer;
-        }
-
-        .vol-slider::-moz-range-thumb {
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-            background: var(--col-white);
-            border: 1.5px solid var(--col-amber);
+            background: var(--col-amber);
             cursor: pointer;
         }
 
         .menu-toggle {
             display: none;
             background: none;
-            border: none;
-            color: var(--col-white-55);
-            font-size: 1.5rem;
+            border: 1px solid rgba(178,179,178,0.3);
+            color: var(--col-cream);
+            font-size: 1.1rem;
+            padding: 0.35rem 0.65rem;
             cursor: pointer;
         }
 
-        audio {
-            display: none;
-        }
-
-        /* HERO SECTION */
+        /* ── HERO SECTION ──────────────────────────────────────────── */
         .hero {
             position: relative;
-            width: 100%;
             height: 100vh;
-            max-width: none;
-            padding: 0;
-            overflow: hidden;
+            min-height: 580px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
+            background: var(--col-void);
         }
 
         .hero-bg {
             position: absolute;
             inset: 0;
-            background: url('city_bg_airlockPressAnyKey.jpg') center / cover no-repeat;
+            background-image: url('city_bg_airlockPressAnyKey.jpg');
+            background-size: cover;
+            background-position: center center;
+            opacity: 0.55;
+            z-index: 0;
+        }
+
+        /* Vignette overlay */
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, transparent 30%, rgba(9,8,11,0.75) 100%);
             z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Bottom fade into page */
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 160px;
+            background: linear-gradient(to bottom, transparent, var(--col-void));
+            z-index: 3;
+            pointer-events: none;
         }
 
         .hero-canvas {
             position: absolute;
             inset: 0;
+            width: 100%; height: 100%;
             z-index: 2;
+            pointer-events: none;
         }
 
         .hero-logo {
@@ -239,74 +273,73 @@
             inset: 0;
             width: 100%;
             height: 100%;
-            z-index: 4;
             object-fit: cover;
             object-position: center center;
-            pointer-events: none;
+            z-index: 4;
+            opacity: 0.9;
         }
 
         .hero-content {
             position: absolute;
-            bottom: 18%;
-            left: 50%;
-            transform: translateX(-50%);
+            top: 62%;
+            left: 0; right: 0;
             z-index: 5;
             text-align: center;
-            padding: 0 2rem;
         }
 
         .hero-tagline {
             font-family: var(--font-mono);
-            font-size: 1.1rem;
-            color: var(--col-white-55);
-            letter-spacing: 1px;
-            margin-bottom: 2rem;
-        }
-
-        .hero-tagline::before,
-        .hero-tagline::after {
-            content: '▶';
-            color: var(--col-amber);
-            margin: 0 1rem;
+            font-size: 0.82rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--col-bone);
+            padding: 0 2rem;
         }
 
         .hero-footer {
             position: absolute;
-            bottom: 2rem;
-            right: 2rem;
-            z-index: 6;
+            bottom: 3rem;
+            z-index: 4;
+            opacity: 0.5;
+            filter: sepia(0.4) brightness(0.9);
+            transition: opacity 0.3s;
         }
 
-        .hero-footer img {
-            height: 40px;
-            opacity: 0.7;
-            transition: opacity 0.3s ease;
-        }
+        .hero-footer:hover { opacity: 0.75; }
 
-        .hero-footer:hover img {
-            opacity: 1;
-        }
+        .hero-footer img { height: 180px; }
 
-        /* SECTIONS */
+        /* ── SECTION BASE ──────────────────────────────────────────── */
         section {
             padding: 6rem 5%;
-            max-width: 100%;
-            margin: 0 auto;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .section-title {
             font-family: var(--font-display);
-            font-size: 2.8rem;
-            letter-spacing: 2px;
-            color: var(--col-fog);
-            margin-bottom: 3rem;
-            text-transform: uppercase;
+            font-size: 3.2rem;
+            letter-spacing: 0.08em;
+            color: var(--col-cream);
+            text-align: center;
+            margin-bottom: 0.4rem;
         }
 
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 2px;
+            background: var(--col-amber);
+            margin: 0.5rem auto 2.8rem;
+        }
+
+        /* ── FADE-IN ───────────────────────────────────────────────── */
         .fade-in {
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
+            transform: translateY(16px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
         }
 
         .fade-in.visible {
@@ -314,78 +347,112 @@
             transform: translateY(0);
         }
 
-        /* ABOUT SECTION */
+        /* ── ABOUT SECTION ─────────────────────────────────────────── */
         #about {
-            background: linear-gradient(135deg, var(--col-void) 0%, var(--col-deep) 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .about-intro {
-            font-size: 1.1rem;
-            color: var(--col-white-38);
-            margin-bottom: 2rem;
-            line-height: 1.8;
+            color: var(--col-bone);
+            font-size: 0.9rem;
+            line-height: 1.85;
+            max-width: 1100px;
+            text-align: center;
+            margin: 0 auto 1rem;
         }
 
         .about-intro strong {
-            color: var(--col-moonlight);
+            color: var(--col-cream);
+            letter-spacing: 0.04em;
         }
 
-        .pillars {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            grid-template-rows: auto auto;
-            gap: 1.5rem;
-            margin-top: 3rem;
-        }
-
-        /* BUILD card — featured, spans full width with screenshot */
-        .pillar-featured {
-            grid-column: 1 / -1;
-            background: var(--col-panel);
-            border: 1px solid var(--col-steel-dark);
-            position: relative;
-            overflow: hidden;
+        /* Two-column pitch layout */
+        .about-pitch {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            min-height: 360px;
-            transition: all 0.4s ease;
+            gap: 4rem;
+            margin: 2rem 0 3rem;
+        }
+
+        .about-pitch-col {}
+
+        .about-pitch-heading {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            letter-spacing: 0.08em;
+            color: var(--col-cream);
+            margin-bottom: 1.4rem;
+            line-height: 1.2;
+            text-align: center;
+        }
+
+        .about-pitch-body {
+            color: var(--col-bone);
+            font-size: 1rem;
+            line-height: 1.9;
+        }
+
+        .about-pitch-body p { margin-bottom: 1.1rem; }
+        .about-pitch-body p:last-child { margin-bottom: 0; }
+        .about-pitch-body strong { color: var(--col-cream); }
+
+        .pillars {
+            width: 100%;
+            max-width: 100%;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin: 2.5rem auto 0;
+        }
+
+        /* Featured card spans 2 of 4 columns */
+        .pillar-featured {
+            grid-column: span 2;
+            display: flex;
+            background: var(--col-panel);
+            border: 1px solid transparent;
+            overflow: hidden;
+            position: relative;
+            transition: border-color 0.2s ease;
+            clip-path: polygon(
+                0% 0%, 100% 0%, 100% calc(100% - 6px),
+                97% 100%, 93% calc(100% - 4px), 88% 100%,
+                84% calc(100% - 6px), 79% 100%, 74% calc(100% - 3px),
+                68% 100%, 62% calc(100% - 5px), 56% 100%,
+                50% calc(100% - 4px), 44% 100%, 38% calc(100% - 6px),
+                32% 100%, 26% calc(100% - 3px), 20% 100%,
+                15% calc(100% - 5px), 9% 100%, 4% calc(100% - 4px),
+                0% 100%
+            );
         }
 
         .pillar-featured:hover {
-            border-color: var(--col-amber);
-            box-shadow: 0 0 25px var(--col-amber-glow);
+            border-color: var(--col-border-hover);
         }
 
-        /* Corner brackets on featured card */
-        .pillar-featured::before {
+        /* Flipped variant - text left, image right */
+        .pillar-featured--flip {
+            flex-direction: row-reverse;
+        }
+
+        .pillar-featured::after {
             content: '';
             position: absolute;
-            inset: -4px;
+            top: 0; left: 0; right: 0;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.02) 0%, transparent 60%);
             pointer-events: none;
-            z-index: 2;
-            background-image:
-                linear-gradient(var(--col-amber), var(--col-amber)),
-                linear-gradient(var(--col-amber), var(--col-amber)),
-                linear-gradient(var(--col-amber), var(--col-amber)),
-                linear-gradient(var(--col-amber), var(--col-amber)),
-                linear-gradient(var(--col-amber), var(--col-amber)),
-                linear-gradient(var(--col-amber), var(--col-amber)),
-                linear-gradient(var(--col-amber), var(--col-amber)),
-                linear-gradient(var(--col-amber), var(--col-amber));
-            background-size: 22px 2px, 2px 22px, 22px 2px, 2px 22px, 22px 2px, 2px 22px, 22px 2px, 2px 22px;
-            background-position: 0 0, 0 0, 100% 0, 100% 0, 0 100%, 0 100%, 100% 100%, 100% 100%;
-            background-repeat: no-repeat;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .pillar-featured:hover::before {
-            opacity: 1;
         }
 
         .pillar-featured-img {
-            position: relative;
+            flex: 0 0 65%;
+            max-width: 65%;
             overflow: hidden;
+            margin: 0;
+            padding: 0;
+            line-height: 0;
         }
 
         .pillar-featured-img img {
@@ -393,817 +460,888 @@
             height: 100%;
             object-fit: cover;
             display: block;
-            transition: transform 0.6s ease;
+            margin: 0;
+            padding: 0;
+            filter: sepia(0.15) contrast(1.05);
+            transition: filter 0.4s ease;
         }
 
         .pillar-featured:hover .pillar-featured-img img {
-            transform: scale(1.03);
-        }
-
-        /* Subtle gradient overlay on the image edge */
-        .pillar-featured-img::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            width: 60px;
-            background: linear-gradient(to right, transparent, var(--col-panel));
-            pointer-events: none;
+            filter: sepia(0.05) contrast(1.1) brightness(1.05);
         }
 
         .pillar-featured-content {
-            padding: 3rem;
+            flex: 1;
+            padding: 1.2rem 1.4rem 1.4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .pillar-featured-label {
+            font-size: 0.6rem;
+            letter-spacing: 0.22em;
+            color: var(--col-amber);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .pillar-featured-title {
+            font-family: var(--font-display);
+            font-size: 2.4rem;
+            letter-spacing: 0.1em;
+            color: var(--col-cream);
+            line-height: 1;
+            margin-bottom: 0.6rem;
+        }
+
+        .pillar-featured-text {
+            color: var(--col-bone);
+            font-size: 0.78rem;
+            line-height: 1.75;
+            margin-bottom: 0.6rem;
+        }
+
+        .pillar-featured-text:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Three pillar cards */
+        .pillar-card {
+            background: var(--col-panel);
+            border: 1px solid transparent;
+            padding: 2rem 1.75rem;
+            transition: border-color 0.2s ease, transform 0.2s ease;
+            position: relative;
+        }
+
+        .pillar-card:hover {
+            border-color: var(--col-border-hover);
+            transform: translateY(-2px);
+        }
+
+        .pillar-title {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            letter-spacing: 0.1em;
+            color: var(--col-cream);
+            margin-bottom: 0.75rem;
+        }
+
+        .pillar-text {
+            color: var(--col-bone);
+            font-size: 0.8rem;
+            line-height: 1.8;
+        }
+
+        /* ── STORY SECTION ─────────────────────────────────────────── */
+        #story {
+            max-width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+            padding-top: 3rem;
+        }
+
+        .story-text {
+            color: var(--col-bone);
+            font-size: 0.88rem;
+            line-height: 1.9;
+            margin-bottom: 1.4rem;
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .story-quote {
+            margin: 2.5rem auto;
+            max-width: 1100px;
+            background: var(--col-panel);
+            border: 1px solid transparent;
+            border-left: 3px solid var(--col-border-hover);
+            padding: 1.8rem 2.2rem 1.8rem 2rem;
+            text-align: left;
+            position: relative;
+            /* Torn top edge */
+            clip-path: polygon(
+                0% 4px, 2% 0%, 5% 3px, 9% 0%, 14% 4px, 19% 1px,
+                25% 4px, 32% 0%, 38% 3px, 45% 0%, 52% 4px, 59% 1px,
+                66% 3px, 73% 0%, 80% 4px, 87% 1px, 93% 3px, 97% 0%,
+                100% 3px, 100% 100%, 0% 100%
+            );
+        }
+
+        .story-quote::before {
+            content: '\201C';
+            font-family: var(--font-display);
+            font-size: 7rem;
+            color: var(--col-amber);
+            opacity: 0.12;
+            position: absolute;
+            top: -0.5rem; left: 1rem;
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        .story-quote p {
+            color: var(--col-cream);
+            font-size: 0.88rem;
+            line-height: 1.85;
+            font-style: italic;
+            position: relative;
+            z-index: 1;
+        }
+
+        .attribution {
+            color: var(--col-amber);
+            font-size: 0.68rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            margin-top: 0.8rem;
+        }
+
+        /* ── WORLD SECTION ─────────────────────────────────────────── */
+        .world-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 3.5rem;
+        }
+
+        .world-region {
+            background: var(--col-panel);
+            border: 1px solid transparent;
+            padding: 2rem 1.75rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .world-region:hover { border-color: var(--col-border-hover); }
+
+        .world-region h3 {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            letter-spacing: 0.1em;
+            color: var(--col-cream);
+            margin-bottom: 0.75rem;
+        }
+
+        .world-region p {
+            color: var(--col-bone);
+            font-size: 0.82rem;
+            line-height: 1.75;
+        }
+
+        .enemies {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .enemy-tier {
+            background: var(--col-panel);
+            border: 1px solid transparent;
+            padding: 1.75rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.2s ease;
+        }
+
+        .enemy-tier:hover { border-color: var(--col-border-hover); }
+
+        .enemy-name {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            letter-spacing: 0.12em;
+            color: var(--col-amber);
+            margin-bottom: 0.6rem;
+        }
+
+        .enemy-desc {
+            color: var(--col-bone);
+            font-size: 0.8rem;
+            line-height: 1.7;
+        }
+
+        /* ── FEATURES SECTION ──────────────────────────────────────── */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+        }
+
+        .feature-card {
+            background: var(--col-panel);
+            border: 1px solid transparent;
+            padding: 1.75rem 1.5rem;
+            transition: border-color 0.2s ease, transform 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            border-color: var(--col-border-hover);
+            transform: translateY(-2px);
+        }
+
+        .feature-icon {
+            display: none;
+            margin-bottom: 0.75rem;
+            filter: sepia(1) saturate(3) hue-rotate(5deg);
+        }
+
+        .feature-title {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            letter-spacing: 0.08em;
+            color: var(--col-cream);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-desc {
+            color: var(--col-bone);
+            font-size: 0.77rem;
+            line-height: 1.65;
+        }
+
+        /* ── ROADMAP ───────────────────────────────────────────────── */
+        #roadmap { max-width: 100%; }
+
+        .roadmap-hint {
+            text-align: center;
+            color: var(--col-parchment);
+            font-size: 0.68rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+        }
+
+        .roadmap-phase-group {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(178,179,178,0.12);
+            overflow: visible;
+        }
+
+        .roadmap-phase-label {
+            font-family: var(--font-display);
+            font-size: 1.05rem;
+            letter-spacing: 0.16em;
+            color: var(--col-parchment);
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .roadmap-track {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            flex-wrap: nowrap;
+            gap: 0;
+            overflow: visible;
+            padding: 1rem 0 1.5rem;
+        }
+
+        .roadmap-arrow {
+            color: var(--col-parchment);
+            font-size: 0.65rem;
+            flex-shrink: 0;
+            flex: 1;
+            text-align: center;
+        }
+
+        .roadmap-node {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.45rem;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: opacity 0.2s;
+        }
+
+        .roadmap-node:hover { opacity: 0.8; }
+
+        .roadmap-diamond {
+            width: 50px; height: 50px;
+            background: var(--col-panel);
+            border: 2px solid rgba(178,179,178,0.25);
+            transform: rotate(45deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
+        }
+
+        .roadmap-diamond-icon {
+            transform: rotate(-45deg);
+            font-size: 0.72rem;
+            color: var(--col-parchment);
+        }
+
+        .roadmap-label {
+            font-size: 0.55rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--col-parchment);
+            text-align: center;
+            max-width: 70px;
+            line-height: 1.3;
+        }
+
+        /* Completed */
+        .roadmap-node.completed .roadmap-diamond {
+            background: rgba(176,174,170,0.15);
+            border-color: var(--col-amber);
+        }
+
+        .roadmap-node.completed .roadmap-diamond-icon { color: var(--col-amber); }
+        .roadmap-node.completed .roadmap-label { color: var(--col-bone); }
+
+        /* Current in-progress */
+        .roadmap-node.current .roadmap-diamond {
+            background: rgba(176,174,170,0.15);
+            border-color: var(--col-amber);
+            box-shadow: 0 0 14px var(--col-amber-glow);
+            animation: pulse-node 2.2s ease-in-out infinite;
+        }
+
+        .roadmap-node.current .roadmap-diamond-icon { color: var(--col-amber-hot); }
+        .roadmap-node.current .roadmap-label { color: var(--col-amber); }
+
+        /* Active (clicked) */
+        .roadmap-node.active .roadmap-diamond {
+            background: rgba(204,112,16,0.2);
+            border-color: var(--col-amber-hot);
+        }
+
+        @keyframes pulse-node {
+            0%, 100% { box-shadow: 0 0 8px var(--col-amber-glow); }
+            50%       { box-shadow: 0 0 22px rgba(204,112,16,0.35); }
+        }
+
+        /* Detail panels */
+        .roadmap-detail-container { margin-top: 1.25rem; }
+
+        .roadmap-detail {
+            display: none;
+            background: var(--col-panel);
+            border: 1px solid rgba(178,179,178,0.2);
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+            animation: slide-open 0.28s ease;
+            /* Torn bottom edge */
+            clip-path: polygon(
+                0% 0%, 100% 0%, 100% calc(100% - 5px),
+                96% 100%, 91% calc(100% - 4px), 86% 100%,
+                80% calc(100% - 6px), 74% 100%, 68% calc(100% - 3px),
+                61% 100%, 55% calc(100% - 5px), 48% 100%,
+                42% calc(100% - 4px), 36% 100%, 30% calc(100% - 6px),
+                24% 100%, 18% calc(100% - 3px), 12% 100%,
+                7% calc(100% - 5px), 3% 100%, 0% calc(100% - 4px)
+            );
+        }
+
+        .roadmap-detail.open { display: block; }
+
+        @keyframes slide-open {
+            from { opacity: 0; transform: translateY(-6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Detail panel: CSS grid so image spans full height flush right */
+        .roadmap-detail.open {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            grid-template-rows: auto auto 1fr;
+        }
+
+        /* Direct children (title/status/body) locked to col 1 */
+        .roadmap-detail > .roadmap-detail-title {
+            grid-column: 1;
+            grid-row: 1;
+            padding: 1rem 1.2rem 0.2rem;
+        }
+
+        .roadmap-detail > .roadmap-detail-status {
+            grid-column: 1;
+            grid-row: 2;
+            padding: 0 1.2rem 0.6rem;
+        }
+
+        .roadmap-detail > .roadmap-detail-body {
+            grid-column: 1;
+            grid-row: 3;
+            padding: 0 1.2rem 1rem;
+        }
+
+        /* display:contents lets text/img participate directly in parent grid */
+        .roadmap-detail-content {
+            display: contents;
+        }
+
+        .roadmap-detail-text {
+            grid-column: 1;
+            grid-row: 1 / -1;
+            padding: 1rem 1.2rem 1rem;
             display: flex;
             flex-direction: column;
             justify-content: center;
         }
 
-        .pillar-featured-label {
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            color: var(--col-amber);
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            margin-bottom: 0.8rem;
-        }
-
-        .pillar-featured-title {
-            font-family: var(--font-display);
-            font-size: 2.8rem;
-            color: var(--col-fog);
-            letter-spacing: 2px;
-            margin-bottom: 1.2rem;
-        }
-
-        .pillar-featured-text {
-            color: var(--col-white-38);
-            font-size: 0.95rem;
-            line-height: 1.9;
-        }
-
-        /* Regular pillar cards — 3 across below */
-        .pillar-card {
-            background: var(--col-panel);
-            border-left: 4px solid var(--col-steel-dark);
-            padding: 2rem;
-            transition: all 0.4s ease;
-            position: relative;
-        }
-
-        .pillar-card:hover {
-            border-left-color: var(--col-amber);
-            box-shadow: 0 0 20px var(--col-amber-glow);
-            background: var(--col-bg-mid);
-        }
-
-        .pillar-title {
-            font-family: var(--font-display);
-            font-size: 1.5rem;
-            color: var(--col-fog);
-            margin-bottom: 1rem;
-            letter-spacing: 1px;
-        }
-
-        .pillar-text {
-            color: var(--col-white-38);
-            font-size: 0.95rem;
-            line-height: 1.7;
-        }
-
-        /* STORY SECTION */
-        #story {
-            background: var(--col-void);
-            position: relative;
-        }
-
-        #story::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: url('city_bg_airlockF.jpg') center / cover;
-            opacity: 0.08;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        #story > * {
-            position: relative;
-            z-index: 1;
-        }
-
-        .story-text {
-            font-size: 1.05rem;
-            color: var(--col-white-38);
-            line-height: 1.9;
-            margin-bottom: 2rem;
-            max-width: 900px;
-        }
-
-        .story-quote {
-            background: var(--col-panel);
-            padding: 2.5rem;
-            margin: 3rem 0;
-            position: relative;
-            border-left: 3px solid var(--col-amber);
-            max-width: 700px;
-        }
-
-        .story-quote::before {
-            content: '';
-            position: absolute;
-            top: 8px;
-            left: 8px;
-            width: 16px;
-            height: 16px;
-            border-top: 2px solid var(--col-amber);
-            border-left: 2px solid var(--col-amber);
-        }
-
-        .story-quote::after {
-            content: '';
-            position: absolute;
-            bottom: 8px;
-            right: 8px;
-            width: 16px;
-            height: 16px;
-            border-bottom: 2px solid var(--col-amber);
-            border-right: 2px solid var(--col-amber);
-        }
-
-        .story-quote p {
-            font-style: italic;
-            color: var(--col-moonlight);
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-        }
-
-        .story-quote .attribution {
-            color: var(--col-white-28);
-            font-size: 0.9rem;
-            text-align: right;
-        }
-
-        /* WORLD SECTION */
-        #world {
-            background: linear-gradient(to bottom, var(--col-deep), var(--col-void));
-        }
-
-        .world-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 3rem;
-            margin: 3rem 0;
-        }
-
-        .world-region {
-            background: var(--col-panel);
-            padding: 2.5rem;
-            border: 1px solid var(--col-steel-dark);
-            transition: all 0.4s ease;
-        }
-
-        .world-region:hover {
-            border-color: var(--col-amber);
-            background: var(--col-bg-mid);
-            box-shadow: 0 0 15px var(--col-amber-glow);
-        }
-
-        .world-region h3 {
-            font-family: var(--font-display);
-            font-size: 1.6rem;
-            color: var(--col-teal-light);
-            margin-bottom: 1rem;
-            letter-spacing: 1px;
-        }
-
-        .world-region p {
-            color: var(--col-white-38);
-            line-height: 1.8;
-        }
-
-        .enemies {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .enemy-tier {
-            background: var(--col-panel);
-            border-top: 3px solid var(--col-steel-dark);
-            padding: 2rem;
-            transition: all 0.4s ease;
-        }
-
-        .enemy-tier:hover {
-            border-top-color: var(--col-amber);
-            box-shadow: 0 -5px 20px var(--col-amber-glow);
-        }
-
-        .enemy-name {
-            font-family: var(--font-display);
-            font-size: 1.4rem;
-            color: var(--col-teal-light);
-            margin-bottom: 0.8rem;
-            letter-spacing: 1px;
-        }
-
-        .enemy-desc {
-            color: var(--col-white-38);
-            font-size: 0.95rem;
-            line-height: 1.7;
-        }
-
-        /* FEATURES SECTION */
-        #features {
-            background: var(--col-deep);
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .feature-card {
-            background: var(--col-panel);
-            border: 1px solid var(--col-steel-dark);
-            padding: 2rem;
-            transition: all 0.4s ease;
-            position: relative;
-        }
-
-        .feature-card:hover {
-            border-color: var(--col-amber);
-            background: var(--col-bg-mid);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px var(--col-amber-glow);
-        }
-
-        .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--col-amber);
-        }
-
-        .feature-title {
-            font-family: var(--font-display);
-            font-size: 1.3rem;
-            color: var(--col-fog);
-            margin-bottom: 0.8rem;
-            letter-spacing: 1px;
-        }
-
-        .feature-desc {
-            color: var(--col-white-38);
-            font-size: 0.95rem;
-            line-height: 1.7;
-        }
-
-        /* ROADMAP SECTION */
-        #roadmap {
-            background: linear-gradient(to bottom, var(--col-void), var(--col-deep));
-        }
-
-        /* Horizontal Roadmap */
-        .roadmap-phase-group {
-            margin-top: 2.5rem;
-        }
-
-        .roadmap-phase-label {
-            font-family: var(--font-display);
-            font-size: 1.1rem;
-            color: var(--col-amber);
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            margin-bottom: 1.5rem;
-            padding-left: 0.5rem;
-            border-left: 3px solid var(--col-amber);
-        }
-
-        .roadmap-track {
-            margin-top: 1rem;
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: flex-start;
-            justify-content: center;
-            gap: 0;
-            overflow-x: auto;
-            padding: 1.5rem 0.5rem;
-        }
-
-        .roadmap-arrow {
-            color: var(--col-steel);
-            font-size: 1.4rem;
-            flex-shrink: 0;
-            margin: 0.8rem 0.5rem 0;
-            user-select: none;
-        }
-
-        .roadmap-node {
-            flex-shrink: 0;
-            position: relative;
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.3s ease;
-            min-width: 80px;
-        }
-
-        .roadmap-diamond {
-            width: 52px;
-            height: 52px;
-            margin: 0 auto 1rem;
-            transform: rotate(45deg);
-            background: var(--col-panel);
-            border: 2px solid var(--col-steel-dark);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .roadmap-diamond-icon {
-            transform: rotate(-45deg);
-            font-size: 1rem;
-            color: var(--col-white-38);
-            transition: color 0.3s ease;
-        }
-
-        .roadmap-node:hover .roadmap-diamond,
-        .roadmap-node.active .roadmap-diamond {
-            border-color: var(--col-amber);
-            box-shadow: 0 0 16px var(--col-amber-glow);
-            background: var(--col-steel-dark);
-        }
-
-        .roadmap-node:hover .roadmap-diamond-icon,
-        .roadmap-node.active .roadmap-diamond-icon {
-            color: var(--col-amber);
-        }
-
-        .roadmap-node.completed .roadmap-diamond {
-            border-color: var(--col-teal-light);
-            background: var(--col-steel-dark);
-        }
-
-        .roadmap-node.completed .roadmap-diamond-icon {
-            color: var(--col-teal-light);
-        }
-
-        .roadmap-node.current .roadmap-diamond {
-            border-color: var(--col-amber);
-            box-shadow: 0 0 12px var(--col-amber-glow);
-            animation: roadmapPulse 2.5s ease infinite;
-        }
-
-        .roadmap-node.current .roadmap-diamond-icon {
-            color: var(--col-amber);
-        }
-
-        @keyframes roadmapPulse {
-            0%, 100% { box-shadow: 0 0 12px var(--col-amber-glow); }
-            50% { box-shadow: 0 0 24px rgba(204,112,16,0.35); }
-        }
-
-        .roadmap-label {
-            font-family: var(--font-display);
-            font-size: 0.85rem;
-            color: var(--col-white-55);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            white-space: nowrap;
-            transition: color 0.3s ease;
-        }
-
-        .roadmap-node:hover .roadmap-label,
-        .roadmap-node.active .roadmap-label {
-            color: var(--col-amber);
-        }
-
-        .roadmap-node.completed .roadmap-label {
-            color: var(--col-teal-light);
-        }
-
-        /* Detail container lives inside each group */
-        .roadmap-detail-container {
-            position: relative;
-        }
-
-        /* Expandable detail panel */
-        .roadmap-detail {
-            margin-top: 0;
-            background: var(--col-panel);
-            border: 1px solid var(--col-steel-dark);
-            padding: 2rem 2.5rem;
-            position: relative;
-            max-height: 0;
-            overflow: hidden;
-            opacity: 0;
-            transition: max-height 0.5s ease, opacity 0.4s ease, padding 0.4s ease;
-        }
-
-        .roadmap-detail.open {
-            max-height: 800px;
-            opacity: 1;
-            padding: 2rem 2.5rem;
-        }
-
-        .roadmap-detail:not(.open) {
-            padding: 0 2.5rem;
-            border-color: transparent;
-        }
-
-        /* Corner brackets on detail panel */
-        .roadmap-detail.open::before {
-            content: '';
-            position: absolute;
-            inset: -4px;
-            pointer-events: none;
-            background-image:
-                linear-gradient(var(--col-amber), var(--col-amber)),
-                linear-gradient(var(--col-amber), var(--col-amber)),
-                linear-gradient(var(--col-amber), var(--col-amber)),
-                linear-gradient(var(--col-amber), var(--col-amber)),
-                linear-gradient(var(--col-amber), var(--col-amber)),
-                linear-gradient(var(--col-amber), var(--col-amber)),
-                linear-gradient(var(--col-amber), var(--col-amber)),
-                linear-gradient(var(--col-amber), var(--col-amber));
-            background-size: 18px 2px, 2px 18px, 18px 2px, 2px 18px, 18px 2px, 2px 18px, 18px 2px, 2px 18px;
-            background-position: 0 0, 0 0, 100% 0, 100% 0, 0 100%, 0 100%, 100% 100%, 100% 100%;
-            background-repeat: no-repeat;
-        }
-
         .roadmap-detail-title {
             font-family: var(--font-display);
-            font-size: 1.6rem;
-            color: var(--col-fog);
-            letter-spacing: 1px;
-            margin-bottom: 0.4rem;
+            font-size: 1.15rem;
+            letter-spacing: 0.08em;
+            color: var(--col-cream);
+            margin-bottom: 0.2rem;
         }
 
         .roadmap-detail-status {
-            font-size: 0.8rem;
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
             color: var(--col-amber);
             text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 1rem;
+            margin-bottom: 0.6rem;
         }
 
         .roadmap-detail-body {
-            color: var(--col-white-38);
-            font-size: 0.95rem;
-            line-height: 1.8;
+            color: var(--col-bone);
+            font-size: 0.76rem;
+            line-height: 1.7;
         }
 
-        .roadmap-detail-content {
-            display: flex;
-            gap: 2rem;
-            align-items: flex-start;
-        }
-
-        .roadmap-detail-text {
-            flex: 1;
-            min-width: 0;
-        }
-
+        /* Image spans all rows in col 2 — full bleed flush right */
         .roadmap-detail-img {
-            flex: 0 0 45%;
-            max-width: 45%;
-            border: 1px solid var(--col-steel-dark);
-            border-radius: 4px;
+            grid-column: 2;
+            grid-row: 1 / -1;
             overflow: hidden;
         }
 
         .roadmap-detail-img img {
             width: 100%;
-            height: auto;
+            height: 100%;
+            object-fit: cover;
             display: block;
-            transition: transform 0.4s ease;
+            filter: sepia(0.1) contrast(1.05);
         }
 
-        .roadmap-detail-img img:hover {
-            transform: scale(1.03);
-        }
+        /* ── DEV DIARY ─────────────────────────────────────────────── */
+        #devdiary { width: 100%; }
 
-        @media (max-width: 768px) {
-            .roadmap-detail-content {
-                flex-direction: column;
-            }
-            .roadmap-detail-img {
-                flex: none;
-                max-width: 100%;
-                width: 100%;
-            }
-        }
-
-        .roadmap-hint {
+        .support-text {
+            color: var(--col-bone);
+            font-size: 0.86rem;
+            line-height: 1.9;
             text-align: center;
-            margin-top: 1.5rem;
-            font-size: 0.8rem;
-            color: var(--col-white-20);
-            letter-spacing: 1px;
-        }
-
-        @media (max-width: 768px) {
-            .roadmap-track {
-                justify-content: flex-start;
-                padding: 1rem 1rem 1rem;
-                flex-wrap: nowrap;
-            }
-            .roadmap-diamond {
-                width: 40px;
-                height: 40px;
-            }
-            .roadmap-node {
-                min-width: 60px;
-            }
-            .roadmap-label {
-                font-size: 0.65rem;
-            }
-            .roadmap-phase-label {
-                font-size: 0.9rem;
-            }
-            .pillars {
-                grid-template-columns: 1fr;
-            }
-            .pillar-featured {
-                grid-template-columns: 1fr;
-                min-height: auto;
-            }
-            .pillar-featured-img {
-                max-height: 220px;
-            }
-            .pillar-featured-img::after {
-                display: none;
-            }
-            .pillar-featured-content {
-                padding: 2rem;
-            }
-            .pillar-featured-title {
-                font-size: 2rem;
-            }
-        }
-
-        /* DEV DIARY SECTION */
-        #devdiary {
-            background: var(--col-deep);
+            max-width: 1100px;
+            margin: 0 auto 2.5rem;
         }
 
         .videos-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 3rem;
-            margin: 3rem 0;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+            margin-bottom: 3rem;
         }
 
         .video-container {
             position: relative;
-            width: 100%;
-            padding-bottom: 56.25%;
-            background: var(--col-void);
-            border: 1px solid var(--col-steel-dark);
+            padding-bottom: calc(56.25% + 28px);
             overflow: hidden;
-            transition: border-color 0.3s ease;
+            background: var(--col-panel);
+            border: 1px solid transparent;
+            transition: border-color 0.2s ease;
         }
 
-        .video-container:hover {
-            border-color: var(--col-amber);
+        .video-container:hover { border-color: var(--col-border-hover); }
+
+        .video-label {
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 28px;
+            background: var(--col-panel-raised);
+            border-bottom: 1px solid var(--col-border-bright);
+            color: var(--col-amber);
+            font-size: 0.6rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            padding: 0 0.75rem;
+            z-index: 1;
         }
 
         .video-container iframe {
             position: absolute;
-            top: 0;
-            left: 0;
+            top: 28px; left: 0; right: 0; bottom: 0;
             width: 100%;
-            height: 100%;
+            height: calc(100% - 28px);
             border: none;
         }
 
         .video-placeholder {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--col-panel);
-            color: var(--col-white-28);
+            color: var(--col-parchment);
+            font-size: 0.72rem;
+            letter-spacing: 0.1em;
             text-align: center;
-            padding: 2rem;
+            padding: 1.2rem;
+            line-height: 1.6;
         }
 
         .diary-entries {
-            margin: 3rem 0;
-            display: grid;
-            gap: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
         }
 
         .diary-entry {
             background: var(--col-panel);
-            padding: 2rem;
-            border-left: 3px solid var(--col-amber);
-            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            padding: 1.2rem 1.5rem;
+            transition: border-color 0.2s ease;
         }
 
-        .diary-entry:hover {
-            background: var(--col-bg-mid);
-            box-shadow: 0 0 15px var(--col-amber-glow);
-        }
+        .diary-entry:hover { border-color: var(--col-border-hover); }
 
         .diary-date {
+            font-size: 0.64rem;
+            letter-spacing: 0.18em;
             color: var(--col-amber);
-            font-weight: bold;
-            margin-bottom: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.9rem;
+            margin-bottom: 0.4rem;
         }
 
         .diary-content {
-            color: var(--col-white-38);
-            line-height: 1.7;
+            color: var(--col-bone);
+            font-size: 0.8rem;
+            line-height: 1.75;
         }
 
-        /* SUPPORT SECTION */
-        #support {
-            background: linear-gradient(to bottom, var(--col-void), var(--col-deep));
-            text-align: center;
-        }
+        /* ── SUPPORT SECTION ───────────────────────────────────────── */
+        #support { max-width: 100%; }
 
         .support-content {
-            max-width: 800px;
-            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.1rem;
         }
 
-        .support-text {
-            font-size: 1.05rem;
-            color: var(--col-white-38);
+        #support .support-text {
+            color: var(--col-bone);
+            font-size: 0.88rem;
             line-height: 1.9;
-            margin-bottom: 2rem;
+            text-align: left;
+            margin: 0;
+            max-width: none;
         }
 
-        .support-text strong {
-            color: var(--col-moonlight);
-        }
+        #support .support-text strong { color: var(--col-cream); }
 
         .cta-buttons {
             display: flex;
             flex-wrap: wrap;
-            gap: 2rem;
-            justify-content: center;
-            margin: 3rem 0;
+            gap: 1rem;
+            margin-top: 1.25rem;
         }
 
+        /* Buttons - aged parchment / paper look matching in-game UI */
         .cta-button {
-            position: relative;
-            padding: 1.2rem 2.5rem;
-            background: transparent;
-            border: 2px solid var(--col-amber);
-            color: var(--col-amber);
-            font-family: var(--font-display);
-            font-size: 1rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
             display: inline-block;
-        }
-
-        .cta-button::before,
-        .cta-button::after {
-            content: '';
-            position: absolute;
-            background: var(--col-amber);
-        }
-
-        .cta-button::before {
-            top: -6px;
-            left: -6px;
-            width: 12px;
-            height: 12px;
-            border-top: 2px solid var(--col-amber);
-            border-left: 2px solid var(--col-amber);
-            background: none;
-        }
-
-        .cta-button::after {
-            bottom: -6px;
-            right: -6px;
-            width: 12px;
-            height: 12px;
-            border-bottom: 2px solid var(--col-amber);
-            border-right: 2px solid var(--col-amber);
-            background: none;
+            padding: 0.85rem 2.2rem;
+            background: var(--col-btn-bg);
+            color: var(--col-btn-text);
+            font-family: var(--font-display);
+            font-size: 1.05rem;
+            letter-spacing: 0.12em;
+            text-decoration: none;
+            text-transform: uppercase;
+            border: 1px solid rgba(178,179,178,0.3);
+            cursor: pointer;
+            transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+            clip-path: polygon(5px 0%, 100% 0%, calc(100% - 5px) 100%, 0% 100%);
+            position: relative;
         }
 
         .cta-button:hover {
-            background: var(--col-amber-dim);
-            box-shadow: 0 0 20px var(--col-amber-glow);
+            background: var(--col-btn-hover);
+            border-color: var(--col-border-hover);
+            transform: translateY(-1px);
         }
 
-        /* FOOTER */
+        .cta-button:active { transform: translateY(0); }
+
+        /* ── FOOTER ────────────────────────────────────────────────── */
         footer {
-            background: var(--col-void);
-            border-top: 1px solid var(--col-steel-dark);
-            padding: 3rem 2rem;
-            text-align: center;
+            background: var(--col-deep);
+            border-top: 1px solid rgba(178,179,178,0.15);
+            padding: 3.5rem 5% 2rem;
         }
 
         .footer-content {
-            max-width: 100%;
-            margin: 0 auto;
-            padding: 0 3%;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
             gap: 2rem;
-            margin-bottom: 3rem;
+            max-width: 100%;
+            margin: 0 auto 2.5rem;
         }
 
         .footer-section h4 {
-            color: var(--col-fog);
-            margin-bottom: 1rem;
             font-family: var(--font-display);
-            letter-spacing: 1px;
+            font-size: 1.2rem;
+            letter-spacing: 0.1em;
+            color: var(--col-cream);
+            margin-bottom: 0.75rem;
         }
 
-        .footer-section a,
         .footer-section p {
-            color: var(--col-white-38);
-            text-decoration: none;
-            transition: color 0.3s ease;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
+            color: var(--col-parchment);
+            font-size: 0.78rem;
+            line-height: 1.7;
         }
 
-        .footer-section a:hover {
+        .footer-section a {
+            display: block;
+            color: var(--col-bone);
+            text-decoration: none;
+            font-size: 0.78rem;
+            margin-bottom: 0.45rem;
+            transition: color 0.2s;
+        }
+
+        .footer-section a:hover { color: var(--col-amber); }
+
+        .footer-bottom {
+            border-top: 1px solid var(--col-border);
+            padding-top: 1.5rem;
+            text-align: center;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .footer-bottom p {
+            color: var(--col-dim);
+            font-size: 0.68rem;
+            line-height: 1.8;
+        }
+
+        /* ── MEDIA SECTION ────────────────────────────────────────── */
+        .media-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .media-tab {
+            font-family: var(--font-display);
+            font-size: 0.62rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            padding: 0.45rem 1.1rem;
+            background: transparent;
+            border: 1px solid rgba(178,179,178,0.25);
+            color: var(--col-bone);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .media-tab:hover { border-color: var(--col-border-hover); color: var(--col-cream); }
+
+        .media-tab.active {
+            background: var(--col-panel-raised);
+            border-color: var(--col-amber);
             color: var(--col-amber);
         }
 
-        .footer-bottom {
-            border-top: 1px solid var(--col-steel-dark);
-            padding-top: 2rem;
-            color: var(--col-white-28);
-            font-size: 0.85rem;
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
         }
 
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            nav {
-                padding: 1rem;
-            }
+        .media-item {
+            background: var(--col-panel);
+            border: 1px solid transparent;
+            overflow: hidden;
+            transition: border-color 0.2s ease;
+            cursor: pointer;
+        }
+
+        .media-item:hover { border-color: var(--col-border-hover); }
+
+        .media-item img {
+            width: 100%;
+            display: block;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+        }
+
+        .media-item-label {
+            padding: 0.55rem 0.85rem;
+            font-size: 0.6rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--col-parchment);
+            background: var(--col-panel-raised);
+            border-top: 1px solid rgba(178,179,178,0.1);
+        }
+
+        /* Lightbox */
+        .media-lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.92);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .media-lightbox.open { display: flex; }
+
+        .media-lightbox img {
+            max-width: 90vw;
+            max-height: 82vh;
+            object-fit: contain;
+            display: block;
+        }
+
+        .media-lightbox-label {
+            font-family: var(--font-display);
+            font-size: 0.65rem;
+            letter-spacing: 0.18em;
+            color: var(--col-parchment);
+            text-transform: uppercase;
+            margin-top: 1rem;
+        }
+
+        .media-lightbox-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-family: var(--font-display);
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            color: var(--col-bone);
+            cursor: pointer;
+            background: none;
+            border: 1px solid rgba(178,179,178,0.3);
+            padding: 0.4rem 0.9rem;
+        }
+
+        .media-lightbox-close:hover { color: var(--col-cream); border-color: var(--col-amber); }
+
+        .media-lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            color: var(--col-bone);
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 1rem;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+
+        .media-lightbox-nav:hover { opacity: 1; color: var(--col-cream); }
+        .media-lightbox-prev { left: 1rem; }
+        .media-lightbox-next { right: 1rem; }
+
+        /* GIF added below text in pillar / world / feature cards */
+        .card-gif {
+            width: 100%;
+            display: block;
+            margin-top: 1.25rem;
+        }
+
+        /* ── GIF IMAGES ───────────────────────────────────────────── */
+        .gif-img {
+            width: 100%;
+            display: block;
+        }
+
+        /* Featured BUILD card - fill the image panel */
+        .pillar-featured-img .gif-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            min-height: 320px;
+            vertical-align: top;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ── RESPONSIVE ────────────────────────────────────────────── */
+        @media (max-width: 1100px) {
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 900px) {
+            .about-pitch { grid-template-columns: 1fr; gap: 2rem; }
 
             .nav-links {
                 display: none;
+                flex-direction: column;
                 position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
+                top: 100%; left: 0; right: 0;
+                background: rgba(9,8,11,0.98);
+                padding: 1rem 5%;
+                border-bottom: 1px solid var(--col-border-amber);
+                gap: 1rem;
+            }
+
+            .nav-links.active { display: flex; }
+            .menu-toggle { display: block; }
+
+            .pillars {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .pillar-featured {
+                grid-column: 1 / -1;
                 flex-direction: column;
-                background: rgba(8,8,8,0.95);
-                gap: 0;
-                padding: 1rem;
-                border-bottom: 1px solid var(--col-steel-dark);
+                clip-path: none;
             }
 
-            .nav-links.active {
-                display: flex;
+            .pillar-featured-img {
+                flex: none;
+                max-width: 100%;
+                height: 220px;
             }
 
-            .nav-links a {
-                padding: 1rem;
-                border-bottom: 1px solid var(--col-steel-dark);
-            }
+            .world-grid { grid-template-columns: 1fr; }
+            .enemies { grid-template-columns: 1fr; }
+            .roadmap-detail-content { grid-template-columns: 1fr; }
+            .videos-grid { grid-template-columns: repeat(2, 1fr); }
+            .media-grid { grid-template-columns: repeat(2, 1fr); }
 
-            .menu-toggle {
-                display: block;
-            }
+            .roadmap-track { overflow-x: auto; flex-wrap: nowrap; }
 
-            .section-title {
-                font-size: 2rem;
-            }
+            section { padding: 4.5rem 5%; }
+        }
 
-            .hero-tagline {
-                font-size: 0.9rem;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .cta-button {
-                width: 100%;
-                max-width: 300px;
-            }
-
-            section {
-                padding: 4rem 4%;
-            }
+        @media (max-width: 600px) {
+            .features-grid { grid-template-columns: 1fr; }
+            .footer-content { flex-direction: column; }
+            .hero-logo { max-width: 260px; }
+            .hero-tagline { font-size: 0.74rem; }
+            .cta-buttons { flex-direction: column; align-items: stretch; }
+            .cta-button { text-align: center; }
+            section { padding: 4rem 4%; }
         }
     </style>
 </head>
@@ -1224,6 +1362,7 @@
                 <li><a href="#world">World</a></li>
                 <li><a href="#features">Features</a></li>
                 <li><a href="#roadmap">Roadmap</a></li>
+                <li><a href="#media">Media</a></li>
                 <li><a href="#devdiary">Dev Diary</a></li>
                 <li><a href="#support">Support Us</a></li>
             </ul>
@@ -1240,7 +1379,7 @@
     <section class="hero">
         <div class="hero-bg"></div>
         <canvas id="hero-dust" class="hero-canvas"></canvas>
-        <canvas id="hero-smoke" class="hero-canvas" style="opacity:0.45"></canvas>
+        <canvas id="hero-smoke" class="hero-canvas" style="opacity:0.5"></canvas>
         <canvas id="hero-amber" class="hero-canvas"></canvas>
         <img src="airlock_logo_front.png" alt="AIRLOCK Logo" class="hero-logo">
         <div class="hero-content fade-in">
@@ -1253,38 +1392,76 @@
 
     <!-- ABOUT SECTION -->
     <section id="about">
-        <h2 class="section-title fade-in">What is AIRLOCK?</h2>
-        <p class="about-intro fade-in">
-            A post-apocalyptic open-world survival base-builder. <strong>The Last of Us meets The Alters.</strong>
-        </p>
-        <p class="about-intro fade-in">
-            Open-world surface exploration, dollhouse underground base-building, survivor settlement management, and a story about an ancient soul trying to undo the end of the world.
-        </p>
+        <div class="about-pitch fade-in">
+            <!-- LEFT: What is it -->
+            <div class="about-pitch-col">
+                <h3 class="about-pitch-heading">What is AIRLOCK?</h3>
+                <div class="about-pitch-body">
+                    <p>A post-apocalyptic survival base-builder built in Unreal Engine 5. Plan and construct your underground bunker from above in top-down mode, then drop into it in full third-person and walk the corridors you built.</p>
+                    <p>Watch your survivors eat, sleep, work, and form relationships. Manage power, water, and ventilation. Keep people alive long enough to matter.</p>
+                    <p>Above ground, a ruined open world waits, full of loot, danger, and answers to questions you haven't thought to ask yet. Below, a colony of people who depend entirely on the decisions you make.</p>
+                    <p><strong>Every module you place. Every survivor you recruit. Every surface run you take. All of it has consequences.</strong></p>
+                </div>
+            </div>
+
+            <!-- RIGHT: Why play it -->
+            <div class="about-pitch-col">
+                <h3 class="about-pitch-heading">Why would you play it?</h3>
+                <div class="about-pitch-body">
+                    <p>If you ever built a Fallout Shelter and wished you could walk inside it, this is that game. If The Last of Us made you feel something, if Subnautica made you feel small in the best possible way, if you've ever lost a character in XCOM and genuinely felt it, AIRLOCK is built for you.</p>
+                    <p>You play because <strong>the base-building actually means something.</strong> The people inside your bunker are not resources. They have names, skills, routines, and relationships. Lose the wrong one and an entire wing goes dark.</p>
+                    <p>You play because <strong>the surface is genuinely dangerous.</strong> Every supply run is a risk-reward decision. Stay out too long and night falls. The Altered don't stop.</p>
+                    <p>And you play because there is a story here worth finishing. One that earns its ending.</p>
+                </div>
+            </div>
+        </div>
+
         <div class="pillars">
-            <!-- BUILD — Featured card with screenshot -->
+            <!-- TOP ROW: BUILD (left) + UPGRADE (right), each spanning 2 of 4 cols -->
             <div class="pillar-featured fade-in">
                 <div class="pillar-featured-img">
-                    <img src="screenshot_buildmode.png" alt="AIRLOCK Build Mode — Module placement on underground grid">
+                    <img class="gif-img" src="Airlock_BuildYourBase.gif" alt="AIRLOCK Build Mode" loading="lazy">
                 </div>
                 <div class="pillar-featured-content">
                     <div class="pillar-featured-label">Core System</div>
                     <h3 class="pillar-featured-title">BUILD</h3>
-                    <p class="pillar-featured-text">Plan your base in dollhouse view — then step inside and live in it. Walk through the corridors. Watch your cook prepare meals in the canteen. Check on the crops growing in the farm. Hear the generator humming in the power room. Your survivors go about their day — eating, sleeping, socialising, working, grieving. Rear animals. Brew beer. Train soldiers. Raise children who've never seen the sky. 14+ module categories, five visual tiers from raw cave dirt to sci-fi metal. This isn't a management screen — it's a home you built with your own hands, and you're standing in it.</p>
+                    <p class="pillar-featured-text">Plan your base in dollhouse view, then step inside and live in it. Watch your cook prepare meals, your medic treat the wounded, your soldiers train. 14+ module categories: Power, Water, Ventilation, Farming, Medical, Research, and Military.</p>
+                    <p class="pillar-featured-text">Many modules require specific survivors to unlock. Lose the wrong person and an entire wing goes dark. Every recruit matters. Every death costs you something.</p>
                 </div>
             </div>
 
-            <!-- Three pillar cards below -->
+            <div class="pillar-featured pillar-featured--flip fade-in">
+                <div class="pillar-featured-img">
+                    <img class="gif-img" src="Airlock_UpgradeYourBase.gif" alt="Upgrade Your Base" loading="lazy">
+                </div>
+                <div class="pillar-featured-content">
+                    <div class="pillar-featured-label">Core System</div>
+                    <h3 class="pillar-featured-title">UPGRADE</h3>
+                    <p class="pillar-featured-text">Dig out the rock. Raw cave space, sometimes with mineable goods inside. Then build. Then, when you have the survivors and the resources, upgrade.</p>
+                    <p class="pillar-featured-text">Each upgrade costs resources and consumes utilities. Better stats, better equipment, better mood. Four tiers: Cave, Brick, Concrete, Sci-fi. Tier 0 gets you standing. Tier 3 keeps you thriving.</p>
+                </div>
+            </div>
+
+            <!-- BOTTOM ROW: 4 pillar cards -->
+            <div class="pillar-card fade-in">
+                <h3 class="pillar-title">EXPLORE</h3>
+                <p class="pillar-text">The surface is hostile. The Altered own every inch of it. Scavenge the ruins for food, weapons, medicine, and blueprints. Every run is a gamble. Every door you open could be your last.</p>
+                <img class="gif-img card-gif" src="Airlock_FightHordes.gif" alt="Fight Hordes" loading="lazy">
+            </div>
             <div class="pillar-card fade-in">
                 <h3 class="pillar-title">SURVIVE</h3>
-                <p class="pillar-text">The surface is hostile. The Altered own it. Scavenge for food, weapons, medicine, and blueprints. Fight or flee. Make it home alive. Permadeath means every trip is a gamble.</p>
+                <p class="pillar-text">Manage power, water, and ventilation underground. Three systems where one failure cascades into disaster. Keep your people fed, rested, and sane. The base is only as strong as the people inside it.</p>
+                <img class="gif-img card-gif" src="Airlock_SurviveUnderground.gif" alt="Survive Underground" loading="lazy">
             </div>
             <div class="pillar-card fade-in">
                 <h3 class="pillar-title">PROTECT</h3>
                 <p class="pillar-text">Rescue survivors and give them a home. Manage food, water, morale, and grief. Every person has a name, a story, and skills that matter. Lose them and they're gone forever.</p>
+                <img class="gif-img card-gif" src="Airlock_Explore.gif" alt="Surface Exploration" loading="lazy">
             </div>
             <div class="pillar-card fade-in">
                 <h3 class="pillar-title">DISCOVER</h3>
                 <p class="pillar-text">Uncover a three-layer mystery about who you are, what happened to the world, and why the enemies hesitate around you. Memory fragments triggered by exploration change everything.</p>
+                <img class="gif-img card-gif" src="Airlock_SearchAnything.gif" alt="Search Anything" loading="lazy">
             </div>
         </div>
     </section>
@@ -1293,14 +1470,14 @@
     <section id="story">
         <h2 class="section-title fade-in">The Story</h2>
         <p class="story-text fade-in">
-            You wake up. Alarms blaring. A dim room — medical equipment, dead monitors, restraints on the bed. You don't know who you are. You stumble through corridors lined with bodies, out into a world consumed by 300 years of ruin.
+            You wake up. Alarms blaring. A dim room: medical equipment, dead monitors, restraints on the bed. You don't know who you are. You stumble through corridors lined with bodies, out into a world consumed by 300 years of ruin.
         </p>
         <p class="story-text fade-in">
-            A dead man in a jeep. A satnav with a destination. You drive. That destination is an Airlock — an underground shelter. This is where your life begins. But as you build, rescue, and survive... fragments of memory surface. And the truth about who you are will change everything.
+            A dead man in a jeep. A satnav with a destination. You drive. That destination is an Airlock, an underground shelter. This is where your life begins. But as you build, rescue, and survive... fragments of memory surface. And the truth about who you are will change everything.
         </p>
         <div class="story-quote fade-in">
             <p>Three layers of revelation. Each one reframes everything you thought you knew.</p>
-            <div class="attribution">— The Airlock</div>
+            <div class="attribution">-The Airlock</div>
         </div>
     </section>
 
@@ -1311,13 +1488,15 @@
             <div class="world-region fade-in">
                 <h3>THE SURFACE</h3>
                 <p>300 years after the Sonic Nuclear War. Cities overgrown. Sky toxic. The Altered own every inch. Day is tense. Night is deadly.</p>
+                <img class="gif-img card-gif" src="Airlock_Explore.gif" alt="Surface Exploration" loading="lazy">
             </div>
             <div class="world-region fade-in">
                 <h3>THE UNDERGROUND</h3>
-                <p>Your sanctuary. Expand left, right, and downward. Manage power, water, and ventilation — three systems where one failure cascades into disaster.</p>
+                <p>Your sanctuary. Expand left, right, and downward. Manage power, water, and ventilation. Three systems where one failure cascades into disaster.</p>
+                <img class="gif-img card-gif" src="Airlock_SurviveUnderground.gif" alt="Underground Base" loading="lazy">
             </div>
         </div>
-        <h3 class="section-title" style="font-size: 1.8rem; margin-top: 3rem; margin-bottom: 2rem;">THE ALTERED</h3>
+        <h3 class="section-title" style="font-size: 1.9rem; margin-top: 3rem; margin-bottom: 2rem;">THE ALTERED</h3>
         <div class="enemies">
             <div class="enemy-tier fade-in">
                 <h4 class="enemy-name">THE DUMB</h4>
@@ -1325,11 +1504,11 @@
             </div>
             <div class="enemy-tier fade-in">
                 <h4 class="enemy-name">THE STALKERS</h4>
-                <p class="enemy-desc">They follow from shadows. They watch. They attack at the worst possible moment — or not at all.</p>
+                <p class="enemy-desc">They follow from shadows. They watch. They attack at the worst possible moment - or not at all.</p>
             </div>
             <div class="enemy-tier fade-in">
                 <h4 class="enemy-name">THE LEGION</h4>
-                <p class="enemy-desc">The apex threat. A hive intelligence — hundreds of minds acting as one. They have a complicated relationship with you specifically.</p>
+                <p class="enemy-desc">The apex threat. A hive intelligence - hundreds of minds acting as one. They have a complicated relationship with you specifically.</p>
             </div>
         </div>
     </section>
@@ -1342,6 +1521,25 @@
                 <div class="feature-icon">⚙</div>
                 <h3 class="feature-title">Base Building</h3>
                 <p class="feature-desc">Build in dollhouse view, then explore your creation in full 3D. 14+ module categories. Five tiers from cave dirt to sci-fi metal.</p>
+                <img class="gif-img card-gif" src="Airlock_BuildYourBase.gif" alt="Base Building" loading="lazy">
+            </div>
+            <div class="feature-card fade-in">
+                <div class="feature-icon">🚶</div>
+                <h3 class="feature-title">Explore Your Base</h3>
+                <p class="feature-desc">Step inside your creation and walk every corridor. Your survivors eat, sleep, work, and grieve in real time. It's not a management screen - it's home.</p>
+                <img class="gif-img card-gif" src="Airlock_ExploreYourBase.gif" alt="Explore Your Base" loading="lazy">
+            </div>
+            <div class="feature-card fade-in">
+                <div class="feature-icon"></div>
+                <h3 class="feature-title">Upgrade Your Base</h3>
+                <p class="feature-desc">Dig out the space, mine what's inside, then build. Upgrade through four tiers: Cave, Brick, Concrete, Sci-fi. Every upgrade costs resources and consumes utilities. Every upgrade pays off.</p>
+                <img class="gif-img card-gif" src="Airlock_UpgradeYourBase.gif" alt="Upgrade Your Base" loading="lazy">
+            </div>
+            <div class="feature-card fade-in">
+                <div class="feature-icon"></div>
+                <h3 class="feature-title">Companions</h3>
+                <p class="feature-desc">You don't survive alone. Companions join your journey on the surface, each with their own story, abilities, and reasons for being there. Some will surprise you.</p>
+                <img class="gif-img card-gif" src="screenshots/Marv.jpg" alt="Marv the dog companion" loading="lazy">
             </div>
             <div class="feature-card fade-in">
                 <div class="feature-icon">👥</div>
@@ -1349,9 +1547,15 @@
                 <p class="feature-desc">Every survivor has a name, background, and skills that unlock new modules. Permadeath means every loss is permanent.</p>
             </div>
             <div class="feature-card fade-in">
-                <div class="feature-icon">⚡</div>
+                <div class="feature-icon"></div>
                 <h3 class="feature-title">Infrastructure</h3>
-                <p class="feature-desc">Power, Water, Ventilation — three interconnected lifelines. A blackout cascades into disaster.</p>
+                <p class="feature-desc">Power, Water, Ventilation - three interconnected lifelines. A blackout cascades into disaster.</p>
+            </div>
+            <div class="feature-card fade-in">
+                <div class="feature-icon"></div>
+                <h3 class="feature-title">The Altered</h3>
+                <p class="feature-desc">300 years after the Sonic Nuclear War, they own the surface. Fast, relentless, and terrifyingly numerous. They hunt by sound and movement. Day gives you a window. Night belongs to them.</p>
+                <img class="gif-img card-gif" src="Airlock_AlteredHorde.gif" alt="The Altered" loading="lazy">
             </div>
             <div class="feature-card fade-in">
                 <div class="feature-icon">🗺</div>
@@ -1374,9 +1578,45 @@
                 <p class="feature-desc">Fragments of your past triggered by places, objects, and people. Early ones confuse. Late ones devastate.</p>
             </div>
             <div class="feature-card fade-in">
-                <div class="feature-icon">👶</div>
+                <div class="feature-icon"></div>
                 <h3 class="feature-title">Generational</h3>
                 <p class="feature-desc">Survivors form relationships. Have children. A generation born underground who have never seen the sky.</p>
+            </div>
+            <div class="feature-card fade-in">
+                <div class="feature-icon"></div>
+                <h3 class="feature-title">Specialists</h3>
+                <p class="feature-desc">Your base is only as capable as the people inside it. Certain modules can only be unlocked and operated by survivors with the right skills. No engineer, no power plant. No doctor, no clinic. Who you rescue decides what you can build.</p>
+            </div>
+            <div class="feature-card fade-in">
+                <div class="feature-icon"></div>
+                <h3 class="feature-title">Skill System</h3>
+                <p class="feature-desc">Survivors aren't static. They learn, improve, and specialise over time. A rookie scavenger becomes a seasoned scout. A basic cook becomes a nutritionist keeping morale high. Skills grow through use and unlock new possibilities across the base and on the surface.</p>
+            </div>
+            <div class="feature-card fade-in">
+                <div class="feature-icon"></div>
+                <h3 class="feature-title">Farming</h3>
+                <p class="feature-desc">Grow crops in underground greenhouses and tend animals above and below ground. Food variety affects morale. A bad harvest hits harder than a horde. Keep your people fed or watch everything else unravel.</p>
+            </div>
+            <div class="feature-card fade-in">
+                <div class="feature-icon"></div>
+                <h3 class="feature-title">Combat</h3>
+                <p class="feature-desc">The Altered are fast, unpredictable, and they own the night. Fight when you have to, run when you don't. Equip your survivors with scavenged weapons, assign roles, and know when a mission is worth the risk.</p>
+                <img class="gif-img card-gif" src="Airlock_FightHordes.gif" alt="Combat" loading="lazy">
+            </div>
+            <div class="feature-card fade-in">
+                <div class="feature-icon"></div>
+                <h3 class="feature-title">Research</h3>
+                <p class="feature-desc">Blueprints found on the surface unlock new modules, upgrades, and equipment back at base. Assign survivors to research to accelerate progress. Some of the most powerful discoveries are hidden in the most dangerous places.</p>
+            </div>
+            <div class="feature-card fade-in">
+                <div class="feature-icon"></div>
+                <h3 class="feature-title">Morale and Needs</h3>
+                <p class="feature-desc">Survivors have needs beyond food and water. Grief, fear, boredom, and isolation are real threats. Build recreation rooms, assign counsellors, let people rest. A collapsing morale can end a run faster than any horde.</p>
+            </div>
+            <div class="feature-card fade-in">
+                <div class="feature-icon"></div>
+                <h3 class="feature-title">Salvage and Crafting</h3>
+                <p class="feature-desc">Nothing on the surface goes to waste. Strip ruins for metal, fabric, electronics, and fuel. Break down salvage into components. Craft weapons, tools, and module parts back at base. Every run should come home with something.</p>
             </div>
         </div>
     </section>
@@ -1398,98 +1638,122 @@
                 <div class="roadmap-arrow">▸</div>
                 <div class="roadmap-node completed" data-phase="1" onclick="toggleRoadmap(this)">
                     <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
-                    <div class="roadmap-label">Grid System</div>
+                    <div class="roadmap-label">Grid System V1</div>
                 </div>
                 <div class="roadmap-arrow">▸</div>
                 <div class="roadmap-node completed" data-phase="2" onclick="toggleRoadmap(this)">
                     <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
-                    <div class="roadmap-label">Character</div>
+                    <div class="roadmap-label">Character V1</div>
                 </div>
                 <div class="roadmap-arrow">▸</div>
                 <div class="roadmap-node completed" data-phase="3" onclick="toggleRoadmap(this)">
                     <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
-                    <div class="roadmap-label">UI & HUD</div>
+                    <div class="roadmap-label">UI V1</div>
                 </div>
                 <div class="roadmap-arrow">▸</div>
                 <div class="roadmap-node completed" data-phase="4" onclick="toggleRoadmap(this)">
                     <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
-                    <div class="roadmap-label">Combat</div>
+                    <div class="roadmap-label">HUD V1</div>
                 </div>
                 <div class="roadmap-arrow">▸</div>
                 <div class="roadmap-node completed" data-phase="5" onclick="toggleRoadmap(this)">
                     <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
-                    <div class="roadmap-label">Building v2</div>
+                    <div class="roadmap-label">Combat V1</div>
                 </div>
                 <div class="roadmap-arrow">▸</div>
                 <div class="roadmap-node completed" data-phase="6" onclick="toggleRoadmap(this)">
                     <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
-                    <div class="roadmap-label">Hordes</div>
+                    <div class="roadmap-label">Modules V1</div>
                 </div>
                 <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node current" data-phase="7" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">⧗</span></div>
-                    <div class="roadmap-label">Loot</div>
+                <div class="roadmap-node completed" data-phase="7" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
+                    <div class="roadmap-label">Hordes V1</div>
                 </div>
                 <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node" data-phase="8" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">9</span></div>
+                <div class="roadmap-node completed" data-phase="8" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
+                    <div class="roadmap-label">Loot V1</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node completed" data-phase="9" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
                     <div class="roadmap-label">Character V2</div>
                 </div>
                 <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node" data-phase="9" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">10</span></div>
-                    <div class="roadmap-label">Companion</div>
+                <div class="roadmap-node completed" data-phase="10" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
+                    <div class="roadmap-label">Companion V1</div>
                 </div>
                 <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node" data-phase="10" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">11</span></div>
-                    <div class="roadmap-label">City & Story</div>
+                <div class="roadmap-node current" data-phase="11" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">⧗</span></div>
+                    <div class="roadmap-label">Tier System V1</div>
                 </div>
                 <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node" data-phase="11" onclick="toggleRoadmap(this)">
+                <div class="roadmap-node" data-phase="12" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">NPCs V1</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node" data-phase="13" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">Infrastructure V1</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node" data-phase="14" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">City &amp; Story V1</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node" data-phase="15" onclick="toggleRoadmap(this)">
                     <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▶</span></div>
-                    <div class="roadmap-label">Demo</div>
+                    <div class="roadmap-label">Playable Demo</div>
                 </div>
             </div>
             <div class="roadmap-detail-container">
-                <div data-detail="0" class="roadmap-detail"><div class="roadmap-detail-title">Phase 1 — Blockout & Prototype</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">This is where it all started. Built a military compound blockout in Unreal Engine 5 to prove the concept actually works. Integrated the ALS (Advanced Locomotion System) for third-person character control. Created a prototype dollhouse camera to test the core vision — build underground in top-down, then drop into your creation in full 3D and explore it. Walk through the corridors you built. See the rooms you placed. The question was simple: does it feel right? It did. That was the moment AIRLOCK stopped being an idea and started being a game.</div></div><div class="roadmap-detail-img"><img src="airlock_screenshot_01.jpg" alt="AIRLOCK Prototype — dollhouse view of underground base"></div></div></div>
-                <div data-detail="1" class="roadmap-detail"><div class="roadmap-detail-title">Phase 2 — Grid & Module System</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">The backbone of the entire game. Built the GridManager system in C++ from scratch — world-to-grid coordinate conversion, cell states (empty, occupied, reserved), multi-floor support for stacking levels underground. Created a library of blueprint modules that snap to the grid: corridors, stairwells, bedrooms, kitchens, farms, generators, med bays and more. Each module locks into place with adjacency detection, and walls and doors auto-generate between rooms. This is the system everything else is built on top of.</div></div><div class="roadmap-detail-img"><img src="airlock_screenshot_03.jpg" alt="AIRLOCK Grid System — module grid with placement markers"></div></div></div>
-                <div data-detail="2" class="roadmap-detail"><div class="roadmap-detail-title">Phase 3 — Movement & Character</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">Took the ALS system apart and rebuilt it for AIRLOCK. Customised the movement feel, camera behaviour, interaction ranges, and transitions between exploration modes. The character controller handles both tight underground corridors (managing your base, checking on survivors) and wide-open surface exploration (scavenging, fighting, running for your life). Two very different feels, one seamless character.</div></div><div class="roadmap-detail-img"><img src="airlock_screenshot_02.jpg" alt="AIRLOCK Character — third-person movement in underground corridor"></div></div></div>
-                <div data-detail="3" class="roadmap-detail"><div class="roadmap-detail-title">Phase 4 — UI, HUD & Inventory</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">Built the full main menu system from scratch — epilepsy warning screen, brightness calibration, press-any-key splash screen, main menu with all sub-screens and settings. Then built the in-game HUD: health, stamina, compass, status effects, notifications. Created a full inventory system — equip weapons, fire them, swap them, drop items, pick things up. Items degrade over time — nothing lasts forever in AIRLOCK. The entire UI is custom-designed with a teal/steel military aesthetic that feels like it belongs in a bunker.</div></div><div class="roadmap-detail-img"><img src="airlock_screenshot_04.jpg" alt="AIRLOCK UI & HUD — full in-game interface"></div></div></div>
-                <div data-detail="4" class="roadmap-detail"><div class="roadmap-detail-title">Phase 5 — Weapons & Combat</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">Weapons you can equip, fire, and feel. Ranged and melee combat integrated with the inventory system — every weapon takes a slot, degrades with use, and can break. Ammunition is scarce, so every bullet matters. Combat is designed to feel desperate, not heroic. You're not a soldier — you're a survivor. When a horde finds you, the smart play is to run. When you can't run, you fight. And when your weapon jams at 12% condition, you learn to take better care of your gear.</div></div><div class="roadmap-detail-img"><img src="airlock_screenshot_05.jpg" alt="AIRLOCK Combat — night city streets, weapon drawn"></div></div></div>
-                <div data-detail="5" class="roadmap-detail"><div class="roadmap-detail-title">Phase 6 — Module Building v2</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">The first version worked. The second version sings. The module system is fully integrated into the HUD — browse 14+ categories, see every detail before you place (tier, size, morale bonus, build time, power draw, water usage). Place, move, remove. Watch your survivors use what you build — the cook prepares meals, crops grow in your farm, generators hum keeping lights on, people socialise in the common room. It's not just building — it's bringing your base to life.</div></div><div class="roadmap-detail-img"><img src="airlock_screenshot_6.jpg" alt="AIRLOCK Building V2 — module placement with stats panel"></div></div></div>
-                <div data-detail="6" class="roadmap-detail"><div class="roadmap-detail-title">Phase 7 — Horde System</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">Inspired by Days Gone, built for AIRLOCK. An optimised horde system — large numbers of enemies on screen without tanking performance. AI states: idle wanderers, alerted searchers, full-speed chasers, swarming attackers. They don't stand around waiting to be shot. They hunt. They swarm. They overwhelm. Daytime is tense — you're always scanning. Night is deadly. The hordes own the dark.</div></div><div class="roadmap-detail-img"><img src="airlock_screenshot_07.jpg" alt="AIRLOCK Weather — toxic storms, sunny days, dangerous nights"></div></div></div>
-                <div data-detail="7" class="roadmap-detail"><div class="roadmap-detail-title">Phase 8 — Loot System</div><div class="roadmap-detail-status">⧗ In Progress</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">The world needs to feel lived-in and worth exploring. Lootable items scattered throughout ruined buildings, abandoned vehicles, and the remains of those who didn't make it. Food, weapons, medicine, blueprints, raw materials, rare components. Every surface trip is a risk-reward calculation — push deeper for better loot, or play it safe near the airlock? Currently implementing final loot tables, container interactions, and the visual feedback that makes finding good loot feel rewarding.</div></div><div class="roadmap-detail-img"><img src="airlock_screenshot_08.jpg" alt="AIRLOCK Loot — searching containers on the surface"></div></div></div>
-                <div data-detail="8" class="roadmap-detail"><div class="roadmap-detail-title">Phase 9 — Character V2 (MetaHuman)</div><div class="roadmap-detail-status">→ Next</div><div class="roadmap-detail-body">Out with the placeholder, in with the real thing. Replacing the ALS mannequin with a fully assembled MetaHuman character — realistic face, hair, skin, expressions. This isn't just a visual upgrade, it's the foundation for cutscenes, emotional storytelling, and characters you actually care about. The MetaHuman needs to work seamlessly with every existing system: movement, combat, inventory, building mode. One swap, zero breakage. That's the goal.</div></div>
-                <div data-detail="9" class="roadmap-detail"><div class="roadmap-detail-title">Phase 10 — Companion System</div><div class="roadmap-detail-status">→ Planned</div><div class="roadmap-detail-body">You shouldn't face the surface alone. Your companion follows you — engaging enemies, sniffing out hidden loot, reacting to danger before you see it. They have personality. They have moods. They remember. A presence that makes the crushing loneliness bearable — and makes losing them devastating. This isn't a combat pet. This is the one thing that keeps you sane out there.</div></div>
-                <div data-detail="10" class="roadmap-detail"><div class="roadmap-detail-title">Phase 11 — City & Narrative</div><div class="roadmap-detail-status">→ Planned</div><div class="roadmap-detail-body">Turn the sandbox into a world with purpose. A fully explorable ruined city — 4 to 8 square kilometres of destroyed streets, overgrown buildings, collapsed infrastructure. Key points of interest drive the story forward. The narrative framework: three-layer reveal, memory triggers, environmental storytelling, the opening sequence. The city is where the lore lives — in graffiti on walls, in notes left behind, in the bones of a civilisation that didn't survive.</div></div>
-                <div data-detail="11" class="roadmap-detail"><div class="roadmap-detail-title">Phase 12 — Playable Demo</div><div class="roadmap-detail-status">→ Target 2026</div><div class="roadmap-detail-body">A 60+ minute guided experience. Wake up alone. Escape the surface. Discover the airlock. Build your first rooms. Rescue survivors. Watch your base come alive. Venture back for supplies. Survive the night. The demo ends with a hook that makes you need to know what happens next. This goes straight onto Steam for the world to play.</div></div>
+                <div data-detail="0" class="roadmap-detail"><div class="roadmap-detail-title">Phase 1 - Blockout &amp; Prototype</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">This is where it all started. Built a military compound blockout in Unreal Engine 5 to prove the concept actually works. Integrated the ALS (Advanced Locomotion System) for third-person character control. Created a prototype dollhouse camera to test the core vision - build underground in top-down, then drop into your creation in full 3D and explore it. Walk through the corridors you built. See the rooms you placed. The question was simple: does it feel right? It did. That was the moment AIRLOCK stopped being an idea and started being a game.</div></div><div class="roadmap-detail-img"><img src="screenshots/airlock_screenshot_01.jpg" alt="AIRLOCK Prototype"></div></div></div>
+                <div data-detail="1" class="roadmap-detail"><div class="roadmap-detail-title">Phase 2 - Grid System V1</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">The backbone of the entire game. Built the GridManager system in C++ from scratch - world-to-grid coordinate conversion, cell states (empty, occupied, reserved), multi-floor support for stacking levels underground. Modules snap to the grid with adjacency detection - walls and doors auto-generate between rooms. This is the system everything else is built on top of.</div></div><div class="roadmap-detail-img"><img src="screenshots/airlock_screenshot_03.jpg" alt="AIRLOCK Grid System"></div></div></div>
+                <div data-detail="2" class="roadmap-detail"><div class="roadmap-detail-title">Phase 3 - Character V1</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">Took the ALS system apart and rebuilt it for AIRLOCK. Customised movement feel, camera behaviour, and transitions between underground and surface modes. The character controller handles tight corridors and wide-open surface exploration seamlessly - two very different feels, one character.</div></div><div class="roadmap-detail-img"><img src="screenshots/airlock_screenshot_02.jpg" alt="AIRLOCK Character V1"></div></div></div>
+                <div data-detail="3" class="roadmap-detail"><div class="roadmap-detail-title">Phase 4 - UI V1</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">Built the full main menu system from scratch - epilepsy warning, brightness calibration, press-any-key splash, main menu with all sub-screens and settings. Custom-designed with a worn military aesthetic that feels like it belongs in a bunker.</div></div><div class="roadmap-detail-img"><img src="screenshots/4_mainmenu.png" alt="AIRLOCK UI V1 - Main Menu"></div></div></div>
+                <div data-detail="4" class="roadmap-detail"><div class="roadmap-detail-title">Phase 5 - HUD V1</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">In-game HUD built: health, stamina, compass, status effects, and notifications. Full inventory system - equip weapons, fire, swap, drop, pick up. Items degrade over time. Nothing lasts forever in AIRLOCK.</div></div><div class="roadmap-detail-img"><img src="screenshots/airlock_screenshot_04.jpg" alt="AIRLOCK HUD V1"></div></div></div>
+                <div data-detail="5" class="roadmap-detail"><div class="roadmap-detail-title">Phase 6 - Combat V1</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">Weapons you can equip, fire, and feel. Ranged and melee integrated with the inventory system - every weapon degrades with use and can break. Ammunition is scarce. Combat is designed to feel desperate, not heroic. You're not a soldier - you're a survivor.</div></div><div class="roadmap-detail-img"><img src="screenshots/airlock_screenshot_05.jpg" alt="AIRLOCK Combat V1"></div></div></div>
+                <div data-detail="6" class="roadmap-detail"><div class="roadmap-detail-title">Phase 7 - Modules V1</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">The module system fully integrated into the HUD - browse 14+ categories, see every detail before you place (tier, size, morale bonus, build time, power draw, water usage). Place, move, remove. Watch your survivors use what you build. It's not just building - it's bringing your base to life.</div></div><div class="roadmap-detail-img"><img src="screenshots/airlock_screenshot_6.jpg" alt="AIRLOCK Modules V1"></div></div></div>
+                <div data-detail="7" class="roadmap-detail"><div class="roadmap-detail-title">Phase 8 - Hordes V1</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">An optimised horde system - large numbers of The Altered on screen without tanking performance. AI states: idle wanderers, alerted searchers, full-speed chasers, swarming attackers. They hunt. They swarm. They overwhelm. Daytime is tense. Night is deadly.</div></div><div class="roadmap-detail-img"><img src="screenshots/airlock_screenshot_07.jpg" alt="AIRLOCK Hordes V1"></div></div></div>
+                <div data-detail="8" class="roadmap-detail"><div class="roadmap-detail-title">Phase 9 - Loot V1</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">Lootable items scattered throughout ruined buildings, abandoned vehicles, and the remains of those who didn't make it. Food, weapons, medicine, blueprints, raw materials, rare components. Every surface trip is a risk-reward calculation - push deeper for better loot, or play it safe near the airlock?</div></div><div class="roadmap-detail-img"><img src="screenshots/airlock_screenshot_08.jpg" alt="AIRLOCK Loot V1"></div></div></div>
+                <div data-detail="9" class="roadmap-detail"><div class="roadmap-detail-title">Phase 10 - Character V2 (MetaHuman)</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">Out with the placeholder, in with the real thing. The ALS mannequin replaced with a fully assembled MetaHuman character - realistic face, hair, skin, expressions. The foundation for cutscenes, emotional storytelling, and characters you actually care about.</div></div><div class="roadmap-detail-img"><img src="screenshots/airlock_screenshot_02.jpg" alt="AIRLOCK Character V2"></div></div></div>
+                <div data-detail="10" class="roadmap-detail"><div class="roadmap-detail-title">Phase 11 - Companion V1</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">You shouldn't face the surface alone. Your companion follows you - engaging enemies, sniffing out hidden loot, reacting to danger before you see it. They have personality. They have moods. They remember. Meet Marv.</div></div><div class="roadmap-detail-img"><img src="screenshots/Marv.jpg" alt="AIRLOCK Companion V1 - Marv"></div></div></div>
+                <div data-detail="11" class="roadmap-detail"><div class="roadmap-detail-title">Phase 12 - Tier System V1</div><div class="roadmap-detail-status">⧗ In Progress</div><div class="roadmap-detail-body">Every module in the game can be upgraded through four visual and functional tiers: Cave, Brick, Concrete, and Sci-fi. Each upgrade costs resources, consumes utilities, and delivers real improvements - better stats, better equipment access, better mood for the people living inside. Building the tier progression system and the upgrade flow that makes every improvement feel earned.</div></div>
+                <div data-detail="12" class="roadmap-detail"><div class="roadmap-detail-title">Phase 13 - NPCs V1</div><div class="roadmap-detail-status">→ Planned</div><div class="roadmap-detail-body">Survivors aren't furniture. Each NPC has a name, backstory, skill set, and daily routine. They eat in the canteen, sleep in their assigned room, work their assigned module, socialise in the common area. They form relationships, develop opinions, and react to loss. The base only comes alive when the people inside it do.</div></div>
+                <div data-detail="13" class="roadmap-detail"><div class="roadmap-detail-title">Phase 14 - Infrastructure V1</div><div class="roadmap-detail-status">→ Planned</div><div class="roadmap-detail-body">Power, Water, and Ventilation - three interconnected systems that your entire base depends on. A generator failure cuts lights and shuts down modules. A burst pipe floods a corridor. A ventilation failure poisons the air. These aren't background mechanics - they're the heartbeat of your base. Building, placing, and managing them is the difference between a thriving colony and a slow collapse.</div></div>
+                <div data-detail="14" class="roadmap-detail"><div class="roadmap-detail-title">Phase 15 - City &amp; Story V1</div><div class="roadmap-detail-status">→ Planned</div><div class="roadmap-detail-body">Turn the sandbox into a world with purpose. A fully explorable ruined city - streets, overgrown buildings, collapsed infrastructure. Key points of interest drive the story forward. The narrative framework: three-layer reveal, memory triggers, environmental storytelling, the opening sequence. The city is where the lore lives - in graffiti on walls, in notes left behind, in the bones of a civilisation that didn't survive.</div></div>
+                <div data-detail="15" class="roadmap-detail"><div class="roadmap-detail-title">Phase 16 - Playable Demo</div><div class="roadmap-detail-status">→ Target 2026</div><div class="roadmap-detail-body">A 60+ minute guided experience. Wake up alone. Escape the surface. Discover the airlock. Build your first rooms. Rescue survivors. Watch your base come alive. Venture back for supplies. Survive the night. The demo ends with a hook that makes you need to know what happens next. This goes straight onto Steam for the world to play.</div></div>
             </div>
         </div>
 
         <!-- ROW 2: FUNDING & LAUNCH -->
         <div class="roadmap-phase-group fade-in">
-            <div class="roadmap-phase-label">Funding & Launch</div>
+            <div class="roadmap-phase-label">Funding &amp; Launch</div>
             <div class="roadmap-track">
-                <div class="roadmap-node" data-phase="11" onclick="toggleRoadmap(this)">
+                <div class="roadmap-node" data-phase="16" onclick="toggleRoadmap(this)">
                     <div class="roadmap-diamond"><span class="roadmap-diamond-icon">12</span></div>
                     <div class="roadmap-label">Kickstarter</div>
                 </div>
                 <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node" data-phase="12" onclick="toggleRoadmap(this)">
+                <div class="roadmap-node" data-phase="17" onclick="toggleRoadmap(this)">
                     <div class="roadmap-diamond"><span class="roadmap-diamond-icon">13</span></div>
                     <div class="roadmap-label">Early Access</div>
                 </div>
                 <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node" data-phase="13" onclick="toggleRoadmap(this)">
+                <div class="roadmap-node" data-phase="18" onclick="toggleRoadmap(this)">
                     <div class="roadmap-diamond"><span class="roadmap-diamond-icon">14</span></div>
                     <div class="roadmap-label">Narrative</div>
                 </div>
             </div>
             <div class="roadmap-detail-container">
-                <div data-detail="11" class="roadmap-detail"><div class="roadmap-detail-title">Phase 12 — Kickstarter Campaign</div><div class="roadmap-detail-status">→ Crowdfunding</div><div class="roadmap-detail-body">The demo proves the game works. Now it needs to grow. The Kickstarter funds full-time development — Henry leaves the day job and builds AIRLOCK every single day. If funding goes well (£200K–300K+), local artists, modellers, and designers get hired — not contractors, real team members kept on long-term. If funding goes exceptionally well (£1M+), a publisher comes on board to supercharge marketing and community growth. Every tier of funding makes the game bigger, better, and faster.</div></div>
-                <div data-detail="12" class="roadmap-detail"><div class="roadmap-detail-title">Phase 13 — Steam Early Access</div><div class="roadmap-detail-status">→ Open Development</div><div class="roadmap-detail-body">AIRLOCK goes live on Steam Early Access. The UK map launches first — a full 4–8 sq km explorable environment. The core loop is complete: build, explore, survive, expand. This isn't a closed-door project. Early Access means the community is in the room. You play it, break it, tell us what works. Your feedback directly shapes what gets built next. Regular updates, dev diaries, transparent development. The game grows with its players.</div></div>
-                <div data-detail="13" class="roadmap-detail"><div class="roadmap-detail-title">Phase 14 — Narrative & Lore</div><div class="roadmap-detail-status">→ Hire Narrative Expert</div><div class="roadmap-detail-body">The world has deep lore — the Sonic Nuclear War, the Altered, the Legion, three centuries of history. It deserves a professional narrative expert. This phase brings on a dedicated writer to structure the full story arc, character backgrounds, faction histories, environmental storytelling, and the mystery that drives you forward. The lore exists in Henry's head and design documents — this phase turns it into something players will obsess over and piece together one discovery at a time.</div></div>
+                <div data-detail="16" class="roadmap-detail"><div class="roadmap-detail-title">Phase 12 - Kickstarter Campaign</div><div class="roadmap-detail-status">→ Crowdfunding</div><div class="roadmap-detail-body">The demo proves the game works. Now it needs to grow. The Kickstarter funds full-time development - Henry leaves the day job and builds AIRLOCK every single day. If funding goes well (£200K–300K+), local artists, modellers, and designers get hired - not contractors, real team members kept on long-term. If funding goes exceptionally well (£1M+), a publisher comes on board to supercharge marketing and community growth. Every tier of funding makes the game bigger, better, and faster.</div></div>
+                <div data-detail="17" class="roadmap-detail"><div class="roadmap-detail-title">Phase 13 - Steam Early Access</div><div class="roadmap-detail-status">→ Open Development</div><div class="roadmap-detail-body">AIRLOCK goes live on Steam Early Access. The UK map launches first - a full 4–8 sq km explorable environment. The core loop is complete: build, explore, survive, expand. This isn't a closed-door project. Early Access means the community is in the room. You play it, break it, tell us what works. Your feedback directly shapes what gets built next. Regular updates, dev diaries, transparent development. The game grows with its players.</div></div>
+                <div data-detail="18" class="roadmap-detail"><div class="roadmap-detail-title">Phase 14 - Narrative &amp; Lore</div><div class="roadmap-detail-status">→ Hire Narrative Expert</div><div class="roadmap-detail-body">The world has deep lore - the Sonic Nuclear War, the Altered, the Legion, three centuries of history. It deserves a professional narrative expert. This phase brings on a dedicated writer to structure the full story arc, character backgrounds, faction histories, environmental storytelling, and the mystery that drives you forward. The lore exists in Henry's head and design documents - this phase turns it into something players will obsess over and piece together one discovery at a time.</div></div>
             </div>
         </div>
 
@@ -1497,124 +1761,244 @@
         <div class="roadmap-phase-group fade-in">
             <div class="roadmap-phase-label">Expanding the World</div>
             <div class="roadmap-track">
-                <div class="roadmap-node" data-phase="14" onclick="toggleRoadmap(this)">
+                <div class="roadmap-node" data-phase="19" onclick="toggleRoadmap(this)">
                     <div class="roadmap-diamond"><span class="roadmap-diamond-icon">15</span></div>
                     <div class="roadmap-label">Customisation</div>
                 </div>
                 <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node" data-phase="15" onclick="toggleRoadmap(this)">
+                <div class="roadmap-node" data-phase="20" onclick="toggleRoadmap(this)">
                     <div class="roadmap-diamond"><span class="roadmap-diamond-icon">16</span></div>
                     <div class="roadmap-label">Trading</div>
                 </div>
                 <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node" data-phase="16" onclick="toggleRoadmap(this)">
+                <div class="roadmap-node" data-phase="21" onclick="toggleRoadmap(this)">
                     <div class="roadmap-diamond"><span class="roadmap-diamond-icon">17</span></div>
                     <div class="roadmap-label">Multi-Base</div>
                 </div>
                 <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node" data-phase="17" onclick="toggleRoadmap(this)">
+                <div class="roadmap-node" data-phase="22" onclick="toggleRoadmap(this)">
                     <div class="roadmap-diamond"><span class="roadmap-diamond-icon">18</span></div>
                     <div class="roadmap-label">Metro</div>
                 </div>
             </div>
             <div class="roadmap-detail-container">
-                <div data-detail="14" class="roadmap-detail"><div class="roadmap-detail-title">Phase 15 — Expanded Customisation</div><div class="roadmap-detail-status">→ More Everything</div><div class="roadmap-detail-body">More modules. More base areas. More ways to personalise your underground world. Higher-tier kitchens, advanced farms, specialised workshops, recreation rooms, schools for children born underground. When your base maxes out, it's not game over — find a new location, start again bigger and better. Your first base becomes a node in something larger.</div></div>
-                <div data-detail="15" class="roadmap-detail"><div class="roadmap-detail-title">Phase 16 — Trading & Economy</div><div class="roadmap-detail-status">→ A Living Economy</div><div class="roadmap-detail-body">You're not alone underground. Other airlocks exist — NPC settlements with their own survivors, needs, and resources. A full trading system: barter, buy, sell with vendors. Visit other people's airlocks and see how they built their communities. A banking system tracks your wealth. Supply and demand shifts based on scarcity. Surplus food but need medicine? Another airlock has the opposite problem. Trade routes emerge. An underground economy grows from the ashes.</div></div>
-                <div data-detail="16" class="roadmap-detail"><div class="roadmap-detail-title">Phase 17 — Multi-Base System</div><div class="roadmap-detail-status">→ Expand Your Network</div><div class="roadmap-detail-body">One base isn't enough. Discover new underground locations — abandoned bunkers, collapsed metro stations, forgotten military installations. Each becomes a new base. Build it up. Staff it with survivors. Specialise it — your farm, your armoury, your trading hub. Fast travel between bases as your network grows. You're not just surviving anymore. You're rebuilding civilisation, one airlock at a time.</div></div>
-                <div data-detail="17" class="roadmap-detail"><div class="roadmap-detail-title">Phase 18 — Underground Metro</div><div class="roadmap-detail-status">→ Connect Everything</div><div class="roadmap-detail-body">Build a metro connecting your bases underground. Clear collapsed stations. Lay tracks. Restore power. Survivors travel between airlocks without touching the surface. Supplies move, survivors transfer where needed, and you ride the rails through dark tunnels beneath a dead world. It's infrastructure. It's logistics. It's the spine of your underground civilisation.</div></div>
+                <div data-detail="19" class="roadmap-detail"><div class="roadmap-detail-title">Phase 15 - Expanded Customisation</div><div class="roadmap-detail-status">→ More Everything</div><div class="roadmap-detail-body">More modules. More base areas. More ways to personalise your underground world. Higher-tier kitchens, advanced farms, specialised workshops, recreation rooms, schools for children born underground. When your base maxes out, it's not game over - find a new location, start again bigger and better. Your first base becomes a node in something larger.</div></div>
+                <div data-detail="20" class="roadmap-detail"><div class="roadmap-detail-title">Phase 16 - Trading &amp; Economy</div><div class="roadmap-detail-status">→ A Living Economy</div><div class="roadmap-detail-body">You're not alone underground. Other airlocks exist - NPC settlements with their own survivors, needs, and resources. A full trading system: barter, buy, sell with vendors. Visit other people's airlocks and see how they built their communities. A banking system tracks your wealth. Supply and demand shifts based on scarcity. Surplus food but need medicine? Another airlock has the opposite problem. Trade routes emerge. An underground economy grows from the ashes.</div></div>
+                <div data-detail="21" class="roadmap-detail"><div class="roadmap-detail-title">Phase 17 - Multi-Base System</div><div class="roadmap-detail-status">→ Expand Your Network</div><div class="roadmap-detail-body">One base isn't enough. Discover new underground locations - abandoned bunkers, collapsed metro stations, forgotten military installations. Each becomes a new base. Build it up. Staff it with survivors. Specialise it - your farm, your armoury, your trading hub. Fast travel between bases as your network grows. You're not just surviving anymore. You're rebuilding civilisation, one airlock at a time.</div></div>
+                <div data-detail="22" class="roadmap-detail"><div class="roadmap-detail-title">Phase 18 - Underground Metro</div><div class="roadmap-detail-status">→ Connect Everything</div><div class="roadmap-detail-body">Build a metro connecting your bases underground. Clear collapsed stations. Lay tracks. Restore power. Survivors travel between airlocks without touching the surface. Supplies move, survivors transfer where needed, and you ride the rails through dark tunnels beneath a dead world. It's infrastructure. It's logistics. It's the spine of your underground civilisation.</div></div>
             </div>
         </div>
 
         <!-- ROW 4: GLOBAL MAPS & BEYOND -->
         <div class="roadmap-phase-group fade-in">
-            <div class="roadmap-phase-label">Global Maps & Beyond</div>
+            <div class="roadmap-phase-label">Global Maps &amp; Beyond</div>
             <div class="roadmap-track">
-                <div class="roadmap-node" data-phase="18" onclick="toggleRoadmap(this)">
+                <div class="roadmap-node" data-phase="23" onclick="toggleRoadmap(this)">
                     <div class="roadmap-diamond"><span class="roadmap-diamond-icon">🇬🇧</span></div>
                     <div class="roadmap-label">UK</div>
                 </div>
                 <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node" data-phase="19" onclick="toggleRoadmap(this)">
+                <div class="roadmap-node" data-phase="24" onclick="toggleRoadmap(this)">
                     <div class="roadmap-diamond"><span class="roadmap-diamond-icon">🇯🇵</span></div>
                     <div class="roadmap-label">Japan</div>
                 </div>
                 <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node" data-phase="20" onclick="toggleRoadmap(this)">
+                <div class="roadmap-node" data-phase="25" onclick="toggleRoadmap(this)">
                     <div class="roadmap-diamond"><span class="roadmap-diamond-icon">🇺🇸</span></div>
                     <div class="roadmap-label">USA</div>
                 </div>
                 <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node" data-phase="21" onclick="toggleRoadmap(this)">
+                <div class="roadmap-node" data-phase="26" onclick="toggleRoadmap(this)">
                     <div class="roadmap-diamond"><span class="roadmap-diamond-icon">🇩🇪</span></div>
                     <div class="roadmap-label">Germany</div>
                 </div>
                 <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node" data-phase="22" onclick="toggleRoadmap(this)">
+                <div class="roadmap-node" data-phase="27" onclick="toggleRoadmap(this)">
                     <div class="roadmap-diamond"><span class="roadmap-diamond-icon">🇷🇺</span></div>
                     <div class="roadmap-label">Russia</div>
                 </div>
                 <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node" data-phase="23" onclick="toggleRoadmap(this)">
+                <div class="roadmap-node" data-phase="28" onclick="toggleRoadmap(this)">
                     <div class="roadmap-diamond"><span class="roadmap-diamond-icon">🇦🇺</span></div>
                     <div class="roadmap-label">Australia</div>
                 </div>
                 <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node" data-phase="24" onclick="toggleRoadmap(this)">
+                <div class="roadmap-node" data-phase="29" onclick="toggleRoadmap(this)">
                     <div class="roadmap-diamond"><span class="roadmap-diamond-icon">🇧🇷</span></div>
                     <div class="roadmap-label">Brazil</div>
                 </div>
                 <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node" data-phase="25" onclick="toggleRoadmap(this)">
+                <div class="roadmap-node" data-phase="30" onclick="toggleRoadmap(this)">
                     <div class="roadmap-diamond"><span class="roadmap-diamond-icon">★</span></div>
                     <div class="roadmap-label">Full Release</div>
                 </div>
                 <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node" data-phase="26" onclick="toggleRoadmap(this)">
+                <div class="roadmap-node" data-phase="31" onclick="toggleRoadmap(this)">
                     <div class="roadmap-diamond"><span class="roadmap-diamond-icon">∞</span></div>
                     <div class="roadmap-label">Multiplayer</div>
                 </div>
             </div>
             <div class="roadmap-detail-container">
-                <div data-detail="18" class="roadmap-detail"><div class="roadmap-detail-title">Map: United Kingdom</div><div class="roadmap-detail-status">→ Launch Map</div><div class="roadmap-detail-body">The first and flagship map. A 4–8 sq km chunk of a ruined British city — crumbling terraced streets, overgrown parks, collapsed pubs, flooded tube stations. The architecture tells its own story. Rain-soaked, grey-skied, and hauntingly familiar. This is home. This is where AIRLOCK begins.</div></div>
-                <div data-detail="19" class="roadmap-detail"><div class="roadmap-detail-title">Map: Japan</div><div class="roadmap-detail-status">→ Planned</div><div class="roadmap-detail-body">Neon signs dark for 300 years. Collapsed apartment towers. Overgrown temple grounds reclaimed by nature. The Tokyo metro system — vast, deep, perfect for building underground. Japanese architecture brings a completely different aesthetic, new module types, and a culture that survived differently. Different threats. Different stories. Different ways to rebuild.</div></div>
-                <div data-detail="20" class="roadmap-detail"><div class="roadmap-detail-title">Map: USA</div><div class="roadmap-detail-status">→ Planned</div><div class="roadmap-detail-body">Suburban sprawl meets urban decay. Wide streets, strip malls picked clean, rusted cars for miles. Military bases with sealed bunkers — supplies or something worse inside. The American map brings scale, different weapon availability, and distances between safe zones that are longer and more dangerous.</div></div>
-                <div data-detail="21" class="roadmap-detail"><div class="roadmap-detail-title">Map: Germany</div><div class="roadmap-detail-status">→ Planned</div><div class="roadmap-detail-body">Industrial heartland. Factories repurposed. Cold War-era bunkers built to survive exactly this — some still sealed, some already occupied. Dense forests where the Altered nest. German engineering meets post-apocalyptic survival. Infrastructure is better preserved, but what's living inside it is worse.</div></div>
-                <div data-detail="22" class="roadmap-detail"><div class="roadmap-detail-title">Map: Russia</div><div class="roadmap-detail-status">→ Planned</div><div class="roadmap-detail-body">Moscow's metro — the deepest in the world — becomes the ultimate underground base location. Soviet-era bunkers stretch for kilometres. Cold is a constant threat above ground. Resources scarce but underground infrastructure is unmatched. The Russian underground offers the most ambitious base-building opportunities in the game.</div></div>
-                <div data-detail="23" class="roadmap-detail"><div class="roadmap-detail-title">Map: Australia</div><div class="roadmap-detail-status">→ Planned</div><div class="roadmap-detail-body">The outback survived better than anywhere. Wide open spaces, mining tunnels that go deep, danger visible from miles away — but you can't outrun it. Extreme heat as a survival mechanic, mining networks as base locations, and everything here was already trying to kill you before the war.</div></div>
-                <div data-detail="24" class="roadmap-detail"><div class="roadmap-detail-title">Map: Brazil</div><div class="roadmap-detail-status">→ Planned</div><div class="roadmap-detail-body">Dense jungle has swallowed the cities whole. Favelas stacked vertically — perfect for vertical base-building. Amazon underground river systems create unique environments unlike anywhere else. Lush, dangerous, teeming with mutated life. The most visually different map — jungle survival, river navigation, and building down instead of out.</div></div>
-                <div data-detail="25" class="roadmap-detail"><div class="roadmap-detail-title">Full Release — AIRLOCK 1.0</div><div class="roadmap-detail-status">→ The Vision Realised</div><div class="roadmap-detail-body">All maps. All systems. Full narrative. Complete economy. The underground metro connects every airlock on every map. The game Henry has carried in his head for over a decade, fully realised. A survival base-builder where you don't just survive — you rebuild. You trade. You explore. You discover the truth about what happened 300 years ago. Your way, in your airlock, in your corner of a broken world.</div></div>
-                <div data-detail="26" class="roadmap-detail"><div class="roadmap-detail-title">The Dream — Multiplayer</div><div class="roadmap-detail-status">→ Long-Term Vision</div><div class="roadmap-detail-body">The ultimate dream. Your airlock. Your friend's airlock. Connected. Trading between real players. Visiting each other's bases. Cooperative surface runs. Rival factions competing for the best locations. A monumental engineering challenge — but with the right team and funding, not impossible. This is the horizon. Everything else on this roadmap is the road that leads here.</div></div>
+                <div data-detail="23" class="roadmap-detail"><div class="roadmap-detail-title">Map: United Kingdom</div><div class="roadmap-detail-status">→ Launch Map</div><div class="roadmap-detail-body">The first and flagship map. A 4–8 sq km chunk of a ruined British city - crumbling terraced streets, overgrown parks, collapsed pubs, flooded tube stations. The architecture tells its own story. Rain-soaked, grey-skied, and hauntingly familiar. This is home. This is where AIRLOCK begins.</div></div>
+                <div data-detail="24" class="roadmap-detail"><div class="roadmap-detail-title">Map: Japan</div><div class="roadmap-detail-status">→ Planned</div><div class="roadmap-detail-body">Neon signs dark for 300 years. Collapsed apartment towers. Overgrown temple grounds reclaimed by nature. The Tokyo metro system - vast, deep, perfect for building underground. Japanese architecture brings a completely different aesthetic, new module types, and a culture that survived differently. Different threats. Different stories. Different ways to rebuild.</div></div>
+                <div data-detail="25" class="roadmap-detail"><div class="roadmap-detail-title">Map: USA</div><div class="roadmap-detail-status">→ Planned</div><div class="roadmap-detail-body">Suburban sprawl meets urban decay. Wide streets, strip malls picked clean, rusted cars for miles. Military bases with sealed bunkers - supplies or something worse inside. The American map brings scale, different weapon availability, and distances between safe zones that are longer and more dangerous.</div></div>
+                <div data-detail="26" class="roadmap-detail"><div class="roadmap-detail-title">Map: Germany</div><div class="roadmap-detail-status">→ Planned</div><div class="roadmap-detail-body">Industrial heartland. Factories repurposed. Cold War-era bunkers built to survive exactly this - some still sealed, some already occupied. Dense forests where the Altered nest. German engineering meets post-apocalyptic survival. Infrastructure is better preserved, but what's living inside it is worse.</div></div>
+                <div data-detail="27" class="roadmap-detail"><div class="roadmap-detail-title">Map: Russia</div><div class="roadmap-detail-status">→ Planned</div><div class="roadmap-detail-body">Moscow's metro - the deepest in the world - becomes the ultimate underground base location. Soviet-era bunkers stretch for kilometres. Cold is a constant threat above ground. Resources scarce but underground infrastructure is unmatched. The Russian underground offers the most ambitious base-building opportunities in the game.</div></div>
+                <div data-detail="28" class="roadmap-detail"><div class="roadmap-detail-title">Map: Australia</div><div class="roadmap-detail-status">→ Planned</div><div class="roadmap-detail-body">The outback survived better than anywhere. Wide open spaces, mining tunnels that go deep, danger visible from miles away - but you can't outrun it. Extreme heat as a survival mechanic, mining networks as base locations, and everything here was already trying to kill you before the war.</div></div>
+                <div data-detail="29" class="roadmap-detail"><div class="roadmap-detail-title">Map: Brazil</div><div class="roadmap-detail-status">→ Planned</div><div class="roadmap-detail-body">Dense jungle has swallowed the cities whole. Favelas stacked vertically - perfect for vertical base-building. Amazon underground river systems create unique environments unlike anywhere else. Lush, dangerous, teeming with mutated life. The most visually different map - jungle survival, river navigation, and building down instead of out.</div></div>
+                <div data-detail="30" class="roadmap-detail"><div class="roadmap-detail-title">Full Release - AIRLOCK 1.0</div><div class="roadmap-detail-status">→ The Vision Realised</div><div class="roadmap-detail-body">All maps. All systems. Full narrative. Complete economy. The underground metro connects every airlock on every map. The game Henry has carried in his head for over a decade, fully realised. A survival base-builder where you don't just survive - you rebuild. You trade. You explore. You discover the truth about what happened 300 years ago. Your way, in your airlock, in your corner of a broken world.</div></div>
+                <div data-detail="31" class="roadmap-detail"><div class="roadmap-detail-title">The Dream - Multiplayer</div><div class="roadmap-detail-status">→ Long-Term Vision</div><div class="roadmap-detail-body">The ultimate dream. Your airlock. Your friend's airlock. Connected. Trading between real players. Visiting each other's bases. Cooperative surface runs. Rival factions competing for the best locations. A monumental engineering challenge - but with the right team and funding, not impossible. This is the horizon. Everything else on this roadmap is the road that leads here.</div></div>
             </div>
+        </div>
+    </section>
+
+    <!-- MEDIA SECTION -->
+    <section id="media">
+        <h2 class="section-title fade-in">Media</h2>
+
+        <!-- Filter tabs -->
+        <div class="media-tabs fade-in">
+            <button class="media-tab active" data-filter="all">All</button>
+            <button class="media-tab" data-filter="gif">GIFs</button>
+            <button class="media-tab" data-filter="screenshot">Screenshots</button>
+        </div>
+
+        <div class="media-grid" id="media-grid">
+            <!-- GIFs -->
+            <div class="media-item fade-in" data-type="gif" data-src="Airlock_BuildYourBase.gif" data-label="Build Your Base">
+                <img class="gif-img" src="Airlock_BuildYourBase.gif" alt="Build Your Base" loading="lazy">
+                <div class="media-item-label">Build Your Base</div>
+            </div>
+            <div class="media-item fade-in" data-type="gif" data-src="Airlock_ExploreYourBase.gif" data-label="Explore Your Base">
+                <img class="gif-img" src="Airlock_ExploreYourBase.gif" alt="Explore Your Base" loading="lazy">
+                <div class="media-item-label">Explore Your Base</div>
+            </div>
+            <div class="media-item fade-in" data-type="gif" data-src="Airlock_UpgradeYourBase.gif" data-label="Upgrade Your Base">
+                <img class="gif-img" src="Airlock_UpgradeYourBase.gif" alt="Upgrade Your Base" loading="lazy">
+                <div class="media-item-label">Upgrade Your Base</div>
+            </div>
+            <div class="media-item fade-in" data-type="gif" data-src="Airlock_Explore.gif" data-label="Explore the Surface">
+                <img class="gif-img" src="Airlock_Explore.gif" alt="Explore the Surface" loading="lazy">
+                <div class="media-item-label">Explore the Surface</div>
+            </div>
+            <div class="media-item fade-in" data-type="gif" data-src="Airlock_SurviveUnderground.gif" data-label="Survive Underground">
+                <img class="gif-img" src="Airlock_SurviveUnderground.gif" alt="Survive Underground" loading="lazy">
+                <div class="media-item-label">Survive Underground</div>
+            </div>
+            <div class="media-item fade-in" data-type="gif" data-src="Airlock_AlteredHorde.gif" data-label="The Altered - Horde">
+                <img class="gif-img" src="Airlock_AlteredHorde.gif" alt="The Altered - Horde" loading="lazy">
+                <div class="media-item-label">The Altered - Horde</div>
+            </div>
+            <div class="media-item fade-in" data-type="gif" data-src="Airlock_FightHordes.gif" data-label="Fight Hordes">
+                <img class="gif-img" src="Airlock_FightHordes.gif" alt="Fight Hordes" loading="lazy">
+                <div class="media-item-label">Fight Hordes</div>
+            </div>
+            <div class="media-item fade-in" data-type="gif" data-src="Airlock_RunAway.gif" data-label="Run Away">
+                <img class="gif-img" src="Airlock_RunAway.gif" alt="Run Away" loading="lazy">
+                <div class="media-item-label">Run Away</div>
+            </div>
+            <div class="media-item fade-in" data-type="gif" data-src="Airlock_SearchAnything.gif" data-label="Search Anything">
+                <img class="gif-img" src="Airlock_SearchAnything.gif" alt="Search Anything" loading="lazy">
+                <div class="media-item-label">Search Anything</div>
+            </div>
+            <!-- Screenshots -->
+            <div class="media-item fade-in" data-type="screenshot" data-src="screenshots/airlock_screenshot_01.jpg" data-label="Military Compound">
+                <img src="screenshots/airlock_screenshot_01.jpg" alt="Military Compound" loading="lazy">
+                <div class="media-item-label">Military Compound</div>
+            </div>
+            <div class="media-item fade-in" data-type="screenshot" data-src="screenshots/airlock_screenshot_02.jpg" data-label="Character">
+                <img src="screenshots/airlock_screenshot_02.jpg" alt="Character" loading="lazy">
+                <div class="media-item-label">Character</div>
+            </div>
+            <div class="media-item fade-in" data-type="screenshot" data-src="screenshots/airlock_screenshot_03.jpg" data-label="Grid System">
+                <img src="screenshots/airlock_screenshot_03.jpg" alt="Grid System" loading="lazy">
+                <div class="media-item-label">Grid System</div>
+            </div>
+            <div class="media-item fade-in" data-type="screenshot" data-src="screenshots/airlock_screenshot_04.jpg" data-label="HUD">
+                <img src="screenshots/airlock_screenshot_04.jpg" alt="HUD" loading="lazy">
+                <div class="media-item-label">HUD</div>
+            </div>
+            <div class="media-item fade-in" data-type="screenshot" data-src="screenshots/airlock_screenshot_05.jpg" data-label="Combat">
+                <img src="screenshots/airlock_screenshot_05.jpg" alt="Combat" loading="lazy">
+                <div class="media-item-label">Combat</div>
+            </div>
+            <div class="media-item fade-in" data-type="screenshot" data-src="screenshots/airlock_screenshot_6.jpg" data-label="Module System">
+                <img src="screenshots/airlock_screenshot_6.jpg" alt="Module System" loading="lazy">
+                <div class="media-item-label">Module System</div>
+            </div>
+            <div class="media-item fade-in" data-type="screenshot" data-src="screenshots/airlock_screenshot_07.jpg" data-label="Horde">
+                <img src="screenshots/airlock_screenshot_07.jpg" alt="Horde" loading="lazy">
+                <div class="media-item-label">Horde</div>
+            </div>
+            <div class="media-item fade-in" data-type="screenshot" data-src="screenshots/airlock_screenshot_08.jpg" data-label="Loot">
+                <img src="screenshots/airlock_screenshot_08.jpg" alt="Loot" loading="lazy">
+                <div class="media-item-label">Loot</div>
+            </div>
+            <div class="media-item fade-in" data-type="screenshot" data-src="screenshots/4_mainmenu.png" data-label="Main Menu UI">
+                <img src="screenshots/4_mainmenu.png" alt="Main Menu UI" loading="lazy">
+                <div class="media-item-label">Main Menu UI</div>
+            </div>
+            <div class="media-item fade-in" data-type="screenshot" data-src="screenshots/Marv.jpg" data-label="Marv - Companion">
+                <img src="screenshots/Marv.jpg" alt="Marv the companion dog" loading="lazy">
+                <div class="media-item-label">Marv - Companion</div>
+            </div>
+            <div class="media-item fade-in" data-type="screenshot" data-src="screenshots/airlock_screenshot_marv.jpg" data-label="Companion V1">
+                <img src="screenshots/airlock_screenshot_marv.jpg" alt="Companion V1" loading="lazy">
+                <div class="media-item-label">Companion V1</div>
+            </div>
+        </div>
+
+        <!-- Lightbox -->
+        <div class="media-lightbox" id="media-lightbox">
+            <button class="media-lightbox-close" id="lb-close">[ CLOSE ]</button>
+            <button class="media-lightbox-nav media-lightbox-prev" id="lb-prev">&#8249;</button>
+            <img id="lb-img" src="" alt="">
+            <div class="media-lightbox-label" id="lb-label"></div>
+            <button class="media-lightbox-nav media-lightbox-next" id="lb-next">&#8250;</button>
         </div>
     </section>
 
     <!-- DEV DIARY SECTION -->
     <section id="devdiary">
         <h2 class="section-title fade-in">Dev Diary</h2>
-        <p class="support-text fade-in" style="margin-bottom: 2rem; max-width: 700px;">Follow the development of AIRLOCK from the very beginning. Every win, every setback, every breakthrough — documented honestly.</p>
-        <div class="videos-grid">
-            <div class="video-container fade-in">
-                <iframe src="https://www.youtube.com/embed/J-m2STKvmeA" title="AIRLOCK Dev Diary" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-            </div>
-            <div class="video-container fade-in">
-                <iframe src="https://www.youtube.com/embed/videoseries?list=PLhoasRCxOlRP3OM8u7_KstvISsC55Sjyj" title="AIRLOCK Dev Diary Playlist" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-            </div>
-            <div class="video-container fade-in">
-                <div class="video-placeholder">More dev diaries coming soon — subscribe to be notified</div>
-            </div>
-        </div>
+        <p class="support-text fade-in" style="margin-bottom: 2rem;">Follow the development of AIRLOCK from the very beginning. Every win, every setback, every breakthrough - documented honestly.</p>
+        <div id="videos-grid" class="videos-grid"></div>
         <div class="diary-entries">
             <div class="diary-entry fade-in">
+                <div class="diary-date">14 April 2026</div>
+                <div class="diary-content">Website visual overhaul complete. The site has been fully redesigned to match AIRLOCK's in-game UI aesthetic - dark warm palette, cream and bone-white text, amber accents, torn/damaged edges on panels. All blues are gone. Buttons now look like aged parchment, matching the in-game module UI exactly. All 8 dev diary videos embedded. The website finally feels like the game.</div>
+            </div>
+            <div class="diary-entry fade-in">
+                <div class="diary-date">13 April 2026</div>
+                <div class="diary-content">Major codebase refactor complete: DT_Modules is now the single source of truth for all module data. Previously, every Blueprint had its own duplicate display name, description, tier stats, power draw, morale bonus and build time - now all of that lives in the Data Table. The UI panels (Selected, Upgrade, Compare) now pull directly from DT_Modules first, falling back to Blueprint properties only if no DT entry exists. Cleaner, faster, and far easier to balance.</div>
+            </div>
+            <div class="diary-entry fade-in">
+                <div class="diary-date">13 April 2026</div>
+                <div class="diary-content">Save/load tier persistence bug fixed. Modules were always spawning at tier 0 on load, regardless of what tier they were at when saved. Root cause: relying on UE's SaveGame property specifier, which has no effect in AIRLOCK's manual struct-based save system. Fixed by adding CurrentTier to the FPlacedModuleSaveData struct, capturing it from the live actor at save time, and restoring it via SetTier() on load. Tiers now survive a full save/load cycle correctly.</div>
+            </div>
+            <div class="diary-entry fade-in">
+                <div class="diary-date">13 April 2026</div>
+                <div class="diary-content">Diversion VCS crisis averted. Accidentally submitted changes to a review draft instead of committing directly - the workspace reverted to commit 10 and all recent changes appeared lost. Tracked down the draft review on app.diversion.dev, found it had already auto-merged as dv.commit.12, created a LatestFixes branch from that commit, then merged it back into main (now at dv.commit.13). All 329 changed files restored. Nothing lost.</div>
+            </div>
+            <div class="diary-entry fade-in">
                 <div class="diary-date">9 April 2026</div>
-                <div class="diary-content">Website launch — theairlock.co.uk goes live. Domain secured. Kickstarter campaign planning underway. Community Discord open.</div>
+                <div class="diary-content">Website goes live at theairlock.co.uk! Built from scratch - single-page HTML with particle effects, interactive 27-phase roadmap, dev diary section, and embedded music player. Hosted on Cloudflare Pages via GitHub. Domain connected. The game finally has a home on the internet.</div>
+            </div>
+            <div class="diary-entry fade-in">
+                <div class="diary-date">9 April 2026</div>
+                <div class="diary-content">MetaHuman character (MH_Adrien) successfully assembled in UE5 after fixing a Derived Data Cache issue that was eating 256GB of disk space. Redirected DDC to D: drive. Next step: retarget ALS animations onto the MetaHuman skeleton and swap out the placeholder character.</div>
+            </div>
+            <div class="diary-entry fade-in">
+                <div class="diary-date">9 April 2026</div>
+                <div class="diary-content">Full development roadmap finalised - 27 phases from prototype to multiplayer. Four stages: Building the Demo (12 phases, 7 complete), Funding &amp; Launch (Kickstarter → Early Access → Narrative), Expanding the World (Customisation → Trading → Multi-Base → Metro), and Global Maps (UK, Japan, USA, Germany, Russia, Australia, Brazil → Full Release).</div>
             </div>
             <div class="diary-entry fade-in">
                 <div class="diary-date">4 April 2026</div>
-                <div class="diary-content">UE5 project settings locked. Async level streaming working. Demo roadmap created — 56 tasks across 8 sprints.</div>
+                <div class="diary-content">UE5 project settings locked. Async level streaming working. Demo roadmap created - 56 tasks across 8 sprints.</div>
             </div>
             <div class="diary-entry fade-in">
                 <div class="diary-date">3 April 2026</div>
-                <div class="diary-content">Surface world pipeline working end-to-end — massive ruined city environment now loading as a playable level. Module system expanded to 14 categories. Full 60-minute demo gameplay loop documented.</div>
+                <div class="diary-content">Surface world pipeline working end-to-end - massive ruined city environment now loading as a playable level. Module system expanded to 14 categories. Full 60-minute demo gameplay loop documented.</div>
             </div>
         </div>
     </section>
@@ -1624,28 +2008,28 @@
         <h2 class="section-title fade-in">Join My Journey</h2>
         <div class="support-content">
             <p class="support-text fade-in">
-                I'm Henry. I've spent over a decade as a professional <strong>Environment Artist</strong> in the games industry — at studios like <strong>Rebellion, nDreams, Offworld Industries,</strong> and <strong>Ubisoft</strong>. I've shipped AAA and indie titles. I know how games get made, because I've been making them for years.
+                I'm Henry. I've spent over a decade as a professional <strong>Environment Artist and Art Lead</strong> in the games industry, working at studios including <strong>Rebellion, nDreams, Offworld Industries,</strong> and <strong>Ubisoft</strong>. I've helped ship AAA and indie titles. I know exactly what it takes to bring a game from concept to completion, because I've been doing it my entire career.
             </p>
             <p class="support-text fade-in">
-                But I've always wanted to make my own. Not someone else's vision — mine. A game that combines everything I love: deep base-building, survival tension, real characters with real consequences, and a story that actually means something. I've been carrying AIRLOCK around in my head for years. Every game I worked on at every studio taught me something I'm now putting into this.
+                But throughout all of it, I've carried one ambition: to build something of my own. Not someone else's vision. Mine. A game that pulls together everything I love about the medium: deep base-building, survival tension, real characters, and a story with genuine emotional weight. AIRLOCK has lived in my head for years. Every studio, every shipped title, every hard lesson has shaped what it's becoming.
             </p>
             <p class="support-text fade-in">
-                I'm not going to pretend this is my first attempt. I've tried Kickstarter before — twice — and both times it didn't work out. I wasn't ready. The games weren't ready. I didn't have enough to show, and I was asking people to believe in something they couldn't see.
+                I won't pretend this is my first attempt at crowdfunding. I've tried Kickstarter before, and those projects failed. Looking back, they deserved to. The ideas weren't developed enough, the games weren't far enough along, and I was asking people to believe in something that wasn't yet real. I wasn't ready.
             </p>
             <p class="support-text fade-in">
-                <strong>This time is different.</strong> AIRLOCK has a working prototype built in Unreal Engine 5. A grid-based build system written in C++. Module placement, save/load, a full UI prototype. A game design document deeper than most studios' internal docs. A registered company — <strong>Ironbridge Games LTD</strong>. And a vision I've been refining for over a decade.
+                <strong>This time is different.</strong> AIRLOCK already has a working prototype built in Unreal Engine 5: a C++ grid-based building system, functional module placement, save and load, a full UI prototype, detailed design documentation, and a registered studio under <strong>Ironbridge Games LTD</strong>. This is no longer just an idea. It's an active, playable project with real momentum behind it.
             </p>
             <p class="support-text fade-in">
-                I have a wife and six kids. I have a day job. Every hour I spend on AIRLOCK is stolen from sleep, weekends, and early mornings. I want to quit my job and build this game full-time — not because it's a pipe dream, but because I know I can do this. I've built environments for games played by millions. Now I want to build one of my own.
+                I have a wife and six kids. I have a day job. Every hour spent on AIRLOCK comes from late nights, early mornings, and sacrificed weekends. I want to dedicate myself to this full-time, not because it's a fantasy, but because I genuinely believe I have the experience, the skillset, and the vision to make it happen.
             </p>
             <p class="support-text fade-in">
-                <strong>The plan is simple:</strong> Kickstarter funds the development. The moment I have a working demo, it goes on <strong>Steam Early Access</strong> — so you can play it, break it, give feedback, and help shape the game while I build it. This isn't a closed-door project. I want the community in the room from day one. Your feedback will directly influence what gets built next.
+                <strong>The goal is straightforward:</strong> Kickstarter funds the development. Once the demo is ready, it goes onto <strong>Steam Early Access</strong> so you can play it, break it, give feedback, and help shape what gets built next. This isn't a closed-door project. I want AIRLOCK developed alongside the people who believe in it, through dev diaries, Discord, and honest progress every step of the way.
             </p>
             <p class="support-text fade-in">
-                Every backer, every follower, every person who joins the Discord and says "I want to see this happen" — that's fuel. That's what keeps me going at 2am after the kids are asleep.
+                Every backer, every follower, every person who joins and says "I want to see this happen" pushes it one step closer to reality. That's what keeps me going at 2am after the kids are asleep.
             </p>
             <p class="support-text fade-in">
-                <strong>Back the project. Follow the dev diaries. Join the community. Help me make the best game I can.</strong>
+                <strong>Back the project. Follow the dev diaries. Join the community. Help me build the best game I can.</strong>
             </p>
             <div class="cta-buttons fade-in">
                 <a href="#" class="cta-button">Back on Kickstarter</a>
@@ -1679,9 +2063,10 @@
         </div>
     </footer>
 
+    <script src="videos.js"></script>
     <!-- SCRIPTS -->
     <script>
-        // ROADMAP TOGGLE — new version: detail appears under its own row
+        // ROADMAP TOGGLE - detail appears under its own row
         let activeNode = null;
         function toggleRoadmap(clickedNode) {
             const phase = clickedNode.getAttribute('data-phase');
@@ -1776,7 +2161,7 @@
             observer.observe(el);
         });
 
-        // PARTICLE EFFECTS - DUST
+        // PARTICLE EFFECTS - DUST (bone white/cream motes rising)
         (function() {
             const canvas = document.getElementById('hero-dust');
             const ctx = canvas.getContext('2d');
@@ -1801,7 +2186,7 @@
                     r: rand(0.6, 2.4),
                     speed: rand(0.25, 1.15),
                     drift: rand(-0.18, 0.18),
-                    alpha: rand(0.08, 0.55),
+                    alpha: rand(0.04, 0.28),
                     wobble: rand(0, Math.PI * 2),
                     wobbleSpeed: rand(0.005, 0.022)
                 };
@@ -1820,7 +2205,8 @@
                     if (p.y < -10) Object.assign(p, spawn(true));
                     ctx.beginPath();
                     ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(200,195,185,${p.alpha})`;
+                    // Muted dark dust - warm brown-grey, low opacity
+                    ctx.fillStyle = `rgba(88,80,68,${p.alpha})`;
                     ctx.fill();
                 }
                 requestAnimationFrame(tick);
@@ -1828,7 +2214,7 @@
             tick();
         })();
 
-        // PARTICLE EFFECTS - BLUE SMOKE (multi-lobe, breathing, radial gradients)
+        // PARTICLE EFFECTS - SMOKE (warm brown/amber smoke, no blues)
         (function() {
             const canvas = document.getElementById('hero-smoke');
             const ctx = canvas.getContext('2d');
@@ -1872,10 +2258,11 @@
                     radius: rand(10, 35),
                     speed: rand(0.15, 0.45),
                     drift: rand(-0.3, 0.3),
-                    r: Math.floor(rand(75, 105)),
-                    g: Math.floor(rand(90, 115)),
-                    b: Math.floor(rand(95, 120)),
-                    alpha: rand(0.04, 0.12),
+                    // Warm brown/amber smoke tones - no blues
+                    r: Math.floor(rand(95, 135)),
+                    g: Math.floor(rand(72, 100)),
+                    b: Math.floor(rand(48, 72)),
+                    alpha: rand(0.04, 0.11),
                     grow: rand(0.25, 0.7),
                     wobble: rand(0, Math.PI * 2),
                     wobbleSpeed: rand(0.002, 0.008),
@@ -1932,7 +2319,7 @@
             tick();
         })();
 
-        // PARTICLE EFFECTS - AMBER
+        // PARTICLE EFFECTS - AMBER EMBERS
         (function() {
             const canvas = document.getElementById('hero-amber');
             const ctx = canvas.getContext('2d');
@@ -1957,7 +2344,7 @@
                     r: rand(1, 3),
                     speed: rand(0.2, 0.8),
                     drift: rand(-0.1, 0.1),
-                    alpha: rand(0.4, 0.8),
+                    alpha: rand(0.05, 0.25),
                     wobble: rand(0, Math.PI * 2),
                     wobbleSpeed: rand(0.01, 0.03),
                     glow: rand(4, 10)
@@ -1978,15 +2365,15 @@
 
                     // Glow
                     const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.glow);
-                    gradient.addColorStop(0, `rgba(204,112,16,${p.alpha * 0.6})`);
-                    gradient.addColorStop(1, `rgba(204,112,16,0)`);
+                    gradient.addColorStop(0, `rgba(88,80,68,${p.alpha * 0.4})`);
+                    gradient.addColorStop(1, `rgba(88,80,68,0)`);
                     ctx.fillStyle = gradient;
                     ctx.beginPath();
                     ctx.arc(p.x, p.y, p.glow, 0, Math.PI * 2);
                     ctx.fill();
 
                     // Core
-                    ctx.fillStyle = `rgba(204,112,16,${p.alpha})`;
+                    ctx.fillStyle = `rgba(88,80,68,${p.alpha})`;
                     ctx.beginPath();
                     ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
                     ctx.fill();
@@ -1994,6 +2381,94 @@
                 requestAnimationFrame(tick);
             }
             tick();
+        })();
+
+        // ── VIDEOS — render from videos.js config ─────────────────────────
+        (function() {
+            const grid = document.getElementById('videos-grid');
+            if (!grid || typeof devDiaryVideos === 'undefined') return;
+            devDiaryVideos.forEach(function(v) {
+                grid.innerHTML += `
+                    <div class="video-container fade-in">
+                        <div class="video-label">${v.title}</div>
+                        <iframe src="https://www.youtube.com/embed/${v.id}"
+                            title="AIRLOCK ${v.title}"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen></iframe>
+                    </div>`;
+            });
+        })();
+
+        // ── MEDIA TABS ────────────────────────────────────────────────────
+        (function() {
+            const tabs   = document.querySelectorAll('.media-tab');
+            const items  = document.querySelectorAll('#media-grid .media-item');
+
+            tabs.forEach(function(tab) {
+                tab.addEventListener('click', function() {
+                    const filter = tab.getAttribute('data-filter');
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    items.forEach(function(item) {
+                        const type = item.getAttribute('data-type');
+                        item.style.display = (filter === 'all' || filter === type) ? '' : 'none';
+                    });
+                });
+            });
+        })();
+
+        // ── MEDIA LIGHTBOX ────────────────────────────────────────────────
+        (function() {
+            const lightbox  = document.getElementById('media-lightbox');
+            const lbImg     = document.getElementById('lb-img');
+            const lbLabel   = document.getElementById('lb-label');
+            const lbClose   = document.getElementById('lb-close');
+            const lbPrev    = document.getElementById('lb-prev');
+            const lbNext    = document.getElementById('lb-next');
+            let visible = [];
+            let current = 0;
+
+            function getVisible() {
+                return Array.from(document.querySelectorAll('#media-grid .media-item'))
+                    .filter(el => el.style.display !== 'none');
+            }
+
+            function openLightbox(items, index) {
+                visible = items;
+                current = index;
+                lbImg.src   = visible[current].getAttribute('data-src');
+                lbLabel.textContent = visible[current].getAttribute('data-label');
+                lightbox.classList.add('open');
+            }
+
+            function closeLightbox() { lightbox.classList.remove('open'); lbImg.src = ''; }
+
+            function nav(dir) {
+                current = (current + dir + visible.length) % visible.length;
+                lbImg.src   = visible[current].getAttribute('data-src');
+                lbLabel.textContent = visible[current].getAttribute('data-label');
+            }
+
+            document.getElementById('media-grid').addEventListener('click', function(e) {
+                const item = e.target.closest('.media-item');
+                if (!item) return;
+                const items = getVisible();
+                openLightbox(items, items.indexOf(item));
+            });
+
+            lbClose.addEventListener('click', closeLightbox);
+            lbPrev.addEventListener('click', () => nav(-1));
+            lbNext.addEventListener('click', () => nav(1));
+            lightbox.addEventListener('click', function(e) {
+                if (e.target === lightbox) closeLightbox();
+            });
+            document.addEventListener('keydown', function(e) {
+                if (!lightbox.classList.contains('open')) return;
+                if (e.key === 'Escape')      closeLightbox();
+                if (e.key === 'ArrowLeft')   nav(-1);
+                if (e.key === 'ArrowRight')  nav(1);
+            });
         })();
     </script>
 </body>
