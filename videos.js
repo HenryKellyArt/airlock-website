@@ -41,6 +41,14 @@ const devDiaryVideos = [
         title: "Dev Diary #7 - My Dog as a Companion",
         id: "yvhs73xOKz0"
     },
+	{
+        title: "Dev Diary #8 - Creating the Mining System",
+        id: "5_p4QZIDfz0"
+    },
+	{
+        title: "Dev Diary #9 - Working UI",
+        id: "jkKNAZXYc6Q"
+    },
     // ── Add new entries below this line ──────────────────────────────────────
     // {
     //     title: "Dev Diary #8 - Your Title Here",
