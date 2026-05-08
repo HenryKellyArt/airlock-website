@@ -3,2745 +3,939 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AIRLOCK - A post-apocalyptic survival base-builder by Ironbridge Games</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <title>AIRLOCK · A post-apocalyptic survival base-builder</title>
+    <meta name="description" content="300 years after the world fell silent. Build your shelter underground, rescue who's left, survive the night. A survival base-builder by Ironbridge Games.">
+    <meta property="og:title" content="AIRLOCK">
+    <meta property="og:description" content="A post-apocalyptic survival base-builder. Coming Soon.">
+    <meta property="og:image" content="airlock_logo_front.png">
+    <meta property="og:type" content="website">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        /* ═══════════════════════════════════════════════════════════════
-           AIRLOCK WEBSITE - REDESIGN v3
-           Palette: Warm near-black + bone white, matches in-game HUD + Zoho form
-           No blues. No teals. No amber. Grounded survival HUD aesthetic.
-        ═══════════════════════════════════════════════════════════════ */
         :root {
-            /* ── Core palette - warm near-black + bone (matches Zoho form) ── */
-            --col-void:          #1a1a18;   /* page background - warm near-black */
-            --col-deep:          #0f0f0d;   /* darker warm black (footer etc) */
-            --col-panel:         #232321;   /* card / panel background */
-            --col-panel-raised:  #3a3a36;   /* slightly lighter panel */
-
-            /* Borders - none by default, only on hover */
-            --col-border:        transparent;
-            --col-border-bright: transparent;
-            --col-border-hover:  #c8c4b4;   /* hover border - bone */
-
-            /* Text */
-            --col-cream:         #c8c4b4;   /* primary text - bone (matches Zoho form border) */
-            --col-bone:          #a8a49a;   /* secondary text */
-            --col-parchment:     #7a7770;   /* muted / label text */
-            --col-dim:           #4a4944;   /* very muted */
-
-            /* Accent - neutral bone, no orange */
-            --col-amber:         #c8c4b4;   /* matches primary text - legacy var name */
-            --col-amber-hot:     #e8e4d8;   /* brighter bone */
-            --col-amber-dim:     #5a5954;   /* dim grey */
-            --col-amber-glow:    rgba(200,196,180,0.12);
-            --col-amber-glow-lg: rgba(200,196,180,0.22);
-
-            /* Buttons */
-            --col-btn-bg:        #3a3a36;
-            --col-btn-text:      #c8c4b4;
-            --col-btn-hover:     #4a4944;
-
-            /* Fonts */
-            --font-display: 'Bebas Neue', sans-serif;
-            --font-mono:    'Share Tech Mono', monospace;
+            --black: #050505;
+            --bg: #0A0A0A;
+            --bg-2: #141414;
+            --bone: #ECE6D6;
+            --bone-dim: rgba(236, 230, 214, 0.7);
+            --bone-faint: rgba(236, 230, 214, 0.18);
+            --accent: #D4A046;
+            --accent-bright: #E8B86C;
+            --crit: #C8463A;
+            --green: #6FB85C;
+            --classified: #8B2A2A;
         }
 
-        *, *::before, *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
 
         body {
-            font-family: var(--font-mono);
-            color: var(--col-cream);
-            background-color: var(--col-void);
-            line-height: 1.7;
+            background: var(--black);
+            color: var(--bone);
+            font-family: 'Inter', system-ui, sans-serif;
+            font-size: 17px;
+            line-height: 1.65;
+            min-height: 100vh;
             overflow-x: hidden;
         }
 
-        /* Subtle grain overlay across the whole page for that aged/worn feel */
+        /* Subtle grain overlay */
         body::before {
             content: '';
             position: fixed;
             inset: 0;
             pointer-events: none;
-            z-index: 9999;
-            opacity: 0.025;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+            opacity: 0.04;
+            mix-blend-mode: overlay;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            z-index: 200;
         }
 
-        /* ── SCROLLBAR ─────────────────────────────────────────────── */
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: var(--col-void); }
-        ::-webkit-scrollbar-thumb { background: var(--col-amber-dim); border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--col-amber); }
+        /* Drifting dust particles */
+        .dust {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 198;
+            overflow: hidden;
+        }
 
-        /* ── NAVIGATION ────────────────────────────────────────────── */
+        .dust-particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(236, 230, 214, 0.5);
+            border-radius: 50%;
+            box-shadow: 0 0 4px rgba(236, 230, 214, 0.4);
+            animation: drift 18s linear infinite;
+        }
+
+        @keyframes drift {
+            0% { transform: translate(0, 100vh) scale(0); opacity: 0; }
+            10% { opacity: 0.7; transform: translate(0, 90vh) scale(1); }
+            90% { opacity: 0.5; }
+            100% { transform: translate(60px, -10vh) scale(0.8); opacity: 0; }
+        }
+
+        /* === NAV === */
         nav {
             position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 1000;
-            background: rgba(42,39,33,0.97);
-            border-bottom: 1px solid rgba(200,196,180,0.15);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
-
-        .nav-container {
-            max-width: 100%;
-            margin: 0 auto;
-            padding: 0.9rem 4%;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 95;
+            padding: 1.5rem 4%;
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            align-items: center;
+            background: linear-gradient(to bottom, rgba(5, 5, 5, 0.7), rgba(5, 5, 5, 0));
+            transition: all 0.4s ease;
+            backdrop-filter: blur(2px);
         }
 
-        .nav-logo {
-            display: flex;
-            align-items: center;
+        nav.scrolled {
+            background: rgba(5, 5, 5, 0.95);
+            padding: 0.9rem 4%;
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--bone-faint);
         }
 
         .nav-logo img {
-            height: 26px;
-            opacity: 0.9;
-            filter: brightness(1.1) sepia(0.3);
-            transition: opacity 0.3s ease, filter 0.3s ease;
+            height: 36px;
+            filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.85));
+            transition: transform 0.2s;
         }
 
-        .nav-logo:hover img {
-            opacity: 1;
-            filter: brightness(1.2) sepia(0.1);
-        }
+        .nav-logo:hover img { transform: scale(1.04); }
 
         .nav-links {
             display: flex;
-            gap: 2.2rem;
+            gap: 2.5rem;
             list-style: none;
         }
 
         .nav-links a {
-            color: var(--col-bone);
+            color: var(--bone);
             text-decoration: none;
-            font-size: 0.72rem;
-            letter-spacing: 0.14em;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1rem;
+            letter-spacing: 0.3em;
             text-transform: uppercase;
-            transition: color 0.2s ease;
+            transition: color 0.2s;
             position: relative;
         }
 
         .nav-links a::after {
             content: '';
             position: absolute;
-            bottom: -3px; left: 0;
-            width: 0; height: 1px;
-            background: var(--col-amber);
-            transition: width 0.25s ease;
+            bottom: -6px;
+            left: 50%;
+            right: 50%;
+            height: 1px;
+            background: var(--accent);
+            transition: left 0.25s, right 0.25s;
         }
 
-        .nav-links a:hover { color: var(--col-amber); }
-        .nav-links a:hover::after { width: 100%; }
+        .nav-links a:hover { color: var(--accent); }
+        .nav-links a:hover::after { left: 0; right: 0; }
 
-        /* Active section highlight - set by scroll-spy JS */
         .nav-links a.active {
-            color: var(--col-cream);
-            font-weight: 700;
-            letter-spacing: 0.16em;
-        }
-        .nav-links a.active::after { width: 100%; }
-
-        .nav-controls {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
+            color: var(--accent);
         }
 
-        .music-controls {
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .nav-links a.active::after {
+            left: 0; right: 0;
         }
 
-        .music-toggle {
-            background: none;
-            border: 1px solid rgba(178,179,178,0.3);
-            color: var(--col-parchment);
-            padding: 0.4rem 0.85rem;
-            cursor: pointer;
-            font-family: var(--font-mono);
-            font-size: 0.68rem;
-            letter-spacing: 0.12em;
+        .nav-cta {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1rem;
+            letter-spacing: 0.3em;
             text-transform: uppercase;
-            transition: all 0.25s ease;
-            white-space: nowrap;
+            color: var(--black);
+            background: var(--bone);
+            padding: 0.6rem 1.6rem;
+            text-decoration: none;
+            transition: all 0.2s;
         }
 
-        .music-toggle:hover {
-            border-color: var(--col-amber);
-            color: var(--col-amber);
+        .nav-cta:hover {
+            background: var(--accent);
+            color: var(--black);
+            transform: translateY(-2px);
         }
 
-        .music-toggle.playing {
-            border-color: var(--col-amber);
-            color: var(--col-amber);
-        }
-
-        .vol-slider {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 72px;
-            height: 3px;
-            background: linear-gradient(to right, var(--col-amber) var(--vol, 65%), var(--col-border-bright) var(--vol, 65%));
-            outline: none;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            cursor: pointer;
-        }
-
-        .vol-slider.visible {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .vol-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 10px; height: 10px;
-            border-radius: 50%;
-            background: var(--col-amber);
-            cursor: pointer;
-        }
-
-        .menu-toggle {
+        /* Mobile menu toggle */
+        .nav-toggle {
             display: none;
             background: none;
-            border: 1px solid rgba(178,179,178,0.3);
-            color: var(--col-cream);
-            font-size: 1.1rem;
-            padding: 0.35rem 0.65rem;
+            border: none;
+            color: var(--bone);
+            font-size: 1.5rem;
             cursor: pointer;
+            padding: 0;
         }
 
-        /* ── HERO SECTION ──────────────────────────────────────────── */
-        .hero {
+        /* === CHAPTER (full-bleed scroll) === */
+        .chapter {
+            min-height: 100vh;
+            display: flex;
             position: relative;
-            height: 100vh;
-            min-height: 580px;
+            overflow: hidden;
+        }
+
+        .chapter-bg {
+            position: absolute;
+            inset: 0;
+            background-position: center;
+            background-size: cover;
+            transition: transform 1.8s ease;
+            z-index: 0;
+        }
+
+        .chapter:hover .chapter-bg { transform: scale(1.03); }
+
+        .chapter-vignette {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, transparent 30%, rgba(0, 0, 0, 0.85) 100%);
+            z-index: 1;
+        }
+
+        .chapter-content {
+            position: relative;
+            z-index: 2;
+            padding: 8rem 6% 4rem;
             display: flex;
             flex-direction: column;
+            justify-content: flex-end;
+            width: 100%;
+        }
+
+        .chapter-content.center {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .chapter-content.right {
+            align-items: flex-end;
+            text-align: right;
+        }
+
+        .chapter-meta {
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 0.78rem;
+            color: var(--bone);
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            margin-bottom: 1.2rem;
+            opacity: 0.85;
+        }
+
+        .chapter-meta span { color: var(--accent); }
+
+        h2.chapter-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(3.5rem, 8vw, 7rem);
+            letter-spacing: 0.04em;
+            line-height: 0.95;
+            color: var(--bone);
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            text-shadow: 0 6px 30px rgba(0, 0, 0, 0.7);
+        }
+
+        .chapter-body {
+            font-family: 'Crimson Pro', serif;
+            font-style: italic;
+            font-size: 1.3rem;
+            color: var(--bone);
+            max-width: 580px;
+            line-height: 1.5;
+            text-shadow: 0 2px 14px rgba(0, 0, 0, 0.85);
+            margin-bottom: 2rem;
+        }
+
+        .chapter-content.center .chapter-body { margin-left: auto; margin-right: auto; }
+
+        /* === HERO === */
+        .hero {
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
-            background: var(--col-void);
+            background: var(--black);
         }
 
         .hero-bg {
             position: absolute;
-            inset: 0;
-            background-image: url('city_bg_airlockPressAnyKey.jpg');
-            background-size: cover;
-            background-position: center center;
-            opacity: 0.55;
+            inset: -10%;
+            background: url('screenshots/airlock_world_01.jpg') center/cover;
+            filter: contrast(1.05) saturate(1.05);
+            opacity: 0.65;
             z-index: 0;
+            transition: transform 0.1s linear;
+            will-change: transform;
         }
 
-        /* Vignette overlay */
-        .hero::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(ellipse at center, transparent 30%, rgba(9,8,11,0.75) 100%);
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        /* Bottom fade into page */
         .hero::after {
             content: '';
             position: absolute;
-            bottom: 0; left: 0; right: 0;
-            height: 160px;
-            background: linear-gradient(to bottom, transparent, var(--col-void));
-            z-index: 3;
-            pointer-events: none;
-        }
-
-        .hero-canvas {
-            position: absolute;
             inset: 0;
-            width: 100%; height: 100%;
-            z-index: 2;
-            pointer-events: none;
-        }
-
-        .hero-logo {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center center;
-            z-index: 4;
-            opacity: 0.9;
+            background:
+                radial-gradient(ellipse at center, transparent 25%, rgba(0, 0, 0, 0.6) 80%),
+                linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.5) 100%);
+            z-index: 1;
         }
 
         .hero-content {
-            position: absolute;
-            top: 62%;
-            left: 0; right: 0;
-            z-index: 5;
-            text-align: center;
-        }
-
-        .hero-tagline {
-            font-family: var(--font-mono);
-            font-size: 0.82rem;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            color: var(--col-bone);
-            padding: 0 2rem;
-        }
-
-        .hero-footer {
-            position: absolute;
-            bottom: 3rem;
-            z-index: 4;
-            opacity: 0.5;
-            filter: sepia(0.4) brightness(0.9);
-            transition: opacity 0.3s;
-        }
-
-        .hero-footer:hover { opacity: 0.75; }
-
-        .hero-footer img { height: 180px; }
-
-        /* ── SECTION BASE ──────────────────────────────────────────── */
-        section {
-            padding: 6rem 5%;
+            position: relative;
+            z-index: 2;
+            max-width: 2400px;
             width: 100%;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .section-title {
-            font-family: var(--font-display);
-            font-size: 3.2rem;
-            letter-spacing: 0.08em;
-            color: var(--col-cream);
             text-align: center;
-            margin-bottom: 0.4rem;
-        }
-
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 50px;
-            height: 2px;
-            background: var(--col-amber);
-            margin: 0.5rem auto 2.8rem;
-        }
-
-        /* ── FADE-IN ───────────────────────────────────────────────── */
-        .fade-in {
+            padding: 0 4%;
             opacity: 0;
-            transform: translateY(16px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
+            animation: heroFade 1.8s ease 0.4s forwards;
         }
 
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        @keyframes heroFade { to { opacity: 1; } }
 
-        /* ── ABOUT SECTION ─────────────────────────────────────────── */
-        #about {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .about-intro {
-            color: var(--col-bone);
-            font-size: 0.9rem;
-            line-height: 1.85;
-            max-width: 1100px;
-            text-align: center;
-            margin: 0 auto 1rem;
-        }
-
-        .about-intro strong {
-            color: var(--col-cream);
-            letter-spacing: 0.04em;
-        }
-
-        /* Two-column pitch layout */
-        .about-pitch {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            margin: 2rem 0 3rem;
-        }
-
-        .about-pitch-col {}
-
-        .about-pitch-heading {
-            font-family: var(--font-display);
-            font-size: 2rem;
-            letter-spacing: 0.08em;
-            color: var(--col-cream);
-            margin-bottom: 1.4rem;
-            line-height: 1.2;
-            text-align: center;
-        }
-
-        .about-pitch-body {
-            color: var(--col-bone);
-            font-size: 1rem;
-            line-height: 1.9;
-        }
-
-        .about-pitch-body p { margin-bottom: 1.1rem; }
-        .about-pitch-body p:last-child { margin-bottom: 0; }
-        .about-pitch-body strong { color: var(--col-cream); }
-
-        .pillars {
-            width: 100%;
-            max-width: 100%;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.5rem;
-            margin: 2.5rem auto 0;
-        }
-
-        /* Featured card spans 2 of 4 columns */
-        .pillar-featured {
-            grid-column: span 2;
-            display: flex;
-            background: var(--col-panel);
-            border: 1px solid transparent;
-            overflow: hidden;
-            position: relative;
-            transition: border-color 0.2s ease;
-            clip-path: polygon(
-                0% 0%, 100% 0%, 100% calc(100% - 6px),
-                97% 100%, 93% calc(100% - 4px), 88% 100%,
-                84% calc(100% - 6px), 79% 100%, 74% calc(100% - 3px),
-                68% 100%, 62% calc(100% - 5px), 56% 100%,
-                50% calc(100% - 4px), 44% 100%, 38% calc(100% - 6px),
-                32% 100%, 26% calc(100% - 3px), 20% 100%,
-                15% calc(100% - 5px), 9% 100%, 4% calc(100% - 4px),
-                0% 100%
-            );
-        }
-
-        .pillar-featured:hover {
-            border-color: var(--col-border-hover);
-        }
-
-        /* Flipped variant - text left, image right */
-        .pillar-featured--flip {
-            flex-direction: row-reverse;
-        }
-
-        .pillar-featured::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(255,255,255,0.02) 0%, transparent 60%);
-            pointer-events: none;
-        }
-
-        .pillar-featured-img {
-            flex: 0 0 65%;
-            max-width: 65%;
-            overflow: hidden;
-            margin: 0;
-            padding: 0;
-            line-height: 0;
-        }
-
-        .pillar-featured-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            margin: 0;
-            padding: 0;
-            filter: sepia(0.15) contrast(1.05);
-            transition: filter 0.4s ease;
-        }
-
-        .pillar-featured:hover .pillar-featured-img img {
-            filter: sepia(0.05) contrast(1.1) brightness(1.05);
-        }
-
-        .pillar-featured-content {
-            flex: 1;
-            padding: 1.2rem 1.4rem 1.4rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        .pillar-featured-label {
-            font-size: 0.6rem;
-            letter-spacing: 0.22em;
-            color: var(--col-amber);
-            text-transform: uppercase;
-            margin-bottom: 0.5rem;
-        }
-
-        .pillar-featured-title {
-            font-family: var(--font-display);
-            font-size: 2.4rem;
-            letter-spacing: 0.1em;
-            color: var(--col-cream);
-            line-height: 1;
-            margin-bottom: 0.6rem;
-        }
-
-        .pillar-featured-text {
-            color: var(--col-bone);
+        .hero-meta {
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
             font-size: 0.78rem;
-            line-height: 1.75;
-            margin-bottom: 0.6rem;
-        }
-
-        .pillar-featured-text:last-child {
-            margin-bottom: 0;
-        }
-
-        /* Three pillar cards */
-        .pillar-card {
-            background: var(--col-panel);
-            border: 1px solid transparent;
-            padding: 2rem 1.75rem;
-            transition: border-color 0.2s ease, transform 0.2s ease;
-            position: relative;
-        }
-
-        .pillar-card:hover {
-            border-color: var(--col-border-hover);
-            transform: translateY(-2px);
-        }
-
-        .pillar-title {
-            font-family: var(--font-display);
-            font-size: 1.8rem;
-            letter-spacing: 0.1em;
-            color: var(--col-cream);
-            margin-bottom: 0.75rem;
-        }
-
-        .pillar-text {
-            color: var(--col-bone);
-            font-size: 0.8rem;
-            line-height: 1.8;
-        }
-
-        /* ── STORY SECTION ─────────────────────────────────────────── */
-        #story {
-            max-width: 100%;
-            margin-left: auto;
-            margin-right: auto;
-            text-align: center;
-            padding-top: 3rem;
-        }
-
-        .story-text {
-            color: var(--col-bone);
-            font-size: 0.88rem;
-            line-height: 1.9;
-            margin-bottom: 1.4rem;
-            max-width: 1100px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .story-quote {
-            margin: 2.5rem auto;
-            max-width: 1100px;
-            background: var(--col-panel);
-            border: 1px solid transparent;
-            border-left: 3px solid var(--col-border-hover);
-            padding: 1.8rem 2.2rem 1.8rem 2rem;
-            text-align: left;
-            position: relative;
-            /* Torn top edge */
-            clip-path: polygon(
-                0% 4px, 2% 0%, 5% 3px, 9% 0%, 14% 4px, 19% 1px,
-                25% 4px, 32% 0%, 38% 3px, 45% 0%, 52% 4px, 59% 1px,
-                66% 3px, 73% 0%, 80% 4px, 87% 1px, 93% 3px, 97% 0%,
-                100% 3px, 100% 100%, 0% 100%
-            );
-        }
-
-        .story-quote::before {
-            content: '\201C';
-            font-family: var(--font-display);
-            font-size: 7rem;
-            color: var(--col-amber);
-            opacity: 0.12;
-            position: absolute;
-            top: -0.5rem; left: 1rem;
-            line-height: 1;
-            pointer-events: none;
-        }
-
-        .story-quote p {
-            color: var(--col-cream);
-            font-size: 0.88rem;
-            line-height: 1.85;
-            font-style: italic;
-            position: relative;
-            z-index: 1;
-        }
-
-        .attribution {
-            color: var(--col-amber);
-            font-size: 0.68rem;
-            letter-spacing: 0.16em;
-            text-transform: uppercase;
-            margin-top: 0.8rem;
-        }
-
-        /* ── WORLD SECTION ─────────────────────────────────────────── */
-        .world-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-            margin-bottom: 3.5rem;
-        }
-
-        .world-region {
-            background: var(--col-panel);
-            border: 1px solid transparent;
-            padding: 2rem 1.75rem;
-            transition: border-color 0.2s ease;
-        }
-
-        .world-region:hover { border-color: var(--col-border-hover); }
-
-        .world-region h3 {
-            font-family: var(--font-display);
-            font-size: 1.6rem;
-            letter-spacing: 0.1em;
-            color: var(--col-cream);
-            margin-bottom: 0.75rem;
-        }
-
-        .world-region p {
-            color: var(--col-bone);
-            font-size: 0.82rem;
-            line-height: 1.75;
-        }
-
-        .enemies {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-        }
-
-        .enemy-tier {
-            background: var(--col-panel);
-            border: 1px solid transparent;
-            padding: 1.75rem;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            transition: border-color 0.2s ease;
-        }
-
-        .enemy-tier:hover { border-color: var(--col-border-hover); }
-
-        .enemy-name {
-            font-family: var(--font-display);
-            font-size: 1.4rem;
-            letter-spacing: 0.12em;
-            color: var(--col-amber);
-            margin-bottom: 0.6rem;
-        }
-
-        .enemy-desc {
-            color: var(--col-bone);
-            font-size: 0.8rem;
-            line-height: 1.7;
-        }
-
-        /* ── FEATURES SECTION ──────────────────────────────────────── */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.25rem;
-        }
-
-        .feature-card {
-            background: var(--col-panel);
-            border: 1px solid transparent;
-            padding: 1.75rem 1.5rem;
-            transition: border-color 0.2s ease, transform 0.2s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-card:hover {
-            border-color: var(--col-border-hover);
-            transform: translateY(-2px);
-        }
-
-        .feature-icon {
-            display: none;
-            margin-bottom: 0.75rem;
-            filter: sepia(1) saturate(3) hue-rotate(5deg);
-        }
-
-        .feature-title {
-            font-family: var(--font-display);
-            font-size: 1.2rem;
-            letter-spacing: 0.08em;
-            color: var(--col-cream);
-            margin-bottom: 0.5rem;
-        }
-
-        .feature-desc {
-            color: var(--col-bone);
-            font-size: 0.77rem;
-            line-height: 1.65;
-        }
-
-        /* ── ROADMAP ───────────────────────────────────────────────── */
-        #roadmap { max-width: 100%; }
-
-        .roadmap-hint {
-            text-align: center;
-            color: var(--col-parchment);
-            font-size: 0.68rem;
-            letter-spacing: 0.18em;
+            color: var(--accent);
+            letter-spacing: 0.6em;
             text-transform: uppercase;
             margin-bottom: 2rem;
         }
 
-        .roadmap-phase-group {
-            margin-bottom: 3rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid rgba(178,179,178,0.12);
-            overflow: visible;
-        }
-
-        .roadmap-phase-label {
-            font-family: var(--font-display);
-            font-size: 1.05rem;
-            letter-spacing: 0.16em;
-            color: var(--col-parchment);
-            text-transform: uppercase;
-            margin-bottom: 1.5rem;
-        }
-
-        .roadmap-track {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            flex-wrap: nowrap;
-            gap: 0;
-            overflow: visible;
-            padding: 1rem 0 1.5rem;
-        }
-
-        .roadmap-arrow {
-            color: var(--col-parchment);
-            font-size: 0.65rem;
-            flex-shrink: 0;
-            flex: 1;
-            text-align: center;
-        }
-
-        .roadmap-node {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.45rem;
-            cursor: pointer;
-            flex-shrink: 0;
-            transition: opacity 0.2s;
-        }
-
-        .roadmap-node:hover { opacity: 0.8; }
-
-        .roadmap-diamond {
-            width: 50px; height: 50px;
-            background: var(--col-panel);
-            border: 2px solid rgba(178,179,178,0.25);
-            transform: rotate(45deg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
-        }
-
-        .roadmap-diamond-icon {
-            transform: rotate(-45deg);
-            font-size: 0.72rem;
-            color: var(--col-parchment);
-        }
-
-        .roadmap-label {
-            font-size: 0.55rem;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--col-parchment);
-            text-align: center;
-            max-width: 70px;
-            line-height: 1.3;
-        }
-
-        /* Completed */
-        .roadmap-node.completed .roadmap-diamond {
-            background: rgba(176,174,170,0.15);
-            border-color: var(--col-amber);
-        }
-
-        .roadmap-node.completed .roadmap-diamond-icon { color: var(--col-amber); }
-        .roadmap-node.completed .roadmap-label { color: var(--col-bone); }
-
-        /* Current in-progress */
-        .roadmap-node.current .roadmap-diamond {
-            background: rgba(176,174,170,0.15);
-            border-color: var(--col-amber);
-            box-shadow: 0 0 14px var(--col-amber-glow);
-            animation: pulse-node 2.2s ease-in-out infinite;
-        }
-
-        .roadmap-node.current .roadmap-diamond-icon { color: var(--col-amber-hot); }
-        .roadmap-node.current .roadmap-label { color: var(--col-amber); }
-
-        /* Active (clicked) */
-        .roadmap-node.active .roadmap-diamond {
-            background: rgba(204,112,16,0.2);
-            border-color: var(--col-amber-hot);
-        }
-
-        @keyframes pulse-node {
-            0%, 100% { box-shadow: 0 0 8px var(--col-amber-glow); }
-            50%       { box-shadow: 0 0 22px rgba(204,112,16,0.35); }
-        }
-
-        /* Detail panels */
-        .roadmap-detail-container { margin-top: 1.25rem; }
-
-        .roadmap-detail {
-            display: none;
-            background: var(--col-panel);
-            border: 1px solid rgba(178,179,178,0.2);
-            padding: 0;
-            position: relative;
-            overflow: hidden;
-            animation: slide-open 0.28s ease;
-            /* Torn bottom edge */
-            clip-path: polygon(
-                0% 0%, 100% 0%, 100% calc(100% - 5px),
-                96% 100%, 91% calc(100% - 4px), 86% 100%,
-                80% calc(100% - 6px), 74% 100%, 68% calc(100% - 3px),
-                61% 100%, 55% calc(100% - 5px), 48% 100%,
-                42% calc(100% - 4px), 36% 100%, 30% calc(100% - 6px),
-                24% 100%, 18% calc(100% - 3px), 12% 100%,
-                7% calc(100% - 5px), 3% 100%, 0% calc(100% - 4px)
-            );
-        }
-
-        .roadmap-detail.open { display: block; }
-
-        @keyframes slide-open {
-            from { opacity: 0; transform: translateY(-6px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Detail panel: CSS grid so image spans full height flush right */
-        .roadmap-detail.open {
-            display: grid;
-            grid-template-columns: 1.4fr 1fr;
-            grid-template-rows: auto auto 1fr;
-        }
-
-        /* Direct children (title/status/body) locked to col 1 */
-        .roadmap-detail > .roadmap-detail-title {
-            grid-column: 1;
-            grid-row: 1;
-            padding: 1rem 1.2rem 0.2rem;
-        }
-
-        .roadmap-detail > .roadmap-detail-status {
-            grid-column: 1;
-            grid-row: 2;
-            padding: 0 1.2rem 0.6rem;
-        }
-
-        .roadmap-detail > .roadmap-detail-body {
-            grid-column: 1;
-            grid-row: 3;
-            padding: 0 1.2rem 1rem;
-        }
-
-        /* display:contents lets text/img participate directly in parent grid */
-        .roadmap-detail-content {
-            display: contents;
-        }
-
-        .roadmap-detail-text {
-            grid-column: 1;
-            grid-row: 1 / -1;
-            padding: 1rem 1.2rem 1rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .roadmap-detail-title {
-            font-family: var(--font-display);
-            font-size: 1.15rem;
-            letter-spacing: 0.08em;
-            color: var(--col-cream);
-            margin-bottom: 0.2rem;
-        }
-
-        .roadmap-detail-status {
-            font-size: 0.6rem;
-            letter-spacing: 0.15em;
-            color: var(--col-amber);
-            text-transform: uppercase;
-            margin-bottom: 0.6rem;
-        }
-
-        .roadmap-detail-body {
-            color: var(--col-bone);
-            font-size: 0.76rem;
-            line-height: 1.7;
-        }
-
-        /* Image spans all rows in col 2 — full bleed flush right */
-        .roadmap-detail-img {
-            grid-column: 2;
-            grid-row: 1 / -1;
-            overflow: hidden;
-        }
-
-        .roadmap-detail-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            filter: sepia(0.1) contrast(1.05);
-        }
-
-        /* ── DEV DIARY ─────────────────────────────────────────────── */
-        #devdiary { width: 100%; }
-
-        .support-text {
-            color: var(--col-bone);
-            font-size: 0.86rem;
-            line-height: 1.9;
-            text-align: center;
+        .hero-logo {
             max-width: 1100px;
-            margin: 0 auto 2.5rem;
+            width: 80%;
+            height: auto;
+            margin-bottom: 2rem;
+            filter: drop-shadow(0 12px 50px rgba(0, 0, 0, 0.85));
         }
 
-        .videos-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.25rem;
-            margin-bottom: 3rem;
+        .hero-tagline {
+            font-family: 'Crimson Pro', serif;
+            font-style: italic;
+            font-size: clamp(1.2rem, 1.6vw, 1.5rem);
+            color: var(--bone);
+            max-width: 720px;
+            margin: 0 auto 3rem;
+            line-height: 1.5;
+            text-shadow: 0 2px 14px rgba(0, 0, 0, 0.85);
         }
 
-        .video-container {
-            position: relative;
-            padding-bottom: calc(56.25% + 28px);
-            overflow: hidden;
-            background: var(--col-panel);
-            border: 1px solid transparent;
-            transition: border-color 0.2s ease;
-        }
-
-        .video-container:hover { border-color: var(--col-border-hover); }
-
-        .video-label {
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 28px;
-            background: var(--col-panel-raised);
-            border-bottom: 1px solid var(--col-border-bright);
-            color: var(--col-amber);
-            font-size: 0.6rem;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
+        .hero-ctas {
             display: flex;
-            align-items: center;
-            padding: 0 0.75rem;
-            z-index: 1;
-        }
-
-        .video-container iframe {
-            position: absolute;
-            top: 28px; left: 0; right: 0; bottom: 0;
-            width: 100%;
-            height: calc(100% - 28px);
-            border: none;
-        }
-
-        .video-placeholder {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
+            gap: 1.2rem;
             justify-content: center;
-            color: var(--col-parchment);
-            font-size: 0.72rem;
-            letter-spacing: 0.1em;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.05rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            padding: 1rem 2.4rem;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.25s;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .btn-primary {
+            background: var(--bone);
+            color: var(--black);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(212, 160, 70, 0.35);
+        }
+
+        .btn-ghost {
+            background: rgba(0, 0, 0, 0.4);
+            color: var(--bone);
+            border-color: var(--bone);
+            backdrop-filter: blur(4px);
+        }
+
+        .btn-ghost:hover {
+            background: var(--bone);
+            color: var(--black);
+        }
+
+        /* Scroll cue */
+        .scroll-cue {
+            position: absolute;
+            bottom: 2.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 0.85rem;
+            color: var(--bone);
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            opacity: 0.7;
+            animation: bounce 2.5s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-8px); }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* === CHAPTER VARIANTS === */
+        .ch-about-bg { background-image: url('screenshots/airlock_world_02.jpg'); }
+        .ch-build-bg { background-image: url('screenshots/Airlock_UnderWorld_DollhouseView.jpeg'); }
+        .ch-rescue-bg { background-image: url('screenshots/airlock_world_03.jpg'); }
+        .ch-survive-bg { background-image: url('screenshots/airlock_underworld_04.jpg'); }
+        .ch-roadmap-bg { background-image: url('screenshots/airlock_world_06.jpg'); }
+        .ch-diary-bg { background-image: url('screenshots/airlock_underworld_02.jpg'); }
+
+        /* === ROADMAP TEASER (with classified/declassified stamps) === */
+        .roadmap-teaser {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            margin: 2rem auto 3rem;
+            flex-wrap: wrap;
+            max-width: 1000px;
+        }
+
+        .stage {
+            position: relative;
+            padding: 1.4rem 1.6rem 1.2rem;
+            background: rgba(0, 0, 0, 0.65);
+            border: 1px solid var(--bone-faint);
+            backdrop-filter: blur(6px);
+            min-width: 130px;
             text-align: center;
-            padding: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .stage::before {
+            content: attr(data-stamp);
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-3deg);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 0.62rem;
+            letter-spacing: 0.2em;
+            padding: 0.18rem 0.5rem;
+            border: 1.5px solid var(--classified);
+            color: var(--classified);
+            background: var(--bg);
+            white-space: nowrap;
+        }
+
+        .stage.completed {
+            background: rgba(111, 184, 92, 0.15);
+            border-color: var(--green);
+        }
+
+        .stage.completed::before {
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        .stage.current {
+            background: var(--accent);
+            border-color: var(--accent);
+            transform: scale(1.06);
+            box-shadow: 0 6px 24px rgba(212, 160, 70, 0.5);
+        }
+
+        .stage.current::before {
+            border-color: var(--accent);
+            color: var(--black);
+            background: var(--accent-bright);
+        }
+
+        .stage.current * { color: var(--black) !important; }
+
+        .stage-num {
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 0.7rem;
+            color: var(--accent);
+            letter-spacing: 0.2em;
+            margin-bottom: 0.3rem;
+        }
+
+        .stage-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 0.95rem;
+            letter-spacing: 0.08em;
+            color: var(--bone);
+            text-transform: uppercase;
+        }
+
+        /* === DIARY TEASER === */
+        .diary-pair {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            max-width: 900px;
+            margin: 2rem auto 0;
+            text-align: left;
+        }
+
+        .diary-card {
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(8px);
+            border-left: 2px solid var(--accent);
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .diary-card:hover {
+            border-left-color: var(--green);
+            transform: translateX(6px);
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .diary-date {
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 0.78rem;
+            color: var(--accent);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-bottom: 0.8rem;
+        }
+
+        .diary-card h4 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4rem;
+            color: var(--bone);
+            line-height: 1.2;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .diary-card p {
+            color: var(--bone-dim);
+            font-size: 0.95rem;
             line-height: 1.6;
         }
 
-        .diary-entries {
-            display: flex;
-            flex-direction: column;
-            gap: 0.85rem;
-        }
-
-        .diary-entry {
-            background: var(--col-panel);
-            border: 1px solid transparent;
-            padding: 1.2rem 1.5rem;
-            transition: border-color 0.2s ease;
-        }
-
-        .diary-entry:hover { border-color: var(--col-border-hover); }
-
-        .diary-date {
-            font-size: 0.64rem;
-            letter-spacing: 0.18em;
-            color: var(--col-amber);
-            text-transform: uppercase;
-            margin-bottom: 0.4rem;
-        }
-
-        .diary-content {
-            color: var(--col-bone);
-            font-size: 0.8rem;
-            line-height: 1.75;
-        }
-
-        /* ── SUPPORT SECTION ───────────────────────────────────────── */
-        #support { max-width: 100%; }
-
-        .support-content {
-            display: flex;
-            flex-direction: column;
-            gap: 1.1rem;
-        }
-
-        #support .support-text {
-            color: var(--col-bone);
-            font-size: 0.88rem;
-            line-height: 1.9;
-            text-align: left;
-            margin: 0;
-            max-width: none;
-        }
-
-        #support .support-text strong { color: var(--col-cream); }
-
-        .cta-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-top: 1.25rem;
-        }
-
-        /* Buttons - aged parchment / paper look matching in-game UI */
-        .cta-button {
-            display: inline-block;
-            padding: 0.85rem 2.2rem;
-            background: var(--col-btn-bg);
-            color: var(--col-btn-text);
-            font-family: var(--font-display);
-            font-size: 1.05rem;
-            letter-spacing: 0.12em;
-            text-decoration: none;
-            text-transform: uppercase;
-            border: 1px solid rgba(178,179,178,0.3);
-            cursor: pointer;
-            transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
-            clip-path: polygon(5px 0%, 100% 0%, calc(100% - 5px) 100%, 0% 100%);
+        /* === NEWSLETTER === */
+        .newsletter-section {
+            padding: 8rem 4%;
+            background: var(--black);
+            text-align: center;
             position: relative;
         }
 
-        .cta-button:hover {
-            background: var(--col-btn-hover);
-            border-color: var(--col-border-hover);
-            transform: translateY(-1px);
+        .newsletter-inner {
+            max-width: 700px;
+            margin: 0 auto;
         }
 
-        .cta-button:active { transform: translateY(0); }
-
-        /* ── FOOTER ────────────────────────────────────────────────── */
-        footer {
-            background: var(--col-deep);
-            border-top: 1px solid rgba(178,179,178,0.15);
-            padding: 3.5rem 5% 2rem;
+        .newsletter-section .chapter-meta { justify-content: center; }
+        .newsletter-section h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            color: var(--bone);
+            letter-spacing: 0.05em;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
         }
 
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 2rem;
-            max-width: 100%;
+        .newsletter-section p {
+            color: var(--bone-dim);
+            font-style: italic;
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.2rem;
+            line-height: 1.5;
+            max-width: 540px;
             margin: 0 auto 2.5rem;
         }
 
-        .footer-section h4 {
-            font-family: var(--font-display);
-            font-size: 1.2rem;
+        .newsletter-form {
+            display: flex;
+            gap: 0;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--bone-faint);
+            border-right: none;
+            padding: 1rem 1.4rem;
+            color: var(--bone);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .newsletter-form input:focus {
+            border-color: var(--accent);
+        }
+
+        .newsletter-form button {
+            background: var(--accent);
+            color: var(--black);
+            border: none;
+            padding: 1rem 2rem;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 0.95rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .newsletter-form button:hover {
+            background: var(--accent-bright);
+        }
+
+        .newsletter-note {
+            margin-top: 1.5rem;
+            font-size: 0.78rem;
+            color: var(--bone-dim);
+            font-family: 'Inter', sans-serif;
+            font-style: normal;
             letter-spacing: 0.1em;
-            color: var(--col-cream);
-            margin-bottom: 0.75rem;
         }
 
-        .footer-section p {
-            color: var(--col-parchment);
-            font-size: 0.78rem;
-            line-height: 1.7;
+        /* === FOOTER === */
+        footer {
+            background: var(--black);
+            padding: 5rem 4% 2rem;
+            border-top: 1px solid var(--bone-faint);
+            position: relative;
+            z-index: 5;
         }
 
-        .footer-section a {
-            display: block;
-            color: var(--col-bone);
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            max-width: 1300px;
+            margin: 0 auto 3rem;
+        }
+
+        .footer-brand img {
+            height: 50px;
+            margin-bottom: 1rem;
+        }
+
+        .footer-brand p {
+            color: var(--bone-dim);
+            font-style: italic;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .footer-col h5 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 0.95rem;
+            letter-spacing: 0.3em;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .footer-col ul { list-style: none; }
+        .footer-col li { margin-bottom: 0.5rem; }
+        .footer-col a {
+            color: var(--bone-dim);
             text-decoration: none;
-            font-size: 0.78rem;
-            margin-bottom: 0.45rem;
+            font-size: 0.95rem;
             transition: color 0.2s;
         }
 
-        .footer-section a:hover { color: var(--col-amber); }
+        .footer-col a:hover { color: var(--bone); }
 
         .footer-bottom {
-            border-top: 1px solid var(--col-border);
-            padding-top: 1.5rem;
             text-align: center;
-            max-width: 100%;
+            color: var(--bone-dim);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 0.4em;
+            padding-top: 2rem;
+            border-top: 1px solid var(--bone-faint);
+            max-width: 1300px;
             margin: 0 auto;
         }
 
-        .footer-bottom p {
-            color: var(--col-dim);
-            font-size: 0.68rem;
-            line-height: 1.8;
-        }
-
-        /* ── MEDIA SECTION ────────────────────────────────────────── */
-        .media-tabs {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .media-tab {
-            font-family: var(--font-display);
-            font-size: 0.62rem;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            padding: 0.45rem 1.1rem;
-            background: transparent;
-            border: 1px solid rgba(178,179,178,0.25);
-            color: var(--col-bone);
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .media-tab:hover { border-color: var(--col-border-hover); color: var(--col-cream); }
-
-        .media-tab.active {
-            background: var(--col-panel-raised);
-            border-color: var(--col-amber);
-            color: var(--col-amber);
-        }
-
-        .media-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.25rem;
-        }
-
-        .media-item {
-            background: var(--col-panel);
-            border: 1px solid transparent;
-            overflow: hidden;
-            transition: border-color 0.2s ease;
-            cursor: pointer;
-        }
-
-        .media-item:hover { border-color: var(--col-border-hover); }
-
-        .media-item img {
-            width: 100%;
-            display: block;
-            aspect-ratio: 16/9;
-            object-fit: cover;
-        }
-
-        .media-item-label {
-            padding: 0.55rem 0.85rem;
-            font-size: 0.6rem;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            color: var(--col-parchment);
-            background: var(--col-panel-raised);
-            border-top: 1px solid rgba(178,179,178,0.1);
-        }
-
-        /* Lightbox */
-        .media-lightbox {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.92);
-            z-index: 9999;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-        }
-
-        .media-lightbox.open { display: flex; }
-
-        .media-lightbox img {
-            max-width: 90vw;
-            max-height: 82vh;
-            object-fit: contain;
-            display: block;
-        }
-
-        .media-lightbox-label {
-            font-family: var(--font-display);
-            font-size: 0.65rem;
-            letter-spacing: 0.18em;
-            color: var(--col-parchment);
-            text-transform: uppercase;
-            margin-top: 1rem;
-        }
-
-        .media-lightbox-close {
-            position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
-            font-family: var(--font-display);
-            font-size: 0.7rem;
-            letter-spacing: 0.15em;
-            color: var(--col-bone);
-            cursor: pointer;
-            background: none;
-            border: 1px solid rgba(178,179,178,0.3);
-            padding: 0.4rem 0.9rem;
-        }
-
-        .media-lightbox-close:hover { color: var(--col-cream); border-color: var(--col-amber); }
-
-        .media-lightbox-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            font-family: var(--font-display);
-            font-size: 1.2rem;
-            color: var(--col-bone);
-            cursor: pointer;
-            background: none;
-            border: none;
-            padding: 1rem;
-            opacity: 0.6;
-            transition: opacity 0.2s;
-        }
-
-        .media-lightbox-nav:hover { opacity: 1; color: var(--col-cream); }
-        .media-lightbox-prev { left: 1rem; }
-        .media-lightbox-next { right: 1rem; }
-
-        /* GIF added below text in pillar / world / feature cards */
-        .card-gif {
-            width: 100%;
-            display: block;
-            margin-top: 1.25rem;
-        }
-
-        /* ── GIF IMAGES ───────────────────────────────────────────── */
-        .gif-img {
-            width: 100%;
-            display: block;
-        }
-
-        /* Featured BUILD card - fill the image panel */
-        .pillar-featured-img .gif-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            min-height: 320px;
-            vertical-align: top;
-            margin: 0;
-            padding: 0;
-        }
-
-        /* ── RESPONSIVE ────────────────────────────────────────────── */
+        /* === RESPONSIVE === */
         @media (max-width: 1100px) {
-            .features-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-
-        @media (max-width: 900px) {
-            .about-pitch { grid-template-columns: 1fr; gap: 2rem; }
-
             .nav-links {
                 display: none;
-                flex-direction: column;
                 position: absolute;
-                top: 100%; left: 0; right: 0;
-                background: rgba(42,39,33,0.98);
-                padding: 1rem 5%;
-                border-bottom: 1px solid var(--col-border-amber);
-                gap: 1rem;
-            }
-
-            .nav-links.active { display: flex; }
-            .menu-toggle { display: block; }
-
-            .pillars {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .pillar-featured {
-                grid-column: 1 / -1;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(5, 5, 5, 0.98);
                 flex-direction: column;
-                clip-path: none;
+                padding: 2rem;
+                gap: 1.5rem;
+                border-bottom: 1px solid var(--bone-faint);
             }
-
-            .pillar-featured-img {
-                flex: none;
-                max-width: 100%;
-                height: 220px;
-            }
-
-            .world-grid { grid-template-columns: 1fr; }
-            .enemies { grid-template-columns: 1fr; }
-            .roadmap-detail-content { grid-template-columns: 1fr; }
-            .videos-grid { grid-template-columns: repeat(2, 1fr); }
-            .media-grid { grid-template-columns: repeat(2, 1fr); }
-
-            .roadmap-track { overflow-x: auto; flex-wrap: nowrap; }
-
-            section { padding: 4.5rem 5%; }
+            .nav-links.open { display: flex; }
+            .nav-toggle { display: block; }
         }
-
-        @media (max-width: 600px) {
-            .features-grid { grid-template-columns: 1fr; }
-            .footer-content { flex-direction: column; }
-            .hero-logo { max-width: 260px; }
-            .hero-tagline { font-size: 0.74rem; }
-            .cta-buttons { flex-direction: column; align-items: stretch; }
-            .cta-button { text-align: center; }
-            section { padding: 4rem 4%; }
-        }
-
-        /* ── NEWSLETTER SECTION ────────────────────────────────────── */
-        #newsletter {
-            background: var(--col-deep);
-            text-align: center;
-        }
-
-        .newsletter-content {
-            max-width: 720px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1.6rem;
-        }
-
-        .newsletter-intro {
-            color: var(--col-bone);
-            font-size: 0.92rem;
-            line-height: 1.9;
-            max-width: 620px;
-            text-align: center;
-        }
-
-        .newsletter-intro strong { color: var(--col-cream); }
-
-        .newsletter-form-wrap {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            margin-top: 0.5rem;
-        }
-
-        /* Keep the Zoho form block from inheriting hostile styles */
-        .newsletter-form-wrap #customForm { max-width: 100%; }
-
-        @media (max-width: 600px) {
-            #newsletter { padding: 4rem 4%; }
-            .newsletter-form-wrap #customForm > div { width: 100% !important; }
+        @media (max-width: 900px) {
+            .footer-grid, .diary-pair { grid-template-columns: 1fr; }
+            .chapter-content { padding: 6rem 6% 4rem; }
+            .newsletter-form { flex-direction: column; gap: 0.6rem; }
+            .newsletter-form input { border-right: 1px solid var(--bone-faint); }
         }
     </style>
 </head>
 <body>
-    <!-- AUDIO -->
-    <audio id="theme-music">
-        <source src="Henry Kelly - Calm Before the Storm.mp3" type="audio/mpeg">
-    </audio>
 
-    <!-- NAVIGATION -->
-    <nav>
-        <div class="nav-container">
-            <a href="#" class="nav-logo"><img src="airlock_menulogo.png" alt="AIRLOCK"></a>
-            <button class="menu-toggle" id="menuToggle">☰</button>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="#about">About</a></li>
-                <li><a href="#story">Story</a></li>
-                <li><a href="#world">World</a></li>
-                <li><a href="#antfarm">Ant Farm</a></li>
-                <li><a href="#settlers">Settlers</a></li>
-                <li><a href="#network">Network</a></li>
-                <li><a href="#features">Features</a></li>
-                <li><a href="#roadmap">Roadmap</a></li>
-                <li><a href="#media">Media</a></li>
-                <li><a href="#devdiary">Dev Diary</a></li>
-                <li><a href="#newsletter">Newsletter</a></li>
-                <li><a href="#support">Support Us</a></li>
-            </ul>
-            <div class="nav-controls">
-                <div class="music-controls">
-                    <button class="music-toggle" id="musicToggle">♪ THEME SONG</button>
-                    <input type="range" id="volSlider" class="vol-slider" min="0" max="100" value="65">
-                </div>
-            </div>
-        </div>
+    <!-- DUST PARTICLES -->
+    <div class="dust" id="dust"></div>
+
+    <!-- NAV -->
+    <nav id="nav">
+        <a href="index.html" class="nav-logo"><img src="airlock_menulogo.png" alt="AIRLOCK"></a>
+        <button class="nav-toggle" id="navToggle" aria-label="Menu">☰</button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="roadmap.html">Roadmap</a></li>
+            <li><a href="diary.html">Updates</a></li>
+            <li><a href="media.html">Media</a></li>
+            <li><a href="#support">Support</a></li>
+        </ul>
+        <a href="#" class="nav-cta">Wishlist</a>
     </nav>
 
-    <!-- HERO SECTION -->
+    <!-- HERO -->
     <section class="hero">
-        <div class="hero-bg"></div>
-        <canvas id="hero-dust" class="hero-canvas"></canvas>
-        <canvas id="hero-smoke" class="hero-canvas" style="opacity:0.5"></canvas>
-        <canvas id="hero-amber" class="hero-canvas"></canvas>
-        <img src="airlock_logo_front.png" alt="AIRLOCK Logo" class="hero-logo">
-        <div class="hero-content fade-in">
-            <p class="hero-tagline">Humanity hides underground. You found an Airlock.</p>
+        <div class="hero-bg" id="heroBg"></div>
+        <div class="hero-content">
+            <div class="hero-meta">A Survival · Base-Builder · Coming Soon</div>
+            <img class="hero-logo" src="airlock_menulogo.png" alt="AIRLOCK">
+            <p class="hero-tagline">300 years after the world fell silent.<br>Build your shelter. Rescue who's left. Survive the night.</p>
+            <div class="hero-ctas">
+                <a href="#" class="btn btn-primary">Wishlist on Steam</a>
+                <a href="#" class="btn btn-ghost">▶ Watch Trailer</a>
+            </div>
         </div>
-        <div class="hero-footer">
-            <img src="logo_ironbridge_games.png" alt="Ironbridge Games">
+        <div class="scroll-cue">Scroll ↓</div>
+    </section>
+
+    <!-- CHAPTER 01 · THE WORLD -->
+    <section id="about" class="chapter">
+        <div class="chapter-bg ch-about-bg"></div>
+        <div class="chapter-vignette"></div>
+        <div class="chapter-content reveal">
+            <div class="chapter-meta">Chapter 01 <span>·</span> The World</div>
+            <h2 class="chapter-title">The Last Place<br>Standing</h2>
+            <p class="chapter-body">300 years after the Sonic War, the surface is silent. The Altered hunt by night. The Settlers hide by day. You wake up alone in a concrete room with a word scratched on the wall: KORE. You don't remember why.</p>
         </div>
     </section>
 
-    <!-- ABOUT SECTION -->
-    <section id="about">
-        <div class="about-pitch fade-in">
-            <!-- LEFT: What is it -->
-            <div class="about-pitch-col">
-                <h3 class="about-pitch-heading">What is AIRLOCK?</h3>
-                <div class="about-pitch-body">
-                    <p>A post-apocalyptic survival base-builder built in Unreal Engine 5. Plan and build your underground city in a <strong>side-view ant farm</strong>, a dollhouse cutaway of every room, corridor, and district. Then drop into it in full third-person and walk the corridors you designed.</p>
-                    <p>Watch your <strong>Settlers</strong> eat, sleep, work, and form relationships. Manage power, water, and ventilation. Keep people alive long enough to matter.</p>
-                    <p>Above ground, the ruined city of <strong>Ashgate</strong> waits, full of loot, danger, and answers to questions you haven't thought to ask yet. Below, a community of people who depend entirely on the decisions you make.</p>
-                    <p><strong>Every module you place. Every Settler you rescue. Every surface run you take. All of it has consequences.</strong></p>
-                </div>
-            </div>
-
-            <!-- RIGHT: Why play it -->
-            <div class="about-pitch-col">
-                <h3 class="about-pitch-heading">Why would you play it?</h3>
-                <div class="about-pitch-body">
-                    <p>If you ever built a Fallout Shelter and wished you could walk inside it, this is that game. If The Last of Us made you feel something, if Subnautica made you feel small in the best possible way, if you've ever lost a character in XCOM and genuinely felt it, AIRLOCK is built for you.</p>
-                    <p>You play because <strong>the base-building actually means something.</strong> The Settlers inside your bunker are not resources. They have names, classes, skills, routines, and relationships. Lose the wrong one and an entire wing goes dark.</p>
-                    <p>You play because <strong>Ashgate is genuinely dangerous.</strong> Every supply run into the dead city is a risk-reward decision. Stay out too long and night falls. The Altered don't stop.</p>
-                    <p>And you play because there is a story here worth finishing. One that earns its ending.</p>
-                </div>
-            </div>
+    <!-- CHAPTER 02 · THE BUILD -->
+    <section id="build" class="chapter">
+        <div class="chapter-bg ch-build-bg"></div>
+        <div class="chapter-vignette"></div>
+        <div class="chapter-content right reveal">
+            <div class="chapter-meta">Chapter 02 <span>·</span> The Build</div>
+            <h2 class="chapter-title">Dollhouse<br>to 3D</h2>
+            <p class="chapter-body" style="margin-left: auto;">Design your bunker from a side-view cutaway. Drop in and walk the corridors you built, in full third-person. Two views. One home.</p>
         </div>
+    </section>
 
-        <div class="pillars">
-            <!-- TOP ROW: BUILD (left) + UPGRADE (right), each spanning 2 of 4 cols -->
-            <div class="pillar-featured fade-in">
-                <div class="pillar-featured-img">
-                    <img class="gif-img" src="Airlock_BuildYourBase.gif" alt="AIRLOCK Build Mode" loading="lazy">
-                </div>
-                <div class="pillar-featured-content">
-                    <div class="pillar-featured-label">Core System</div>
-                    <h3 class="pillar-featured-title">BUILD</h3>
-                    <p class="pillar-featured-text">Plan your base in the side-view ant farm, a dollhouse cutaway of your whole underground city. Then step inside and live in it. Watch your Cook prepare meals, your Medic treat the wounded, your Soldiers train. 15 districts, 150+ module types, every tier from Cave to Metal Sci-Fi.</p>
-                    <p class="pillar-featured-text">Many modules require specific Settler classes to unlock. No Engineer, no power plant. No Medic, no infirmary. Every rescue matters. Every death costs you something.</p>
-                </div>
-            </div>
+    <!-- CHAPTER 03 · THE RESCUE -->
+    <section id="rescue" class="chapter">
+        <div class="chapter-bg ch-rescue-bg"></div>
+        <div class="chapter-vignette"></div>
+        <div class="chapter-content reveal">
+            <div class="chapter-meta">Chapter 03 <span>·</span> The Rescue</div>
+            <h2 class="chapter-title">Track<br>the Signal</h2>
+            <p class="chapter-body">Survivors broadcast for help across Ashgate. Race them to the surface before nightfall. Bring them home. Watch them become Settlers. Every rescue grows the family.</p>
+        </div>
+    </section>
 
-            <div class="pillar-featured pillar-featured--flip fade-in">
-                <div class="pillar-featured-img">
-                    <img class="gif-img" src="Airlock_UpgradeYourBase.gif" alt="Upgrade Your Base" loading="lazy">
-                </div>
-                <div class="pillar-featured-content">
-                    <div class="pillar-featured-label">Core System</div>
-                    <h3 class="pillar-featured-title">UPGRADE</h3>
-                    <p class="pillar-featured-text">Dig out the rock. Raw cave space, sometimes with mineable ore inside. Then build. Then, when you have the Settlers and the resources, upgrade.</p>
-                    <p class="pillar-featured-text">Each upgrade costs resources and consumes utilities. Better stats, better equipment, better mood. Five tiers: Cave, Structured Cave, Brick &amp; Wood, Concrete &amp; Tile, Metal Sci-Fi. Tier 0 gets you standing. Tier 4 makes the airlock a living city.</p>
-                </div>
-            </div>
+    <!-- CHAPTER 04 · THE NIGHT -->
+    <section id="survive" class="chapter">
+        <div class="chapter-bg ch-survive-bg"></div>
+        <div class="chapter-vignette"></div>
+        <div class="chapter-content right reveal">
+            <div class="chapter-meta">Chapter 04 <span>·</span> The Night</div>
+            <h2 class="chapter-title">Hold<br>the Line</h2>
+            <p class="chapter-body" style="margin-left: auto;">When the lights flicker, you'll know. Power the generator. Lock the doors. Trust your Settlers. The night doesn't last forever, but morning comes at a cost.</p>
+        </div>
+    </section>
 
-            <!-- BOTTOM ROW: 4 pillar cards -->
-            <div class="pillar-card fade-in">
-                <h3 class="pillar-title">EXPLORE</h3>
-                <p class="pillar-text">Ashgate is hostile. The Altered own every inch of it. Scavenge the ruins for food, weapons, medicine, and pre-war blueprints. Every run is a gamble. Every door you open could be your last.</p>
-                <img class="gif-img card-gif" src="Airlock_FightHordes.gif" alt="Fight Hordes" loading="lazy">
+    <!-- CHAPTER 05 · THE ROAD (roadmap teaser) -->
+    <section id="roadmap" class="chapter">
+        <div class="chapter-bg ch-roadmap-bg"></div>
+        <div class="chapter-vignette"></div>
+        <div class="chapter-content center reveal">
+            <div class="chapter-meta">Chapter 05 <span>·</span> The Road</div>
+            <h2 class="chapter-title">Where We Are</h2>
+            <p class="chapter-body">Seven stages from concept to release. Three deep. Demo's nearly here.</p>
+            <div class="roadmap-teaser">
+                <div class="stage completed" data-stamp="DECLASSIFIED"><div class="stage-num">01</div><div class="stage-name">Concept</div></div>
+                <div class="stage completed" data-stamp="DECLASSIFIED"><div class="stage-num">02</div><div class="stage-name">Foundation</div></div>
+                <div class="stage current" data-stamp="IN PROGRESS"><div class="stage-num">03</div><div class="stage-name">Pre-Production</div></div>
+                <div class="stage" data-stamp="CLASSIFIED"><div class="stage-num">04</div><div class="stage-name">Funding</div></div>
+                <div class="stage" data-stamp="CLASSIFIED"><div class="stage-num">05</div><div class="stage-name">Production</div></div>
+                <div class="stage" data-stamp="CLASSIFIED"><div class="stage-num">06</div><div class="stage-name">Early Access</div></div>
+                <div class="stage" data-stamp="CLASSIFIED"><div class="stage-num">07</div><div class="stage-name">Full Release</div></div>
             </div>
-            <div class="pillar-card fade-in">
-                <h3 class="pillar-title">SURVIVE</h3>
-                <p class="pillar-text">Manage power, water, and ventilation underground. Three systems where one failure cascades into disaster. Keep your Settlers fed, rested, and sane. The base is only as strong as the people inside it.</p>
-                <img class="gif-img card-gif" src="Airlock_SurviveUnderground.gif" alt="Survive Underground" loading="lazy">
-            </div>
-            <div class="pillar-card fade-in">
-                <h3 class="pillar-title">PROTECT</h3>
-                <p class="pillar-text">Rescue Survivors from Ashgate and give them a home. They become Settlers. Manage food, water, morale, and grief. Every person has a name, a class, and skills that matter. Lose them and they're gone forever.</p>
-                <img class="gif-img card-gif" src="Airlock_Explore.gif" alt="Surface Exploration" loading="lazy">
-            </div>
-            <div class="pillar-card fade-in">
-                <h3 class="pillar-title">DISCOVER</h3>
-                <p class="pillar-text">Uncover a three-layer mystery about who you are, what happened to the world, and why the enemies hesitate around you. Memory fragments triggered by exploration change everything.</p>
-                <img class="gif-img card-gif" src="Airlock_SearchAnything.gif" alt="Search Anything" loading="lazy">
+            <div>
+                <a href="roadmap.html" class="btn btn-primary">Open Full Dossier</a>
             </div>
         </div>
     </section>
 
-    <!-- STORY SECTION -->
-    <section id="story">
-        <h2 class="section-title fade-in">The Story</h2>
-        <p class="story-text fade-in">
-            You wake up in a concrete room. Your head rings. You don't know who you are, or how you got here. On the wall in front of you, one word is scratched into the stone: <strong>KORE</strong>. You have no wallet, no ID, no memory. So it's the only name you have.
-        </p>
-        <p class="story-text fade-in">
-            You stumble out into the ruined city of <strong>Ashgate</strong>, abandoned 300 years to The Altered. A woman finds you, scared and cautious. She's heard rumour of an underground safe place. An <em>Airlock</em>. She takes you there. This is where your life begins.
-        </p>
-        <p class="story-text fade-in">
-            You build. You rescue Settlers. You survive. And as the weeks go by, fragments of memory surface. Instincts you can't explain. Voices you almost recognise. The Altered hesitate around you in ways they shouldn't. And the truth about who you are, who Kore really is, will change everything.
-        </p>
-        <div class="story-quote fade-in">
-            <p>Three layers of revelation. Each one reframes everything you thought you knew.</p>
-            <div class="attribution">-The Airlock</div>
-        </div>
-    </section>
-
-    <!-- WORLD SECTION -->
-    <section id="world">
-        <h2 class="section-title fade-in">The World</h2>
-        <div class="world-grid">
-            <div class="world-region fade-in">
-                <h3>ASHGATE</h3>
-                <p>The ruined city above your airlock. 300 years after the Sonic Nuclear War. Cities overgrown. Sky toxic. The Altered own every inch. Day is tense. Night is deadly. Survivors hide in broken shelters waiting to be found.</p>
-                <img class="gif-img card-gif" src="Airlock_Explore.gif" alt="Ashgate Exploration" loading="lazy">
+    <!-- CHAPTER 06 · THE LOGS (diary teaser) -->
+    <section id="diary" class="chapter">
+        <div class="chapter-bg ch-diary-bg"></div>
+        <div class="chapter-vignette"></div>
+        <div class="chapter-content center reveal">
+            <div class="chapter-meta">Chapter 06 <span>·</span> The Logs</div>
+            <h2 class="chapter-title">From the Bunker</h2>
+            <p class="chapter-body">Honest, frequent, unfiltered. Every win and every setback documented as it happens.</p>
+            <div class="diary-pair">
+                <div class="diary-card">
+                    <div class="diary-date">7 May 2026</div>
+                    <h4>Procedural Pipeline V1 shipped</h4>
+                    <p>City Block Breaker. Foliage Cascade. PCG Foliage Baker. Marketplace-ready end to end. Ashgate finally has its overgrowth.</p>
+                </div>
+                <div class="diary-card">
+                    <div class="diary-date">1 May 2026</div>
+                    <h4>Three flagship systems landed</h4>
+                    <p>HUD V2 painted UI live in engine. Power System V1 with multi-gen networks. Voice and Subtitle pipeline running with zero first-play hitch.</p>
+                </div>
             </div>
-            <div class="world-region fade-in">
-                <h3>THE AIRLOCK</h3>
-                <p>Your underground sanctuary. But it's not THE only airlock. Multiple pre-war bunkers exist across the map. Each unique. Connect them by excavating down to a buried metro station and restoring the UGA rail network. Build a civilisation, airlock by airlock.</p>
-                <img class="gif-img card-gif" src="Airlock_SurviveUnderground.gif" alt="Underground Base" loading="lazy">
-            </div>
-        </div>
-        <h3 class="section-title" style="font-size: 1.9rem; margin-top: 3rem; margin-bottom: 2rem;">THE ALTERED</h3>
-        <p class="story-text fade-in" style="text-align: center; max-width: 800px; margin: 0 auto 2rem;">
-            Descendants of humans exposed to the Sonic Nuclear War. The sonic blast disrupted human brainwaves, unravelling minds while hardening bodies and stretching lifespans. Four classes, in order of intelligence and danger.
-        </p>
-        <div class="enemies">
-            <div class="enemy-tier fade-in">
-                <h4 class="enemy-name">FERAL</h4>
-                <p class="enemy-desc">The mindless tier. Pure aggression, no tactics, dangerous in swarms. Seven visual sub-types scatter the hordes: Husks, Hollows, Ragers, Shambles, Wretches, The Lost. Each one was a person once.</p>
-            </div>
-            <div class="enemy-tier fade-in">
-                <h4 class="enemy-name">FAMILIARS</h4>
-                <p class="enemy-desc">Smart enough to obey, too broken to think. Slaves to Legion. Without their leader nearby they're skittish and agitated but rarely attack. A leaderless Familiar means a Legion is somewhere close.</p>
-            </div>
-            <div class="enemy-tier fade-in">
-                <h4 class="enemy-name">STALKERS</h4>
-                <p class="enemy-desc">Smart, solo predators. They follow from distance, calculate whether to strike, wait for conditions to favour them. They emit a weak radiation signature your Geiger counter picks up before you see them.</p>
-            </div>
-            <div class="enemy-tier fade-in">
-                <h4 class="enemy-name">LEGION</h4>
-                <p class="enemy-desc">The apex threat. Fully intelligent, self-aware, centuries old. They remember the pre-war world. They have leadership, dialogue, and a hidden research programme. And they have a complicated relationship with you specifically.</p>
+            <div style="margin-top: 3rem;">
+                <a href="diary.html" class="btn btn-primary">All Logs</a>
             </div>
         </div>
     </section>
 
-    <!-- ANT FARM + DUAL VIEW SECTION -->
-    <section id="antfarm">
-        <h2 class="section-title fade-in">The Ant Farm</h2>
-        <p class="story-text fade-in" style="text-align: center; max-width: 900px; margin: 0 auto 2rem;">
-            AIRLOCK has two camera modes you swap between. The signature <strong>side-view ant farm</strong>, and full 3D third-person. There is no top-down. Ever.
-        </p>
-        <div class="world-grid">
-            <div class="world-region fade-in">
-                <h3>SIDE-VIEW ANT FARM</h3>
-                <p>Opened at the Airlock Computer, an in-world terminal. Camera pulls back to a dollhouse cutaway of your entire underground city. Three zoom levels: room, district, city. Every Settler visible at every zoom. Hundreds of tiny figures living their lives, all on screen at once. <strong>Plan in the ant farm.</strong></p>
-                <img class="gif-img card-gif" src="Airlock_BuildYourBase.gif" alt="Ant Farm Build Mode" loading="lazy">
-            </div>
-            <div class="world-region fade-in">
-                <h3>3D PLAY MODE</h3>
-                <p>Third-person over-the-shoulder. 95% of playtime. Walk the corridors you designed. Talk to Settlers face to face. Fight The Altered in Ashgate. Open doors. Eat at the mess hall. <strong>Live in the 3D city.</strong></p>
-                <img class="gif-img card-gif" src="Airlock_ExploreYourBase.gif" alt="3D Play Mode" loading="lazy">
-            </div>
-        </div>
-    </section>
-
-    <!-- SETTLERS SECTION -->
-    <section id="settlers">
-        <h2 class="section-title fade-in">The Settlers</h2>
-        <p class="story-text fade-in" style="text-align: center; max-width: 900px; margin: 0 auto 2rem;">
-            Every person you rescue from Ashgate becomes a Settler of your airlock. They have a class, a skill tree, a schedule, a personality. They live, work, sleep, form relationships, have children. <strong>Permadeath is permanent.</strong>
-        </p>
-        <p class="story-text fade-in" style="text-align: center; max-width: 900px; margin: 0 auto 3rem;">
-            Fourteen classes. Each unlocks a signature module no other class can operate. No Engineer, no Power Plant. No Cook, no kitchen morale. No Elder, no Library. Your roster IS your capability ceiling.
-        </p>
-        <div class="features-grid">
-            <div class="feature-card fade-in"><h3 class="feature-title">⚔️ Soldier</h3><p class="feature-desc">Firearms, melee, tactics. Signature module: <strong>Armoury</strong>. The defence backbone.</p></div>
-            <div class="feature-card fade-in"><h3 class="feature-title">🕵️ Scout</h3><p class="feature-desc">Stealth, scavenging, navigation. Signature: <strong>Lookout Post</strong>. Reveals the map and spots threats.</p></div>
-            <div class="feature-card fade-in"><h3 class="feature-title">🏹 Hunter</h3><p class="feature-desc">Tracking, trapping, bows. Signature: <strong>Smokehouse</strong>. Brings home game, preserves the meat.</p></div>
-            <div class="feature-card fade-in"><h3 class="feature-title">🎣 Fisher</h3><p class="feature-desc">Fishing, aquaculture. Signature: <strong>Aquaculture Tank</strong>. Protein without leaving the airlock.</p></div>
-            <div class="feature-card fade-in"><h3 class="feature-title">🌾 Farmer</h3><p class="feature-desc">Crops, soil, husbandry, beekeeping. Signature: <strong>Greenhouse</strong>. The food backbone.</p></div>
-            <div class="feature-card fade-in"><h3 class="feature-title">🔧 Engineer</h3><p class="feature-desc">Engineering, electrics, plumbing. Signature: <strong>Power Plant</strong>. Gates every Tier 2+ module.</p></div>
-            <div class="feature-card fade-in"><h3 class="feature-title">🔫 Gunsmith</h3><p class="feature-desc">Gunsmithing, ammunition, silencer fabrication. Signature: <strong>Gunsmithing Bench</strong>. Stealth combat enabler.</p></div>
-            <div class="feature-card fade-in"><h3 class="feature-title">⚒️ Smith</h3><p class="feature-desc">Metalwork, carpentry, masonry. Signature: <strong>Forge</strong>. Feeds half the airlock with metal.</p></div>
-            <div class="feature-card fade-in"><h3 class="feature-title">🧵 Tailor</h3><p class="feature-desc">Tailoring, leatherwork, dyeing. Signature: <strong>Tailoring Workshop</strong>. Clothes, armour, dignity.</p></div>
-            <div class="feature-card fade-in"><h3 class="feature-title">⚗️ Chemist</h3><p class="feature-desc">Chemistry, pharmaceuticals, explosives. Signature: <strong>Chemistry Lab</strong>. The invisible engine.</p></div>
-            <div class="feature-card fade-in"><h3 class="feature-title">🍳 Cook</h3><p class="feature-desc">Cooking, baking, preservation, brewing. Signature: <strong>Kitchen</strong>. Morale backbone of the airlock.</p></div>
-            <div class="feature-card fade-in"><h3 class="feature-title">❤️ Medic</h3><p class="feature-desc">First aid, surgery, herbalism. Signature: <strong>Infirmary</strong>. Saves lives that would otherwise be permadeath.</p></div>
-            <div class="feature-card fade-in"><h3 class="feature-title">🗝️ Thief</h3><p class="feature-desc">Stealth, lockpicking, safecracking. Signature: <strong>Safehouse</strong>. The airlock's shadow side.</p></div>
-            <div class="feature-card fade-in"><h3 class="feature-title">🧓 Elder</h3><p class="feature-desc">Teaching, leadership, UGA history. Signature: <strong>Library</strong>. Very rare. Accelerates the whole roster.</p></div>
-        </div>
-    </section>
-
-    <!-- MULTI-AIRLOCK + METRO SECTION -->
-    <section id="network">
-        <h2 class="section-title fade-in">Build a Network</h2>
-        <p class="story-text fade-in" style="text-align: center; max-width: 900px; margin: 0 auto 2rem;">
-            The Airlock is a <em>place</em>, not <em>the</em> place. Multiple airlocks exist across the map. Each unique. Each with its own starting features, unique upgrades, and maximum build scale.
-        </p>
-        <p class="story-text fade-in" style="text-align: center; max-width: 900px; margin: 0 auto 3rem;">
-            Every airlock has a <strong>buried metro station at its deepest point</strong>. Excavate down, assign an Engineer Settler to restore power, reconnect the line. The UGA rail network, 300 years dormant, comes back online. You can fast-travel between every airlock you've claimed.
-        </p>
-        <div class="world-grid">
-            <div class="world-region fade-in">
-                <h3>CLAIM · BUILD · MOVE ON</h3>
-                <p>Max your starting airlock. Leave in search of another. Your previous airlocks don't vanish. They stay intact, populated, productive. You set up automated trade routes between them. One becomes your farm. One becomes your armoury. One becomes your research hub. Rebuild civilisation, one bunker at a time.</p>
-            </div>
-            <div class="world-region fade-in">
-                <h3>THE METRO</h3>
-                <p>A UGA-era project that collapsed before most of it went active. The tunnels are intact. The trains are not. You bring it back online, station by station, airlock by airlock. A literal thread stitching the dead map back together.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- FEATURES SECTION -->
-    <section id="features">
-        <h2 class="section-title fade-in">Key Features</h2>
-        <div class="features-grid">
-            <div class="feature-card fade-in">
-                <div class="feature-icon">⚙</div>
-                <h3 class="feature-title">Base Building</h3>
-                <p class="feature-desc">Build in the side-view ant farm, then explore your creation in full 3D. 15 districts, 150+ module types, five tiers from raw Cave to Metal Sci-Fi.</p>
-                <img class="gif-img card-gif" src="Airlock_BuildYourBase.gif" alt="Base Building" loading="lazy">
-            </div>
-            <div class="feature-card fade-in">
-                <div class="feature-icon">🚶</div>
-                <h3 class="feature-title">Explore Your Base</h3>
-                <p class="feature-desc">Step inside your creation and walk every corridor. Your Settlers eat, sleep, work, and grieve in real time. It's not a management screen, it's home.</p>
-                <img class="gif-img card-gif" src="Airlock_ExploreYourBase.gif" alt="Explore Your Base" loading="lazy">
-            </div>
-            <div class="feature-card fade-in">
-                <div class="feature-icon"></div>
-                <h3 class="feature-title">Upgrade Your Base</h3>
-                <p class="feature-desc">Dig out the space, mine what's inside, then build. Upgrade through four tiers: Cave, Brick, Concrete, Sci-fi. Every upgrade costs resources and consumes utilities. Every upgrade pays off.</p>
-                <img class="gif-img card-gif" src="Airlock_UpgradeYourBase.gif" alt="Upgrade Your Base" loading="lazy">
-            </div>
-            <div class="feature-card fade-in">
-                <div class="feature-icon"></div>
-                <h3 class="feature-title">Companions</h3>
-                <p class="feature-desc">You don't survive alone. Companions join your journey on the surface, each with their own story, abilities, and reasons for being there. Some will surprise you.</p>
-                <img class="gif-img card-gif" src="screenshots/Marv.jpg" alt="Marv the dog companion" loading="lazy">
-            </div>
-            <div class="feature-card fade-in">
-                <div class="feature-icon">👥</div>
-                <h3 class="feature-title">Settler Management</h3>
-                <p class="feature-desc">Every Settler has a name, class, skills, and personality. Certain modules require specific classes to unlock. Permadeath means every loss is permanent.</p>
-            </div>
-            <div class="feature-card fade-in">
-                <div class="feature-icon"></div>
-                <h3 class="feature-title">Infrastructure</h3>
-                <p class="feature-desc">Power, Water, Ventilation - three interconnected lifelines. A blackout cascades into disaster.</p>
-            </div>
-            <div class="feature-card fade-in">
-                <div class="feature-icon"></div>
-                <h3 class="feature-title">The Altered</h3>
-                <p class="feature-desc">300 years after the Sonic Nuclear War, they own the surface. Fast, relentless, and terrifyingly numerous. They hunt by sound and movement. Day gives you a window. Night belongs to them.</p>
-                <img class="gif-img card-gif" src="Airlock_AlteredHorde.gif" alt="The Altered" loading="lazy">
-            </div>
-            <div class="feature-card fade-in">
-                <div class="feature-icon">🗺</div>
-                <h3 class="feature-title">Open World</h3>
-                <p class="feature-desc">Ruined cities and countryside. Dynamic day/night cycle. The surface rewards the brave and punishes the reckless.</p>
-            </div>
-            <div class="feature-card fade-in">
-                <div class="feature-icon">🚗</div>
-                <h3 class="feature-title">Vehicles</h3>
-                <p class="feature-desc">Scout bikes, salvage trucks, armoured carriers. Fuel is finite. Noise attracts enemies.</p>
-            </div>
-            <div class="feature-card fade-in">
-                <div class="feature-icon">🐔</div>
-                <h3 class="feature-title">Animal Farming</h3>
-                <p class="feature-desc">Chickens, cattle, sheep, pigs, bees, and bioluminescent cave creatures underground.</p>
-            </div>
-            <div class="feature-card fade-in">
-                <div class="feature-icon">💭</div>
-                <h3 class="feature-title">Memory System</h3>
-                <p class="feature-desc">Fragments of your past triggered by places, objects, and people. Early ones confuse. Late ones devastate.</p>
-            </div>
-            <div class="feature-card fade-in">
-                <div class="feature-icon"></div>
-                <h3 class="feature-title">Generational</h3>
-                <p class="feature-desc">Settlers form relationships. Have children. A generation born underground who have never seen the sky.</p>
-            </div>
-            <div class="feature-card fade-in">
-                <div class="feature-icon"></div>
-                <h3 class="feature-title">Specialists</h3>
-                <p class="feature-desc">Your base is only as capable as the Settlers inside it. Certain modules can only be unlocked and operated by the right class. No Engineer, no power plant. No Medic, no infirmary. Who you rescue decides what you can build.</p>
-            </div>
-            <div class="feature-card fade-in">
-                <div class="feature-icon"></div>
-                <h3 class="feature-title">Skill System</h3>
-                <p class="feature-desc">Settlers aren't static. They learn, improve, and specialise across 17 skill parents and 130+ sub-skills. Eight tiers from Beginner to Master, 80 levels per skill. Skills grow through use, books, teachers, and research. A rookie Scout becomes a seasoned expedition leader.</p>
-            </div>
-            <div class="feature-card fade-in">
-                <div class="feature-icon"></div>
-                <h3 class="feature-title">Farming</h3>
-                <p class="feature-desc">Grow crops in underground greenhouses and tend animals above and below ground. Food variety affects morale. A bad harvest hits harder than a horde. Keep your people fed or watch everything else unravel.</p>
-            </div>
-            <div class="feature-card fade-in">
-                <div class="feature-icon"></div>
-                <h3 class="feature-title">Combat</h3>
-                <p class="feature-desc">The Altered are fast, unpredictable, and they own the night. Fight when you have to, run when you don't. Equip your Settlers with scavenged weapons, assign roles, and know when a mission is worth the risk.</p>
-                <img class="gif-img card-gif" src="Airlock_FightHordes.gif" alt="Combat" loading="lazy">
-            </div>
-            <div class="feature-card fade-in">
-                <div class="feature-icon"></div>
-                <h3 class="feature-title">Research</h3>
-                <p class="feature-desc">Blueprints found in Ashgate unlock new modules, upgrades, and equipment back at base. Assign Settlers to research benches to accelerate progress. Some of the most powerful discoveries are hidden in the most dangerous places.</p>
-            </div>
-            <div class="feature-card fade-in">
-                <div class="feature-icon"></div>
-                <h3 class="feature-title">Morale and Needs</h3>
-                <p class="feature-desc">Settlers have needs beyond food and water. Grief, fear, boredom, and isolation are real threats. Build recreation rooms, libraries, music halls, memorial walls. Assign counsellors. Let people rest. A collapsing morale can end a run faster than any horde.</p>
-            </div>
-            <div class="feature-card fade-in">
-                <div class="feature-icon"></div>
-                <h3 class="feature-title">Salvage and Crafting</h3>
-                <p class="feature-desc">Nothing on the surface goes to waste. Strip ruins for metal, fabric, electronics, and fuel. Break down salvage into components. Craft weapons, tools, and module parts back at base. Every run should come home with something.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- ROADMAP SECTION -->
-    <section id="roadmap">
-        <h2 class="section-title fade-in">Development Roadmap</h2>
-
-        <div class="roadmap-hint fade-in" style="margin-bottom: 1rem;">Click any phase to see details</div>
-
-        <!-- ROW 1: DEMO ROADMAP -->
-        <div class="roadmap-phase-group fade-in">
-            <div class="roadmap-phase-label">Building the Demo</div>
-            <div class="roadmap-track">
-                <div class="roadmap-node completed" data-phase="0" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
-                    <div class="roadmap-label">Prototype</div>
-                </div>
-                <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node completed" data-phase="1" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
-                    <div class="roadmap-label">Grid System V1</div>
-                </div>
-                <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node completed" data-phase="2" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
-                    <div class="roadmap-label">Character V1</div>
-                </div>
-                <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node completed" data-phase="3" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
-                    <div class="roadmap-label">UI V1</div>
-                </div>
-                <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node completed" data-phase="4" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
-                    <div class="roadmap-label">HUD V1</div>
-                </div>
-                <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node completed" data-phase="5" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
-                    <div class="roadmap-label">Combat V1</div>
-                </div>
-                <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node completed" data-phase="6" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
-                    <div class="roadmap-label">Modules V1</div>
-                </div>
-                <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node completed" data-phase="7" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
-                    <div class="roadmap-label">Hordes V1</div>
-                </div>
-                <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node completed" data-phase="8" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
-                    <div class="roadmap-label">Loot V1</div>
-                </div>
-                <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node completed" data-phase="9" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
-                    <div class="roadmap-label">Character V2</div>
-                </div>
-                <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node completed" data-phase="10" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
-                    <div class="roadmap-label">Companion V1</div>
-                </div>
-                <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node current" data-phase="11" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">⧗</span></div>
-                    <div class="roadmap-label">Tier System V1</div>
-                </div>
-                <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node" data-phase="12" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
-                    <div class="roadmap-label">NPCs V1</div>
-                </div>
-                <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node" data-phase="13" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
-                    <div class="roadmap-label">Infrastructure V1</div>
-                </div>
-                <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node" data-phase="14" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
-                    <div class="roadmap-label">City &amp; Story V1</div>
-                </div>
-                <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node" data-phase="15" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▶</span></div>
-                    <div class="roadmap-label">Playable Demo</div>
-                </div>
-            </div>
-            <div class="roadmap-detail-container">
-                <div data-detail="0" class="roadmap-detail"><div class="roadmap-detail-title">Phase 1 - Blockout &amp; Prototype</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">This is where it all started. Built a military compound blockout in Unreal Engine 5 to prove the concept actually works. Integrated the ALS (Advanced Locomotion System) for third-person character control. Created a prototype dollhouse camera to test the core vision: design underground from a side-view ant farm cutaway, then drop into your creation in full 3D and walk the corridors you built. Walk through the corridors you built. See the rooms you placed. The question was simple: does it feel right? It did. That was the moment AIRLOCK stopped being an idea and started being a game.</div></div><div class="roadmap-detail-img"><img src="screenshots/airlock_screenshot_01.jpg" alt="AIRLOCK Prototype"></div></div></div>
-                <div data-detail="1" class="roadmap-detail"><div class="roadmap-detail-title">Phase 2 - Grid System V1</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">The backbone of the entire game. Built the GridManager system in C++ from scratch - world-to-grid coordinate conversion, cell states (empty, occupied, reserved), multi-floor support for stacking levels underground. Modules snap to the grid with adjacency detection - walls and doors auto-generate between rooms. This is the system everything else is built on top of.</div></div><div class="roadmap-detail-img"><img src="screenshots/airlock_screenshot_03.jpg" alt="AIRLOCK Grid System"></div></div></div>
-                <div data-detail="2" class="roadmap-detail"><div class="roadmap-detail-title">Phase 3 - Character V1</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">Took the ALS system apart and rebuilt it for AIRLOCK. Customised movement feel, camera behaviour, and transitions between underground and surface modes. The character controller handles tight corridors and wide-open surface exploration seamlessly - two very different feels, one character.</div></div><div class="roadmap-detail-img"><img src="screenshots/airlock_screenshot_02.jpg" alt="AIRLOCK Character V1"></div></div></div>
-                <div data-detail="3" class="roadmap-detail"><div class="roadmap-detail-title">Phase 4 - UI V1</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">Built the full main menu system from scratch - epilepsy warning, brightness calibration, press-any-key splash, main menu with all sub-screens and settings. Custom-designed with a worn military aesthetic that feels like it belongs in a bunker.</div></div><div class="roadmap-detail-img"><img src="screenshots/4_mainmenu.png" alt="AIRLOCK UI V1 - Main Menu"></div></div></div>
-                <div data-detail="4" class="roadmap-detail"><div class="roadmap-detail-title">Phase 5 - HUD V1</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">In-game HUD built: health, stamina, compass, status effects, and notifications. Full inventory system - equip weapons, fire, swap, drop, pick up. Items degrade over time. Nothing lasts forever in AIRLOCK.</div></div><div class="roadmap-detail-img"><img src="screenshots/airlock_screenshot_04.jpg" alt="AIRLOCK HUD V1"></div></div></div>
-                <div data-detail="5" class="roadmap-detail"><div class="roadmap-detail-title">Phase 6 - Combat V1</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">Weapons you can equip, fire, and feel. Ranged and melee integrated with the inventory system - every weapon degrades with use and can break. Ammunition is scarce. Combat is designed to feel desperate, not heroic. You're not a soldier - you're a survivor.</div></div><div class="roadmap-detail-img"><img src="screenshots/airlock_screenshot_05.jpg" alt="AIRLOCK Combat V1"></div></div></div>
-                <div data-detail="6" class="roadmap-detail"><div class="roadmap-detail-title">Phase 7 - Modules V1</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">The module system fully integrated into the HUD - browse 14+ categories, see every detail before you place (tier, size, morale bonus, build time, power draw, water usage). Place, move, remove. Watch your Settlers use what you build. It's not just building, it's bringing your base to life.</div></div><div class="roadmap-detail-img"><img src="screenshots/airlock_screenshot_6.jpg" alt="AIRLOCK Modules V1"></div></div></div>
-                <div data-detail="7" class="roadmap-detail"><div class="roadmap-detail-title">Phase 8 - Hordes V1</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">An optimised horde system - large numbers of The Altered on screen without tanking performance. AI states: idle wanderers, alerted searchers, full-speed chasers, swarming attackers. They hunt. They swarm. They overwhelm. Daytime is tense. Night is deadly.</div></div><div class="roadmap-detail-img"><img src="screenshots/airlock_screenshot_07.jpg" alt="AIRLOCK Hordes V1"></div></div></div>
-                <div data-detail="8" class="roadmap-detail"><div class="roadmap-detail-title">Phase 9 - Loot V1</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">Lootable items scattered throughout ruined buildings, abandoned vehicles, and the remains of those who didn't make it. Food, weapons, medicine, blueprints, raw materials, rare components. Every surface trip is a risk-reward calculation - push deeper for better loot, or play it safe near the airlock?</div></div><div class="roadmap-detail-img"><img src="screenshots/airlock_screenshot_08.jpg" alt="AIRLOCK Loot V1"></div></div></div>
-                <div data-detail="9" class="roadmap-detail"><div class="roadmap-detail-title">Phase 10 - Character V2 (MetaHuman)</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">Out with the placeholder, in with the real thing. The ALS mannequin replaced with a fully assembled MetaHuman character - realistic face, hair, skin, expressions. The foundation for cutscenes, emotional storytelling, and characters you actually care about.</div></div><div class="roadmap-detail-img"><img src="screenshots/airlock_screenshot_02.jpg" alt="AIRLOCK Character V2"></div></div></div>
-                <div data-detail="10" class="roadmap-detail"><div class="roadmap-detail-title">Phase 11 - Companion V1</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">You shouldn't face the surface alone. Your companion follows you - engaging enemies, sniffing out hidden loot, reacting to danger before you see it. They have personality. They have moods. They remember. Meet Marv.</div></div><div class="roadmap-detail-img"><img src="screenshots/Marv.jpg" alt="AIRLOCK Companion V1 - Marv"></div></div></div>
-                <div data-detail="11" class="roadmap-detail"><div class="roadmap-detail-title">Phase 12 - Tier System V1</div><div class="roadmap-detail-status">⧗ In Progress</div><div class="roadmap-detail-body">Every module in the game can be upgraded through four visual and functional tiers: Cave, Brick, Concrete, and Sci-fi. Each upgrade costs resources, consumes utilities, and delivers real improvements - better stats, better equipment access, better mood for the people living inside. Building the tier progression system and the upgrade flow that makes every improvement feel earned.</div></div>
-                <div data-detail="12" class="roadmap-detail"><div class="roadmap-detail-title">Phase 13 - Settlers V1</div><div class="roadmap-detail-status">→ Planned</div><div class="roadmap-detail-body">Settlers aren't furniture. Each one has a name, class, backstory, skill tree, and daily routine. 14 classes (Soldier, Scout, Hunter, Fisher, Farmer, Engineer, Gunsmith, Smith, Tailor, Chemist, Cook, Medic, Thief, Elder). They eat in the canteen, sleep in their assigned room, work their assigned module, socialise in the common area. They form relationships, develop opinions, have children, react to loss. The base only comes alive when the people inside it do.</div></div>
-                <div data-detail="13" class="roadmap-detail"><div class="roadmap-detail-title">Phase 14 - Infrastructure V1</div><div class="roadmap-detail-status">→ Planned</div><div class="roadmap-detail-body">Power, Water, and Ventilation - three interconnected systems that your entire base depends on. A generator failure cuts lights and shuts down modules. A burst pipe floods a corridor. A ventilation failure poisons the air. These aren't background mechanics - they're the heartbeat of your base. Building, placing, and managing them is the difference between a thriving colony and a slow collapse.</div></div>
-                <div data-detail="14" class="roadmap-detail"><div class="roadmap-detail-title">Phase 15 - City &amp; Story V1</div><div class="roadmap-detail-status">→ Planned</div><div class="roadmap-detail-body">Turn the sandbox into a world with purpose. A fully explorable ruined city - streets, overgrown buildings, collapsed infrastructure. Key points of interest drive the story forward. The narrative framework: three-layer reveal, memory triggers, environmental storytelling, the opening sequence. The city is where the lore lives - in graffiti on walls, in notes left behind, in the bones of a civilisation that didn't survive.</div></div>
-                <div data-detail="15" class="roadmap-detail"><div class="roadmap-detail-title">Phase 16 - Playable Demo</div><div class="roadmap-detail-status">→ Target 2026</div><div class="roadmap-detail-body">A 60+ minute guided experience. Wake up alone in a concrete room. A word scratched on the wall: KORE. Escape into Ashgate. Discover an airlock. Build your first rooms. Rescue your first Survivors. Watch them become Settlers. Venture back for supplies. Survive the night. The demo ends with a hook that makes you need to know what happens next. This goes straight onto Steam for the world to play.</div></div>
-            </div>
-        </div>
-
-        <!-- ROW 2: FUNDING & LAUNCH -->
-        <div class="roadmap-phase-group fade-in">
-            <div class="roadmap-phase-label">Funding &amp; Launch</div>
-            <div class="roadmap-track">
-                <div class="roadmap-node" data-phase="16" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">12</span></div>
-                    <div class="roadmap-label">Kickstarter</div>
-                </div>
-                <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node" data-phase="17" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">13</span></div>
-                    <div class="roadmap-label">Early Access</div>
-                </div>
-                <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node" data-phase="18" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">14</span></div>
-                    <div class="roadmap-label">Narrative</div>
-                </div>
-            </div>
-            <div class="roadmap-detail-container">
-                <div data-detail="16" class="roadmap-detail"><div class="roadmap-detail-title">Phase 12 - Kickstarter Campaign</div><div class="roadmap-detail-status">→ Crowdfunding</div><div class="roadmap-detail-body">The demo proves the game works. Now it needs to grow. The Kickstarter funds full-time development - Henry leaves the day job and builds AIRLOCK every single day. If funding goes well (£200K–300K+), local artists, modellers, and designers get hired - not contractors, real team members kept on long-term. If funding goes exceptionally well (£1M+), a publisher comes on board to supercharge marketing and community growth. Every tier of funding makes the game bigger, better, and faster.</div></div>
-                <div data-detail="17" class="roadmap-detail"><div class="roadmap-detail-title">Phase 13 - Steam Early Access</div><div class="roadmap-detail-status">→ Open Development</div><div class="roadmap-detail-body">AIRLOCK goes live on Steam Early Access. The UK map launches first - a full 4–8 sq km explorable environment. The core loop is complete: build, explore, survive, expand. This isn't a closed-door project. Early Access means the community is in the room. You play it, break it, tell us what works. Your feedback directly shapes what gets built next. Regular updates, dev diaries, transparent development. The game grows with its players.</div></div>
-                <div data-detail="18" class="roadmap-detail"><div class="roadmap-detail-title">Phase 14 - Narrative &amp; Lore</div><div class="roadmap-detail-status">→ Hire Narrative Expert</div><div class="roadmap-detail-body">The world has deep lore - the Sonic Nuclear War, the Altered, the Legion, three centuries of history. It deserves a professional narrative expert. This phase brings on a dedicated writer to structure the full story arc, character backgrounds, faction histories, environmental storytelling, and the mystery that drives you forward. The lore exists in Henry's head and design documents - this phase turns it into something players will obsess over and piece together one discovery at a time.</div></div>
-            </div>
-        </div>
-
-        <!-- ROW 3: EXPANDING THE WORLD -->
-        <div class="roadmap-phase-group fade-in">
-            <div class="roadmap-phase-label">Expanding the World</div>
-            <div class="roadmap-track">
-                <div class="roadmap-node" data-phase="19" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">15</span></div>
-                    <div class="roadmap-label">Customisation</div>
-                </div>
-                <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node" data-phase="20" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">16</span></div>
-                    <div class="roadmap-label">Trading</div>
-                </div>
-                <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node" data-phase="21" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">17</span></div>
-                    <div class="roadmap-label">Multi-Base</div>
-                </div>
-                <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node" data-phase="22" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">18</span></div>
-                    <div class="roadmap-label">Metro</div>
-                </div>
-            </div>
-            <div class="roadmap-detail-container">
-                <div data-detail="19" class="roadmap-detail"><div class="roadmap-detail-title">Phase 15 - Expanded Customisation</div><div class="roadmap-detail-status">→ More Everything</div><div class="roadmap-detail-body">More modules. More base areas. More ways to personalise your underground world. Higher-tier kitchens, advanced farms, specialised workshops, recreation rooms, schools for children born underground. When your base maxes out, it's not game over - find a new location, start again bigger and better. Your first base becomes a node in something larger.</div></div>
-                <div data-detail="20" class="roadmap-detail"><div class="roadmap-detail-title">Phase 16 - Trading &amp; Economy</div><div class="roadmap-detail-status">→ A Living Economy</div><div class="roadmap-detail-body">Set up automated trade routes between your airlocks. Previous airlocks you've moved on from don't sit empty, they become trading partners. Barter, buy, sell with NPC vendors. Supply and demand shifts based on scarcity. Surplus food but need medicine? Another airlock has the opposite problem. Trade routes emerge. An underground economy grows from the ashes, using UGA Credits as the post-war currency.</div></div>
-                <div data-detail="21" class="roadmap-detail"><div class="roadmap-detail-title">Phase 17 - Multi-Airlock System</div><div class="roadmap-detail-status">→ Expand Your Network</div><div class="roadmap-detail-body">One airlock isn't enough. Discover new underground locations: pre-war military bunkers, research annexes, mine shafts, civic shelters. Each has unique starting features and unique upgrades. Build, max out, leave, find another. Your previous airlocks stay intact and active. Specialise them: your farm, your armoury, your research hub. Rebuild civilisation, one airlock at a time.</div></div>
-                <div data-detail="22" class="roadmap-detail"><div class="roadmap-detail-title">Phase 18 - Underground Metro</div><div class="roadmap-detail-status">→ Connect Everything</div><div class="roadmap-detail-body">Every airlock has a buried metro station at its deepest point. Excavate down through the grid. Clear the rubble. Assign an Engineer Settler to restore power. Reconnect the line to the wider UGA rail network. Once active, fast-travel between your airlocks without touching Ashgate. Supplies move. Settlers transfer where needed. You ride the rails through dark tunnels beneath a dead world. It's infrastructure. It's logistics. It's the spine of your underground civilisation.</div></div>
-            </div>
-        </div>
-
-        <!-- ROW 4: GLOBAL MAPS & BEYOND -->
-        <div class="roadmap-phase-group fade-in">
-            <div class="roadmap-phase-label">Global Maps &amp; Beyond</div>
-            <div class="roadmap-track">
-                <div class="roadmap-node" data-phase="23" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">🇬🇧</span></div>
-                    <div class="roadmap-label">UK</div>
-                </div>
-                <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node" data-phase="24" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">🇯🇵</span></div>
-                    <div class="roadmap-label">Japan</div>
-                </div>
-                <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node" data-phase="25" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">🇺🇸</span></div>
-                    <div class="roadmap-label">USA</div>
-                </div>
-                <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node" data-phase="26" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">🇩🇪</span></div>
-                    <div class="roadmap-label">Germany</div>
-                </div>
-                <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node" data-phase="27" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">🇷🇺</span></div>
-                    <div class="roadmap-label">Russia</div>
-                </div>
-                <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node" data-phase="28" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">🇦🇺</span></div>
-                    <div class="roadmap-label">Australia</div>
-                </div>
-                <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node" data-phase="29" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">🇧🇷</span></div>
-                    <div class="roadmap-label">Brazil</div>
-                </div>
-                <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node" data-phase="30" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">★</span></div>
-                    <div class="roadmap-label">Full Release</div>
-                </div>
-                <div class="roadmap-arrow">▸</div>
-                <div class="roadmap-node" data-phase="31" onclick="toggleRoadmap(this)">
-                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">∞</span></div>
-                    <div class="roadmap-label">Multiplayer</div>
-                </div>
-            </div>
-            <div class="roadmap-detail-container">
-                <div data-detail="23" class="roadmap-detail"><div class="roadmap-detail-title">Map: United Kingdom</div><div class="roadmap-detail-status">→ Launch Map</div><div class="roadmap-detail-body">The first and flagship map. A 4–8 sq km chunk of a ruined British city - crumbling terraced streets, overgrown parks, collapsed pubs, flooded tube stations. The architecture tells its own story. Rain-soaked, grey-skied, and hauntingly familiar. This is home. This is where AIRLOCK begins.</div></div>
-                <div data-detail="24" class="roadmap-detail"><div class="roadmap-detail-title">Map: Japan</div><div class="roadmap-detail-status">→ Planned</div><div class="roadmap-detail-body">Neon signs dark for 300 years. Collapsed apartment towers. Overgrown temple grounds reclaimed by nature. The Tokyo metro system - vast, deep, perfect for building underground. Japanese architecture brings a completely different aesthetic, new module types, and a culture that survived differently. Different threats. Different stories. Different ways to rebuild.</div></div>
-                <div data-detail="25" class="roadmap-detail"><div class="roadmap-detail-title">Map: USA</div><div class="roadmap-detail-status">→ Planned</div><div class="roadmap-detail-body">Suburban sprawl meets urban decay. Wide streets, strip malls picked clean, rusted cars for miles. Military bases with sealed bunkers - supplies or something worse inside. The American map brings scale, different weapon availability, and distances between safe zones that are longer and more dangerous.</div></div>
-                <div data-detail="26" class="roadmap-detail"><div class="roadmap-detail-title">Map: Germany</div><div class="roadmap-detail-status">→ Planned</div><div class="roadmap-detail-body">Industrial heartland. Factories repurposed. Cold War-era bunkers built to survive exactly this - some still sealed, some already occupied. Dense forests where the Altered nest. German engineering meets post-apocalyptic survival. Infrastructure is better preserved, but what's living inside it is worse.</div></div>
-                <div data-detail="27" class="roadmap-detail"><div class="roadmap-detail-title">Map: Russia</div><div class="roadmap-detail-status">→ Planned</div><div class="roadmap-detail-body">Moscow's metro - the deepest in the world - becomes the ultimate underground base location. Soviet-era bunkers stretch for kilometres. Cold is a constant threat above ground. Resources scarce but underground infrastructure is unmatched. The Russian underground offers the most ambitious base-building opportunities in the game.</div></div>
-                <div data-detail="28" class="roadmap-detail"><div class="roadmap-detail-title">Map: Australia</div><div class="roadmap-detail-status">→ Planned</div><div class="roadmap-detail-body">The outback survived better than anywhere. Wide open spaces, mining tunnels that go deep, danger visible from miles away - but you can't outrun it. Extreme heat as a survival mechanic, mining networks as base locations, and everything here was already trying to kill you before the war.</div></div>
-                <div data-detail="29" class="roadmap-detail"><div class="roadmap-detail-title">Map: Brazil</div><div class="roadmap-detail-status">→ Planned</div><div class="roadmap-detail-body">Dense jungle has swallowed the cities whole. Favelas stacked vertically - perfect for vertical base-building. Amazon underground river systems create unique environments unlike anywhere else. Lush, dangerous, teeming with mutated life. The most visually different map - jungle survival, river navigation, and building down instead of out.</div></div>
-                <div data-detail="30" class="roadmap-detail"><div class="roadmap-detail-title">Full Release - AIRLOCK 1.0</div><div class="roadmap-detail-status">→ The Vision Realised</div><div class="roadmap-detail-body">All maps. All systems. Full narrative. Complete economy. The underground metro connects every airlock on every map. The game Henry has carried in his head for over a decade, fully realised. A survival base-builder where you don't just survive - you rebuild. You trade. You explore. You discover the truth about what happened 300 years ago. Your way, in your airlock, in your corner of a broken world.</div></div>
-                <div data-detail="31" class="roadmap-detail"><div class="roadmap-detail-title">The Dream - Multiplayer</div><div class="roadmap-detail-status">→ Long-Term Vision</div><div class="roadmap-detail-body">The ultimate dream. Your airlock. Your friend's airlock. Connected. Trading between real players. Visiting each other's bases. Cooperative surface runs. Rival factions competing for the best locations. A monumental engineering challenge - but with the right team and funding, not impossible. This is the horizon. Everything else on this roadmap is the road that leads here.</div></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- MEDIA SECTION -->
-    <section id="media">
-        <h2 class="section-title fade-in">Media</h2>
-
-        <!-- Filter tabs -->
-        <div class="media-tabs fade-in">
-            <button class="media-tab active" data-filter="all">All</button>
-            <button class="media-tab" data-filter="gif">GIFs</button>
-            <button class="media-tab" data-filter="screenshot">Screenshots</button>
-        </div>
-
-        <div class="media-grid" id="media-grid">
-            <!-- GIFs -->
-            <div class="media-item fade-in" data-type="gif" data-src="Airlock_BuildYourBase.gif" data-label="Build Your Base">
-                <img class="gif-img" src="Airlock_BuildYourBase.gif" alt="Build Your Base" loading="lazy">
-                <div class="media-item-label">Build Your Base</div>
-            </div>
-            <div class="media-item fade-in" data-type="gif" data-src="Airlock_ExploreYourBase.gif" data-label="Explore Your Base">
-                <img class="gif-img" src="Airlock_ExploreYourBase.gif" alt="Explore Your Base" loading="lazy">
-                <div class="media-item-label">Explore Your Base</div>
-            </div>
-            <div class="media-item fade-in" data-type="gif" data-src="Airlock_UpgradeYourBase.gif" data-label="Upgrade Your Base">
-                <img class="gif-img" src="Airlock_UpgradeYourBase.gif" alt="Upgrade Your Base" loading="lazy">
-                <div class="media-item-label">Upgrade Your Base</div>
-            </div>
-            <div class="media-item fade-in" data-type="gif" data-src="Airlock_Explore.gif" data-label="Explore the Surface">
-                <img class="gif-img" src="Airlock_Explore.gif" alt="Explore the Surface" loading="lazy">
-                <div class="media-item-label">Explore the Surface</div>
-            </div>
-            <div class="media-item fade-in" data-type="gif" data-src="Airlock_SurviveUnderground.gif" data-label="Survive Underground">
-                <img class="gif-img" src="Airlock_SurviveUnderground.gif" alt="Survive Underground" loading="lazy">
-                <div class="media-item-label">Survive Underground</div>
-            </div>
-            <div class="media-item fade-in" data-type="gif" data-src="Airlock_AlteredHorde.gif" data-label="The Altered - Horde">
-                <img class="gif-img" src="Airlock_AlteredHorde.gif" alt="The Altered - Horde" loading="lazy">
-                <div class="media-item-label">The Altered - Horde</div>
-            </div>
-            <div class="media-item fade-in" data-type="gif" data-src="Airlock_FightHordes.gif" data-label="Fight Hordes">
-                <img class="gif-img" src="Airlock_FightHordes.gif" alt="Fight Hordes" loading="lazy">
-                <div class="media-item-label">Fight Hordes</div>
-            </div>
-            <div class="media-item fade-in" data-type="gif" data-src="Airlock_RunAway.gif" data-label="Run Away">
-                <img class="gif-img" src="Airlock_RunAway.gif" alt="Run Away" loading="lazy">
-                <div class="media-item-label">Run Away</div>
-            </div>
-            <div class="media-item fade-in" data-type="gif" data-src="Airlock_SearchAnything.gif" data-label="Search Anything">
-                <img class="gif-img" src="Airlock_SearchAnything.gif" alt="Search Anything" loading="lazy">
-                <div class="media-item-label">Search Anything</div>
-            </div>
-            <!-- Screenshots -->
-            <div class="media-item fade-in" data-type="screenshot" data-src="screenshots/airlock_screenshot_01.jpg" data-label="Military Compound">
-                <img src="screenshots/airlock_screenshot_01.jpg" alt="Military Compound" loading="lazy">
-                <div class="media-item-label">Military Compound</div>
-            </div>
-            <div class="media-item fade-in" data-type="screenshot" data-src="screenshots/airlock_screenshot_02.jpg" data-label="Character">
-                <img src="screenshots/airlock_screenshot_02.jpg" alt="Character" loading="lazy">
-                <div class="media-item-label">Character</div>
-            </div>
-            <div class="media-item fade-in" data-type="screenshot" data-src="screenshots/airlock_screenshot_03.jpg" data-label="Grid System">
-                <img src="screenshots/airlock_screenshot_03.jpg" alt="Grid System" loading="lazy">
-                <div class="media-item-label">Grid System</div>
-            </div>
-            <div class="media-item fade-in" data-type="screenshot" data-src="screenshots/airlock_screenshot_04.jpg" data-label="HUD">
-                <img src="screenshots/airlock_screenshot_04.jpg" alt="HUD" loading="lazy">
-                <div class="media-item-label">HUD</div>
-            </div>
-            <div class="media-item fade-in" data-type="screenshot" data-src="screenshots/airlock_screenshot_05.jpg" data-label="Combat">
-                <img src="screenshots/airlock_screenshot_05.jpg" alt="Combat" loading="lazy">
-                <div class="media-item-label">Combat</div>
-            </div>
-            <div class="media-item fade-in" data-type="screenshot" data-src="screenshots/airlock_screenshot_6.jpg" data-label="Module System">
-                <img src="screenshots/airlock_screenshot_6.jpg" alt="Module System" loading="lazy">
-                <div class="media-item-label">Module System</div>
-            </div>
-            <div class="media-item fade-in" data-type="screenshot" data-src="screenshots/airlock_screenshot_07.jpg" data-label="Horde">
-                <img src="screenshots/airlock_screenshot_07.jpg" alt="Horde" loading="lazy">
-                <div class="media-item-label">Horde</div>
-            </div>
-            <div class="media-item fade-in" data-type="screenshot" data-src="screenshots/airlock_screenshot_08.jpg" data-label="Loot">
-                <img src="screenshots/airlock_screenshot_08.jpg" alt="Loot" loading="lazy">
-                <div class="media-item-label">Loot</div>
-            </div>
-            <div class="media-item fade-in" data-type="screenshot" data-src="screenshots/4_mainmenu.png" data-label="Main Menu UI">
-                <img src="screenshots/4_mainmenu.png" alt="Main Menu UI" loading="lazy">
-                <div class="media-item-label">Main Menu UI</div>
-            </div>
-            <div class="media-item fade-in" data-type="screenshot" data-src="screenshots/Marv.jpg" data-label="Marv - Companion">
-                <img src="screenshots/Marv.jpg" alt="Marv the companion dog" loading="lazy">
-                <div class="media-item-label">Marv - Companion</div>
-            </div>
-            <div class="media-item fade-in" data-type="screenshot" data-src="screenshots/airlock_screenshot_marv.jpg" data-label="Companion V1">
-                <img src="screenshots/airlock_screenshot_marv.jpg" alt="Companion V1" loading="lazy">
-                <div class="media-item-label">Companion V1</div>
-            </div>
-        </div>
-
-        <!-- Lightbox -->
-        <div class="media-lightbox" id="media-lightbox">
-            <button class="media-lightbox-close" id="lb-close">[ CLOSE ]</button>
-            <button class="media-lightbox-nav media-lightbox-prev" id="lb-prev">&#8249;</button>
-            <img id="lb-img" src="" alt="">
-            <div class="media-lightbox-label" id="lb-label"></div>
-            <button class="media-lightbox-nav media-lightbox-next" id="lb-next">&#8250;</button>
-        </div>
-    </section>
-
-    <!-- DEV DIARY SECTION -->
-    <section id="devdiary">
-        <h2 class="section-title fade-in">Dev Diary</h2>
-        <p class="support-text fade-in" style="margin-bottom: 2rem;">Follow the development of AIRLOCK from the very beginning. Every win, every setback, every breakthrough - documented honestly.</p>
-        <div id="videos-grid" class="videos-grid"></div>
-        <div class="diary-entries">
-            <div class="diary-entry fade-in">
-                <div class="diary-date">17 April 2026</div>
-                <div class="diary-content">The biggest canon lockdown day in the project's history. Locked the full Altered class breakdown (Feral with 7 visual sub-types, Familiars, Stalkers, Legion with Geiger-counter mechanic). Locked the 14 Settler classes and their signature modules. Locked the skill system at 8 tiers × 10 sub-levels (80 total levels per skill), 17 parent categories, 130+ sub-skills, with full XP propagation rules (100% sub + 10% parent trickle + 10% cross-skill bleed). Locked the multi-airlock + metro network as core design, not late-game. Locked the ant farm + dual-view camera system. Wrote USkillComponent and SkillTypes in C++. Wrote the AirlockSkillXPWidget popup. Updated performance config for Lumen software-RT. Steamworks account registered (phase 1 done). Updated every section of this website. Rest well. Tomorrow, we ship.</div>
-            </div>
-            <div class="diary-entry fade-in">
-                <div class="diary-date">14 April 2026</div>
-                <div class="diary-content">Website visual overhaul complete. The site has been fully redesigned to match AIRLOCK's in-game UI aesthetic: dark warm palette, cream and bone-white text, grey-forward accents, torn/damaged edges on panels. All blues are gone. Buttons now look like aged parchment, matching the in-game module UI exactly. All 8 dev diary videos embedded. The website finally feels like the game.</div>
-            </div>
-            <div class="diary-entry fade-in">
-                <div class="diary-date">13 April 2026</div>
-                <div class="diary-content">Major codebase refactor complete: DT_Modules is now the single source of truth for all module data. Previously, every Blueprint had its own duplicate display name, description, tier stats, power draw, morale bonus and build time - now all of that lives in the Data Table. The UI panels (Selected, Upgrade, Compare) now pull directly from DT_Modules first, falling back to Blueprint properties only if no DT entry exists. Cleaner, faster, and far easier to balance.</div>
-            </div>
-            <div class="diary-entry fade-in">
-                <div class="diary-date">13 April 2026</div>
-                <div class="diary-content">Save/load tier persistence bug fixed. Modules were always spawning at tier 0 on load, regardless of what tier they were at when saved. Root cause: relying on UE's SaveGame property specifier, which has no effect in AIRLOCK's manual struct-based save system. Fixed by adding CurrentTier to the FPlacedModuleSaveData struct, capturing it from the live actor at save time, and restoring it via SetTier() on load. Tiers now survive a full save/load cycle correctly.</div>
-            </div>
-            <div class="diary-entry fade-in">
-                <div class="diary-date">13 April 2026</div>
-                <div class="diary-content">Diversion VCS crisis averted. Accidentally submitted changes to a review draft instead of committing directly - the workspace reverted to commit 10 and all recent changes appeared lost. Tracked down the draft review on app.diversion.dev, found it had already auto-merged as dv.commit.12, created a LatestFixes branch from that commit, then merged it back into main (now at dv.commit.13). All 329 changed files restored. Nothing lost.</div>
-            </div>
-            <div class="diary-entry fade-in">
-                <div class="diary-date">9 April 2026</div>
-                <div class="diary-content">Website goes live at theairlock.co.uk! Built from scratch - single-page HTML with particle effects, interactive 27-phase roadmap, dev diary section, and embedded music player. Hosted on Cloudflare Pages via GitHub. Domain connected. The game finally has a home on the internet.</div>
-            </div>
-            <div class="diary-entry fade-in">
-                <div class="diary-date">9 April 2026</div>
-                <div class="diary-content">MetaHuman character (MH_Adrien) successfully assembled in UE5 after fixing a Derived Data Cache issue that was eating 256GB of disk space. Redirected DDC to D: drive. Next step: retarget ALS animations onto the MetaHuman skeleton and swap out the placeholder character.</div>
-            </div>
-            <div class="diary-entry fade-in">
-                <div class="diary-date">9 April 2026</div>
-                <div class="diary-content">Full development roadmap finalised - 27 phases from prototype to multiplayer. Four stages: Building the Demo (12 phases, 7 complete), Funding &amp; Launch (Kickstarter → Early Access → Narrative), Expanding the World (Customisation → Trading → Multi-Base → Metro), and Global Maps (UK, Japan, USA, Germany, Russia, Australia, Brazil → Full Release).</div>
-            </div>
-            <div class="diary-entry fade-in">
-                <div class="diary-date">4 April 2026</div>
-                <div class="diary-content">UE5 project settings locked. Async level streaming working. Demo roadmap created - 56 tasks across 8 sprints.</div>
-            </div>
-            <div class="diary-entry fade-in">
-                <div class="diary-date">3 April 2026</div>
-                <div class="diary-content">Surface world pipeline working end-to-end - massive ruined city environment now loading as a playable level. Module system expanded to 14 categories. Full 60-minute demo gameplay loop documented.</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- NEWSLETTER SECTION -->
-    <section id="newsletter">
-        <h2 class="section-title fade-in">Join The Bunker</h2>
-        <div class="newsletter-content">
-            <p class="newsletter-intro fade-in">
-                Want to know what's actually happening inside the bunker? Subscribe to the AIRLOCK dev newsletter for honest updates from a solo dev. New builds, new features, behind the scenes dev diaries, and the occasional broken thing I'm too tired to fix. <strong>No spam, no fluff, no marketing nonsense.</strong> Just the real story as AIRLOCK comes together.
-            </p>
-
-            <div class="newsletter-form-wrap fade-in">
-                <!--Zoho Campaigns Web-Optin Form's Header Code Starts Here-->
-                <script type="text/javascript" src="https://zcv2-zcmp.maillist-manage.eu/js/optin.min.js" onload="setupSF('sf3z82145c7db59714333cca57c5c97405d7b9cd2d17f825a5c10ab22af05142cbec','ZCFORMVIEW',false,'light',false,'0')"></script>
-                <script type="text/javascript">
-                    function runOnFormSubmit_sf3z82145c7db59714333cca57c5c97405d7b9cd2d17f825a5c10ab22af05142cbec(th){
-                        /*Before submit, if you want to trigger your event, "include your code here"*/
-                    };
-                </script>
-                <!--Zoho Campaigns Web-Optin Form's Header Code Ends Here-->
-
-                <!--Zoho Campaigns Web-Optin Form Starts Here-->
-                <div id="sf3z82145c7db59714333cca57c5c97405d7b9cd2d17f825a5c10ab22af05142cbec" data-type="signupform" style="opacity: 1;">
-                    <div id="customForm">
-                        <div name="SIGNUP_BODY" changeitem="BG_IMAGE" style="width: 450px; height: 470px; position: relative; font-family: Arial; background-color: rgb(26, 26, 24); margin: auto; overflow: hidden; border-color: rgb(200, 196, 180); border-style: solid">
-                            <div changeitem="ELEGANTFORM_IMAGE" style="width: 100%; height: 100%; position: absolute; bottom: 0">
-                                <img style="width: 100%; height: 100%; position: relative; visibility: hidden">
-                            </div>
-                            <div style="position: relative; font-family: &quot;Arial&quot;; background-color: rgb(255, 255, 255)">
-                                <link rel="stylesheet">
-                                <div style="text-align: center; width: 100%; float: left; position: relative; z-index: 2; margin-top: 50px">
-                                    <div style="width: 100%; color: rgb(255, 255, 255); font-size: 30px; margin: 5px 0; font-weight: 700; font-family: &quot;Poppins&quot;, &quot;Arial&quot;, sans-serif; line-height: 30px">JOIN THE BUNKER</div>
-                                    <div style="width: 100%; color: rgb(255, 255, 255); font-size: 30px; margin: 3px 0; font-weight: 400; font-family: &quot;Poppins&quot;, &quot;Arial&quot;, sans-serif"></div>
-                                    <div style="color: rgb(200, 196, 180); font-family: Poppins, Arial, sans-serif; font-weight: 600; font-size: 62px; margin: 0px; line-height: 60px; background-color: rgb(58, 58, 54)">GET DEV UPDATES</div>
-                                    <div style="color: rgb(255, 255, 255); font-family: Poppins, Arial, sans-serif; font-weight: 600; font-size: 28px; display: block; line-height: 40px; margin: 0px; width: 450px">FROM IRONBRIDGE</div>
-                                    <div style="color: rgb(255, 255, 255); font-family: &quot;Poppins&quot;, &quot;Arial&quot;, sans-serif; font-weight: 700; font-size: 20px; display: block; line-height: 40px; margin: 0"></div>
-                                    <div style="font-size: 22px; color: rgb(255, 255, 255); line-height: 1.5; width: 100%; float: left; margin: 0 0 15px; text-align: center; font-weight: 300"></div>
-                                </div>
-                            </div>
-                            <div style="position:relative;">
-                                <div id="Zc_SignupSuccess" style="display:none;position:absolute;margin-left:4%;width:90%;background-color: white; padding: 3px; border: 3px solid rgb(194, 225, 154);  margin-top: 10px;margin-bottom:10px;word-break:break-all">
-                                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
-                                        <tbody>
-                                            <tr>
-                                                <td width="10%">
-                                                    <img class="successicon" src="https://zcv2-zcmp.maillist-manage.eu/images/challangeiconenable.jpg" align="absmiddle">
-                                                </td>
-                                                <td>
-                                                    <span id="signupSuccessMsg" style="color: rgb(73, 140, 132); font-family: sans-serif; font-size: 14px;word-break:break-word">&nbsp;&nbsp;Thank you for Signing Up</span>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <form method="POST" id="zcampaignOptinForm" style="margin: 0px; width: 100%; color: rgb(255, 255, 255); width: 100%; float: left; text-align: center" action="https://zcv2-zcmp.maillist-manage.eu/weboptin.zc" target="_zcSignup">
-                                <div style="background-color: rgb(255, 235, 232); padding: 10px; color: rgb(210, 0, 0); font-size: 11px; border: 1px solid rgb(255, 217, 211); opacity: 1; position: absolute; width: 80%; box-shadow: rgb(27, 27, 27) 0px 5px 12px 0px; margin: -50px 10%; z-index: 2; box-sizing: border-box; display: none" id="errorMsgDiv">Please correct the marked field(s) below.</div>
-                                <div style="text-align: center; width: 275px; height: 40px; margin: auto; display: inline-block; z-index: 99; position: relative; margin-bottom: 5px">
-                                    <div id="Zc_SignupSuccess" style="position: absolute; width: 87%; background-color: white; padding: 3px; border: 3px solid rgb(194, 225, 154); word-break: break-all; opacity: 1; display: none">
-                                        <div style="width: 20px; padding: 5px; display: table-cell">
-                                            <img class="successicon" src="https://campaigns.zoho.com/images/challangeiconenable.jpg" style="width: 20px">
-                                        </div>
-                                        <div style="display: table-cell">
-                                            <span id="signupSuccessMsg" style="color: rgb(73, 140, 132); font-family: sans-serif; font-size: 14px; line-height: 30px; display: block"></span>
-                                        </div>
-                                    </div>
-                                    <input placeholder="Put your Email Address Here" changeitem="SIGNUP_FORM_FIELD" name="CONTACT_EMAIL" id="EMBED_FORM_EMAIL_LABEL" type="text" style="border: 0; background-color: rgb(255, 255, 255); width: 100%; height: 100%; z-index: 4; outline: none; padding: 5px 5px; box-sizing: border-box; color: rgb(136, 136, 136); font-family: &quot;Poppins&quot;, &quot;Arial&quot;, sans-serif; text-align: center; font-size: 14px">
-                                </div>
-                                <div style="position: relative; width: 275px; height: 37px; margin-top: 15px; display: inline-block">
-                                    <input type="button" style="text-align: center; border-radius: 0px; background-color: rgb(58, 58, 54); width: 100%; height: 100%; z-index: 5; border: 0px; color: rgb(255, 255, 255); cursor: pointer; outline: none; font-family: Poppins, Arial; margin-top: 0px; font-size: 16px; font-weight: 700" name="SIGNUP_SUBMIT_BUTTON" id="zcWebOptin" value="Tell Me Everything!">
-                                </div>
-                                <input type="hidden" id="fieldBorder" value="">
-                                <input type="hidden" id="submitType" name="submitType" value="optinCustomView">
-                                <input type="hidden" id="emailReportId" name="emailReportId" value="">
-                                <input type="hidden" id="formType" name="formType" value="QuickForm">
-                                <input type="hidden" name="zx" id="cmpZuid" value="14aee095a2">
-                                <input type="hidden" name="zcvers" value="2.0">
-                                <input type="hidden" name="oldListIds" id="allCheckedListIds" value="">
-                                <input type="hidden" id="mode" name="mode" value="OptinCreateView">
-                                <input type="hidden" id="zcld" name="zcld" value="13e40ad815e00614">
-                                <input type="hidden" id="zctd" name="zctd" value="13e40ad815e00539">
-                                <input type="hidden" id="document_domain" value="">
-                                <input type="hidden" id="zc_Url" value="zcv2-zcmp.maillist-manage.eu">
-                                <input type="hidden" id="new_optin_response_in" value="0">
-                                <input type="hidden" id="duplicate_optin_response_in" value="0">
-                                <input type="hidden" name="zc_trackCode" id="zc_trackCode" value="ZCFORMVIEW">
-                                <input type="hidden" id="zc_formIx" name="zc_formIx" value="3z82145c7db59714333cca57c5c97405d7b9cd2d17f825a5c10ab22af05142cbec">
-                                <input type="hidden" id="viewFrom" value="URL_ACTION">
-                                <span style="display: none" id="dt_CONTACT_EMAIL">1,true,6,Contact Email,2</span>
-                                <span style="display: none" id="dt_FIRSTNAME">1,false,1,First Name,2</span>
-                                <span style="display: none" id="dt_LASTNAME">1,false,1,Last Name,2</span>
-                            </form>
-                        </div>
-                    </div>
-                    <img src="https://zcv2-zcmp.maillist-manage.eu/images/spacer.gif" id="refImage" onload="referenceSetter(this)" style="display:none;">
-                </div>
-                <input type="hidden" id="signupFormType" value="QuickForm_Vertical">
-                <div id="zcOptinOverLay" oncontextmenu="return false" style="display:none;text-align: center; background-color: rgb(0, 0, 0); opacity: 0.5; z-index: 100; position: fixed; width: 100%; top: 0px; left: 0px; height: 988px;"></div>
-                <div id="zcOptinSuccessPopup" style="display:none;z-index: 9999;width: 800px; height: 40%;top: 84px;position: fixed; left: 26%;background-color: #FFFFFF;border-color: #E6E6E6; border-style: solid; border-width: 1px;  box-shadow: 0 1px 10px #424242;padding: 35px;">
-                    <span style="position: absolute;top: -16px;right:-14px;z-index:99999;cursor: pointer;" id="closeSuccess">
-                        <img src="https://zcv2-zcmp.maillist-manage.eu/images/videoclose.png">
-                    </span>
-                    <div id="zcOptinSuccessPanel"></div>
-                </div>
-                <!--Zoho Campaigns Web-Optin Form Ends Here-->
-            </div>
-        </div>
-    </section>
-
-    <!-- SUPPORT SECTION -->
-    <section id="support">
-        <h2 class="section-title fade-in">Join My Journey</h2>
-        <div class="support-content">
-            <p class="support-text fade-in">
-                I'm Henry. I've spent over a decade as a professional <strong>Environment Artist and Art Lead</strong> in the games industry, working at studios including <strong>Rebellion, nDreams, Offworld Industries,</strong> and <strong>Ubisoft</strong>. I've helped ship AAA and indie titles. I know exactly what it takes to bring a game from concept to completion, because I've been doing it my entire career.
-            </p>
-            <p class="support-text fade-in">
-                But throughout all of it, I've carried one ambition: to build something of my own. Not someone else's vision. Mine. A game that pulls together everything I love about the medium: deep base-building, survival tension, real characters, and a story with genuine emotional weight. AIRLOCK has lived in my head for years. Every studio, every shipped title, every hard lesson has shaped what it's becoming.
-            </p>
-            <p class="support-text fade-in">
-                I won't pretend this is my first attempt at crowdfunding. I've tried Kickstarter before, and those projects failed. Looking back, they deserved to. The ideas weren't developed enough, the games weren't far enough along, and I was asking people to believe in something that wasn't yet real. I wasn't ready.
-            </p>
-            <p class="support-text fade-in">
-                <strong>This time is different.</strong> AIRLOCK already has a working prototype built in Unreal Engine 5: a C++ grid-based building system, functional module placement, save and load, a full UI prototype, detailed design documentation, and a registered studio under <strong>Ironbridge Games LTD</strong>. This is no longer just an idea. It's an active, playable project with real momentum behind it.
-            </p>
-            <p class="support-text fade-in">
-                I have a wife and six kids. I have a day job. Every hour spent on AIRLOCK comes from late nights, early mornings, and sacrificed weekends. I want to dedicate myself to this full-time, not because it's a fantasy, but because I genuinely believe I have the experience, the skillset, and the vision to make it happen.
-            </p>
-            <p class="support-text fade-in">
-                <strong>The goal is straightforward:</strong> Kickstarter funds the development. Once the demo is ready, it goes onto <strong>Steam Early Access</strong> so you can play it, break it, give feedback, and help shape what gets built next. This isn't a closed-door project. I want AIRLOCK developed alongside the people who believe in it, through dev diaries, Discord, and honest progress every step of the way.
-            </p>
-            <p class="support-text fade-in">
-                Every backer, every follower, every person who joins and says "I want to see this happen" pushes it one step closer to reality. That's what keeps me going at 2am after the kids are asleep.
-            </p>
-            <p class="support-text fade-in">
-                <strong>Back the project. Follow the dev diaries. Join the community. Help me build the best game I can.</strong>
-            </p>
-            <div class="cta-buttons fade-in">
-                <a href="#" class="cta-button">Back on Kickstarter</a>
-                <a href="https://discord.gg/D6E86yjExd" target="_blank" class="cta-button">Join the Discord</a>
-                <!-- TODO: When Valve approves the Steam page, replace href="#" with
-                     https://store.steampowered.com/app/YOUR_APP_ID/AIRLOCK/ and remove data-coming-soon -->
-                <a href="#" class="cta-button" data-coming-soon="true" aria-label="Wishlist on Steam (Coming Soon)">Wishlist on Steam</a>
-            </div>
+    <!-- NEWSLETTER -->
+    <section id="newsletter" class="newsletter-section">
+        <div class="newsletter-inner reveal">
+            <div class="chapter-meta" style="display: inline-block;">Channel <span>·</span> Open</div>
+            <h2>Stay in the Loop</h2>
+            <p>Dev diaries, demo announcements, and the call when the airlock opens. No spam. No tracking. Just the signal.</p>
+            <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Newsletter signup goes here. Wire up to Zoho Campaigns embed.');">
+                <input type="email" placeholder="your@email.com" required>
+                <button type="submit">Sign Up</button>
+            </form>
+            <div class="newsletter-note">By signing up, you'll receive AIRLOCK dev updates from Ironbridge Games. Unsubscribe anytime.</div>
         </div>
     </section>
 
     <!-- FOOTER -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>AIRLOCK</h4>
-                <p>A post-apocalyptic survival base-builder.<br>By Ironbridge Games.</p>
+    <footer id="support">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <img src="airlock_menulogo.png" alt="AIRLOCK">
+                <p>An Ironbridge Games title.<br>Built in the dark. Made for the surface.</p>
             </div>
-            <div class="footer-section">
-                <h4>Contact</h4>
-                <a href="mailto:hello@theairlock.co.uk">hello@theairlock.co.uk</a>
+            <div class="footer-col">
+                <h5>The Game</h5>
+                <ul>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="roadmap.html">Roadmap</a></li>
+                    <li><a href="media.html">Media</a></li>
+                </ul>
             </div>
-            <div class="footer-section">
-                <h4>Follow</h4>
-                <a href="#">Twitter/X</a>
-                <a href="https://discord.gg/D6E86yjExd" target="_blank">Discord</a>
-                <a href="#">YouTube</a>
+            <div class="footer-col">
+                <h5>Channel</h5>
+                <ul>
+                    <li><a href="diary.html">Dev Diary</a></li>
+                    <li><a href="#newsletter">Newsletter</a></li>
+                    <li><a href="#">Discord</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Studio</h5>
+                <ul>
+                    <li><a href="#">Ironbridge Games</a></li>
+                    <li><a href="#">Press Kit</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2026 Ironbridge Games LTD. All rights reserved.</p>
-            <p>AIRLOCK is a trademark of Ironbridge Games Ltd.</p>
+            © 2026 Ironbridge Games Ltd · Company No. 16882669
         </div>
     </footer>
 
-    <script src="videos.js"></script>
-    <!-- SCRIPTS -->
     <script>
-        // ROADMAP TOGGLE - detail appears under its own row
-        let activeNode = null;
-        function toggleRoadmap(clickedNode) {
-            const phase = clickedNode.getAttribute('data-phase');
-            const group = clickedNode.closest('.roadmap-phase-group');
-            const container = group.querySelector('.roadmap-detail-container');
-            const detail = container.querySelector('[data-detail="' + phase + '"]');
+        // Nav scroll behavior + parallax
+        const nav = document.getElementById('nav');
+        const heroBg = document.getElementById('heroBg');
 
-            // If clicking the same node, close it
-            if (clickedNode === activeNode) {
-                detail.classList.remove('open');
-                clickedNode.classList.remove('active');
-                activeNode = null;
-                return;
-            }
+        function onScroll() {
+            const y = window.scrollY;
+            if (y > 80) nav.classList.add('scrolled'); else nav.classList.remove('scrolled');
+            if (heroBg) heroBg.style.transform = `translateY(${y * 0.3}px) scale(1.05)`;
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
 
-            // Close ALL open details and active nodes across all groups
-            document.querySelectorAll('.roadmap-detail.open').forEach(d => d.classList.remove('open'));
-            document.querySelectorAll('.roadmap-node.active').forEach(n => n.classList.remove('active'));
-
-            // Open the selected one
-            detail.classList.add('open');
-            clickedNode.classList.add('active');
-            activeNode = clickedNode;
-
-            // Smooth scroll to the detail panel
-            setTimeout(() => {
-                detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }, 100);
+        // Mobile nav toggle
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        if (navToggle) {
+            navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
         }
 
-        // NAVIGATION
-        const menuToggle = document.getElementById('menuToggle');
-        const navLinks = document.getElementById('navLinks');
-
-        menuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-        });
-
-        navLinks.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-            });
-        });
-
-        // MUSIC TOGGLE + VOLUME
-        const musicToggle = document.getElementById('musicToggle');
-        const themeMusic = document.getElementById('theme-music');
-        const volSlider = document.getElementById('volSlider');
-        let musicPlaying = false;
-
-        // Set initial volume
-        themeMusic.volume = volSlider.value / 100;
-        volSlider.style.setProperty('--vol', volSlider.value + '%');
-
-        musicToggle.addEventListener('click', () => {
-            if (musicPlaying) {
-                themeMusic.pause();
-                musicToggle.textContent = '♪ THEME SONG';
-                musicToggle.classList.remove('playing');
-                volSlider.classList.remove('visible');
-            } else {
-                themeMusic.loop = true;
-                themeMusic.play().catch(e => console.log('Audio play failed:', e));
-                musicToggle.textContent = '⏸ THEME SONG';
-                musicToggle.classList.add('playing');
-                volSlider.classList.add('visible');
-            }
-            musicPlaying = !musicPlaying;
-        });
-
-        volSlider.addEventListener('input', () => {
-            const val = volSlider.value;
-            themeMusic.volume = val / 100;
-            volSlider.style.setProperty('--vol', val + '%');
-        });
-
-        // SCROLL ANIMATIONS
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
-
+        // Reveal-on-scroll
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                    observer.unobserve(e.target);
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.18, rootMargin: '0px 0px -80px 0px' });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        document.querySelectorAll('.fade-in').forEach(el => {
-            observer.observe(el);
-        });
-
-        // SCROLL SPY - highlight the nav link for whichever section is on screen
-        (function() {
-            const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
-            const sections = [];
-            navLinks.forEach(link => {
-                const id = link.getAttribute('href').slice(1);
-                const el = document.getElementById(id);
-                if (el) sections.push({ id, el, link });
-            });
-
-            if (!sections.length) return;
-
-            const spyObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    const match = sections.find(s => s.el === entry.target);
-                    if (!match) return;
-                    if (entry.isIntersecting) {
-                        navLinks.forEach(l => l.classList.remove('active'));
-                        match.link.classList.add('active');
-                    }
-                });
-            }, {
-                // trigger when the section's middle crosses the middle of the viewport
-                rootMargin: '-45% 0px -45% 0px',
-                threshold: 0
-            });
-
-            sections.forEach(s => spyObserver.observe(s.el));
-        })();
-
-        // PARTICLE EFFECTS - DUST (bone white/cream motes rising)
-        (function() {
-            const canvas = document.getElementById('hero-dust');
-            const ctx = canvas.getContext('2d');
-            const COUNT = 70;
-            let W, H, particles = [];
-
-            function resize() {
-                W = canvas.width = canvas.parentElement.offsetWidth;
-                H = canvas.height = canvas.parentElement.offsetHeight;
-            }
-            window.addEventListener('resize', resize);
-            resize();
-
-            function rand(a, b) {
-                return a + Math.random() * (b - a);
-            }
-
-            function spawn(forceBottom) {
-                return {
-                    x: rand(0, W),
-                    y: forceBottom ? H + rand(0, 40) : rand(0, H),
-                    r: rand(0.6, 2.4),
-                    speed: rand(0.25, 1.15),
-                    drift: rand(-0.18, 0.18),
-                    alpha: rand(0.04, 0.28),
-                    wobble: rand(0, Math.PI * 2),
-                    wobbleSpeed: rand(0.005, 0.022)
-                };
-            }
-
-            for (let i = 0; i < COUNT; i++) {
-                particles.push(spawn(false));
-            }
-
-            function tick() {
-                ctx.clearRect(0, 0, W, H);
-                for (const p of particles) {
-                    p.wobble += p.wobbleSpeed;
-                    p.x += p.drift + Math.sin(p.wobble) * 0.4;
-                    p.y -= p.speed;
-                    if (p.y < -10) Object.assign(p, spawn(true));
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                    // Muted dark dust - warm brown-grey, low opacity
-                    ctx.fillStyle = `rgba(88,80,68,${p.alpha})`;
-                    ctx.fill();
-                }
-                requestAnimationFrame(tick);
-            }
-            tick();
-        })();
-
-        // PARTICLE EFFECTS - SMOKE (warm brown/amber smoke, no blues)
-        (function() {
-            const canvas = document.getElementById('hero-smoke');
-            const ctx = canvas.getContext('2d');
-            let W, H, puffs = [];
-            const PUFF_COUNT = 20;
-            const SPREAD = 0.85;
-
-            function resize() {
-                W = canvas.width = canvas.parentElement.offsetWidth;
-                H = canvas.height = canvas.parentElement.offsetHeight;
-            }
-            window.addEventListener('resize', resize);
-            resize();
-
-            function rand(a, b) { return a + Math.random() * (b - a); }
-
-            function makeSubPuffs() {
-                const count = 3 + Math.floor(rand(0, 4));
-                const subs = [];
-                for (let i = 0; i < count; i++) {
-                    subs.push({
-                        angle: rand(0, Math.PI * 2),
-                        orbitSpeed: rand(0.002, 0.015) * (Math.random() > 0.5 ? 1 : -1),
-                        orbitDist: rand(0.05, 0.5),
-                        scaleX: rand(0.35, 1.0),
-                        scaleY: rand(0.20, 0.55),
-                        alphaMult: rand(0.3, 0.8),
-                        breathPhase: rand(0, Math.PI * 2),
-                        breathSpeed: rand(0.006, 0.02),
-                        breathAmt: rand(0.06, 0.25),
-                    });
-                }
-                return subs;
-            }
-
-            function spawnPuff(fresh) {
-                const startX = W * 0.5 + rand(-W * SPREAD * 0.5, W * SPREAD * 0.5);
-                const startY = fresh ? H + rand(10, 60) : rand(H * 0.3, H + 60);
-                return {
-                    x: startX, y: startY,
-                    radius: rand(10, 35),
-                    speed: rand(0.15, 0.45),
-                    drift: rand(-0.3, 0.3),
-                    // Warm brown/amber smoke tones - no blues
-                    r: Math.floor(rand(95, 135)),
-                    g: Math.floor(rand(72, 100)),
-                    b: Math.floor(rand(48, 72)),
-                    alpha: rand(0.04, 0.11),
-                    grow: rand(0.25, 0.7),
-                    wobble: rand(0, Math.PI * 2),
-                    wobbleSpeed: rand(0.002, 0.008),
-                    subs: makeSubPuffs(),
-                };
-            }
-
-            for (let i = 0; i < PUFF_COUNT; i++) {
-                const p = spawnPuff(false);
-                p.radius = rand(15, 120);
-                puffs.push(p);
-            }
-
-            function drawPuffCluster(p) {
-                for (const sub of p.subs) {
-                    sub.angle += sub.orbitSpeed;
-                    sub.breathPhase += sub.breathSpeed;
-                    const od = sub.orbitDist * (1 + Math.sin(sub.breathPhase) * sub.breathAmt);
-                    const sx = p.x + Math.cos(sub.angle) * p.radius * od;
-                    const sy = p.y + Math.sin(sub.angle) * p.radius * od * 0.45;
-                    const baseR = p.radius * sub.scaleX;
-                    const sa = p.alpha * sub.alphaMult;
-                    const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, baseR);
-                    grad.addColorStop(0, `rgba(${p.r},${p.g},${p.b},${sa})`);
-                    grad.addColorStop(0.45, `rgba(${p.r},${p.g},${p.b},${sa * 0.4})`);
-                    grad.addColorStop(1, `rgba(${p.r},${p.g},${p.b},0)`);
-                    ctx.save();
-                    ctx.translate(sx, sy);
-                    ctx.rotate(sub.angle * 0.4);
-                    ctx.scale(1, sub.scaleY / sub.scaleX);
-                    ctx.beginPath();
-                    ctx.arc(0, 0, baseR, 0, Math.PI * 2);
-                    ctx.fillStyle = grad;
-                    ctx.fill();
-                    ctx.restore();
-                }
-            }
-
-            function tick() {
-                ctx.clearRect(0, 0, W, H);
-                for (const p of puffs) {
-                    p.wobble += p.wobbleSpeed;
-                    p.x += p.drift + Math.sin(p.wobble) * 0.4;
-                    p.y -= p.speed;
-                    p.radius += p.grow;
-                    p.alpha *= 0.9992;
-                    if (p.alpha < 0.005 || p.y < -p.radius) {
-                        Object.assign(p, spawnPuff(true));
-                    }
-                    drawPuffCluster(p);
-                }
-                requestAnimationFrame(tick);
-            }
-            tick();
-        })();
-
-        // PARTICLE EFFECTS - AMBER EMBERS
-        (function() {
-            const canvas = document.getElementById('hero-amber');
-            const ctx = canvas.getContext('2d');
-            const COUNT = 30;
-            let W, H, particles = [];
-
-            function resize() {
-                W = canvas.width = canvas.parentElement.offsetWidth;
-                H = canvas.height = canvas.parentElement.offsetHeight;
-            }
-            window.addEventListener('resize', resize);
-            resize();
-
-            function rand(a, b) {
-                return a + Math.random() * (b - a);
-            }
-
-            function spawn() {
-                return {
-                    x: rand(0, W),
-                    y: H + rand(0, 100),
-                    r: rand(1, 3),
-                    speed: rand(0.2, 0.8),
-                    drift: rand(-0.1, 0.1),
-                    alpha: rand(0.05, 0.25),
-                    wobble: rand(0, Math.PI * 2),
-                    wobbleSpeed: rand(0.01, 0.03),
-                    glow: rand(4, 10)
-                };
-            }
-
-            for (let i = 0; i < COUNT; i++) {
-                particles.push(spawn());
-            }
-
-            function tick() {
-                ctx.clearRect(0, 0, W, H);
-                for (const p of particles) {
-                    p.wobble += p.wobbleSpeed;
-                    p.x += p.drift + Math.sin(p.wobble) * 0.2;
-                    p.y -= p.speed;
-                    if (p.y < -20) Object.assign(p, spawn());
-
-                    // Glow
-                    const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.glow);
-                    gradient.addColorStop(0, `rgba(88,80,68,${p.alpha * 0.4})`);
-                    gradient.addColorStop(1, `rgba(88,80,68,0)`);
-                    ctx.fillStyle = gradient;
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.glow, 0, Math.PI * 2);
-                    ctx.fill();
-
-                    // Core
-                    ctx.fillStyle = `rgba(88,80,68,${p.alpha})`;
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-                requestAnimationFrame(tick);
-            }
-            tick();
-        })();
-
-        // ── VIDEOS — render from videos.js config ─────────────────────────
-        (function() {
-            const grid = document.getElementById('videos-grid');
-            if (!grid || typeof devDiaryVideos === 'undefined') return;
-            devDiaryVideos.forEach(function(v) {
-                grid.innerHTML += `
-                    <div class="video-container fade-in">
-                        <div class="video-label">${v.title}</div>
-                        <iframe src="https://www.youtube.com/embed/${v.id}"
-                            title="AIRLOCK ${v.title}"
-                            frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            allowfullscreen></iframe>
-                    </div>`;
-            });
-        })();
-
-        // ── MEDIA TABS ────────────────────────────────────────────────────
-        (function() {
-            const tabs   = document.querySelectorAll('.media-tab');
-            const items  = document.querySelectorAll('#media-grid .media-item');
-
-            tabs.forEach(function(tab) {
-                tab.addEventListener('click', function() {
-                    const filter = tab.getAttribute('data-filter');
-                    tabs.forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
-                    items.forEach(function(item) {
-                        const type = item.getAttribute('data-type');
-                        item.style.display = (filter === 'all' || filter === type) ? '' : 'none';
-                    });
-                });
-            });
-        })();
-
-        // ── MEDIA LIGHTBOX ────────────────────────────────────────────────
-        (function() {
-            const lightbox  = document.getElementById('media-lightbox');
-            const lbImg     = document.getElementById('lb-img');
-            const lbLabel   = document.getElementById('lb-label');
-            const lbClose   = document.getElementById('lb-close');
-            const lbPrev    = document.getElementById('lb-prev');
-            const lbNext    = document.getElementById('lb-next');
-            let visible = [];
-            let current = 0;
-
-            function getVisible() {
-                return Array.from(document.querySelectorAll('#media-grid .media-item'))
-                    .filter(el => el.style.display !== 'none');
-            }
-
-            function openLightbox(items, index) {
-                visible = items;
-                current = index;
-                lbImg.src   = visible[current].getAttribute('data-src');
-                lbLabel.textContent = visible[current].getAttribute('data-label');
-                lightbox.classList.add('open');
-            }
-
-            function closeLightbox() { lightbox.classList.remove('open'); lbImg.src = ''; }
-
-            function nav(dir) {
-                current = (current + dir + visible.length) % visible.length;
-                lbImg.src   = visible[current].getAttribute('data-src');
-                lbLabel.textContent = visible[current].getAttribute('data-label');
-            }
-
-            document.getElementById('media-grid').addEventListener('click', function(e) {
-                const item = e.target.closest('.media-item');
-                if (!item) return;
-                const items = getVisible();
-                openLightbox(items, items.indexOf(item));
-            });
-
-            lbClose.addEventListener('click', closeLightbox);
-            lbPrev.addEventListener('click', () => nav(-1));
-            lbNext.addEventListener('click', () => nav(1));
-            lightbox.addEventListener('click', function(e) {
-                if (e.target === lightbox) closeLightbox();
-            });
-            document.addEventListener('keydown', function(e) {
-                if (!lightbox.classList.contains('open')) return;
-                if (e.key === 'Escape')      closeLightbox();
-                if (e.key === 'ArrowLeft')   nav(-1);
-                if (e.key === 'ArrowRight')  nav(1);
-            });
-        })();
+        // Spawn dust particles
+        const dust = document.getElementById('dust');
+        for (let i = 0; i < 35; i++) {
+            const p = document.createElement('div');
+            p.className = 'dust-particle';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.animationDelay = (Math.random() * 18) + 's';
+            p.style.animationDuration = (14 + Math.random() * 10) + 's';
+            dust.appendChild(p);
+        }
     </script>
+
 </body>
 </html>

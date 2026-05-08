@@ -1,0 +1,447 @@
+        <!-- ROW 1: CONCEPT STAGE -->
+        <div class="roadmap-phase-group fade-in">
+            <div class="roadmap-phase-label">Concept Stage</div>
+            <div class="roadmap-track">
+                <div class="roadmap-node completed" data-phase="0" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
+                    <div class="roadmap-label">Original Prototype</div>
+                </div>
+            </div>
+            <div class="roadmap-detail-container">
+                <div data-detail="0" class="roadmap-detail"><div class="roadmap-detail-title">Concept · Original Prototype</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">Where it all started. Built a military compound blockout in Unreal Engine 5 to prove the concept actually works. Integrated the ALS (Advanced Locomotion System) for third-person character control. Built a prototype dollhouse camera to test the core vision: design underground from a side-view ant farm cutaway, then drop into your creation in full 3D and walk the corridors you built. The question was simple: is it fun, does it look good? It did. That was the moment AIRLOCK stopped being an idea and started being a game.</div></div><div class="roadmap-detail-img"><img src="screenshots/airlock_screenshot_01.jpg" alt="AIRLOCK Original Prototype"></div></div></div>
+            </div>
+        </div>
+
+        <!-- ROW 2: FOUNDATION STAGE -->
+        <div class="roadmap-phase-group fade-in">
+            <div class="roadmap-phase-label">Foundation Stage</div>
+            <div class="roadmap-track">
+                <div class="roadmap-node completed" data-phase="64" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
+                    <div class="roadmap-label">Documentation &amp; Lore</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node completed" data-phase="65" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
+                    <div class="roadmap-label">Audio Direction</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node completed" data-phase="14" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
+                    <div class="roadmap-label">UI Art Direction</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node completed" data-phase="15" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
+                    <div class="roadmap-label">Painted Icon Library</div>
+                </div>
+            </div>
+            <div class="roadmap-detail-container">
+                <div data-detail="64" class="roadmap-detail"><div class="roadmap-detail-title">Foundation · Documentation &amp; Lore</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-body">The world built before the game. Ashgate as the ruined city. The Altered (Feral, Familiars, Stalkers, Legion) as four-tier enemies with their own lore. The Settlers — 14 distinct classes from Soldier to Cook to Engineer to Elder, each with signature modules. The post-war UGA (United Global Alliance) as the lost world's last unity. The Sonic War 300 years ago. The Legion reveal arc. Multi-airlock metro network. Confluence wiki built out, design docs locked, dos and don'ts written down. Every system built since references this foundation.</div></div>
+                <div data-detail="65" class="roadmap-detail"><div class="roadmap-detail-title">Foundation · Audio Direction</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-body">Audio reference locked: The Last of Us / TLOU Part II for emotional weight, Days Gone for survival texture. Hans Zimmer for the orchestral spine. "Calm Before The Storm" written and scored as the trailer theme. Diegetic SFX rules: no paper rustles, no terminal beeps, no clockwork mechanical metaphors. Submix routing locked (Master → LowHealth submix → low-pass filter). The sonic identity of AIRLOCK locked before any major audio shipped.</div></div>
+                <div data-detail="14" class="roadmap-detail"><div class="roadmap-detail-title">Foundation · UI Art Direction</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-body">After exploring over 20 HUD variations across 10 distinct style directions, the painted concept art aesthetic was locked in. Ink and paper palette. Cormorant Garamond display, Permanent Marker labels, EB Garamond italic body. Brushstroke buttons. Ink-wash halo backings instead of hard borders. Cream on near-black. Every UI screen from HUD to main menu to inventory carries the same DNA. The visual identity of AIRLOCK, crystallised before code touched it.</div></div>
+                <div data-detail="15" class="roadmap-detail"><div class="roadmap-detail-title">Foundation · Painted Icon Library</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-body">91 painted monochrome icons delivered, covering survival bars, status effects, weapons, consumables, loot, HUD chrome, banners, structural frames, screen overlays, map pins, Settler activities, and skill tree parents. Cream sumi-ink brushstrokes on black, visible paint strokes, no vector feel. A full sprite sheet, ready to drop straight into Unreal. Every icon you see in-game came from this library.</div></div>
+            </div>
+        </div>
+
+        <!-- ROW 3A: PRE-PRODUCTION · ARCHITECTURE -->
+        <div class="roadmap-phase-group fade-in">
+            <div class="roadmap-phase-label">Pre-Production · Architecture</div>
+            <div class="roadmap-track">
+                <div class="roadmap-node completed" data-phase="1" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
+                    <div class="roadmap-label">Grid System</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node completed" data-phase="2" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
+                    <div class="roadmap-label">Character</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node completed" data-phase="3" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
+                    <div class="roadmap-label">UI System</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node completed" data-phase="4" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
+                    <div class="roadmap-label">HUD System</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node completed" data-phase="5" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
+                    <div class="roadmap-label">Combat</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node completed" data-phase="6" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
+                    <div class="roadmap-label">Module System</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node completed" data-phase="7" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
+                    <div class="roadmap-label">Horde System</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node completed" data-phase="8" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
+                    <div class="roadmap-label">Loot</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node completed" data-phase="9" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
+                    <div class="roadmap-label">MetaHuman</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node completed" data-phase="10" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
+                    <div class="roadmap-label">Marv · Companion</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node completed" data-phase="11" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
+                    <div class="roadmap-label">Tier System</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node completed" data-phase="12" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
+                    <div class="roadmap-label">Mining &amp; Interact</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node completed" data-phase="13" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
+                    <div class="roadmap-label">Skill System</div>
+                </div>
+            </div>
+            <div class="roadmap-detail-container">
+                <div data-detail="1" class="roadmap-detail"><div class="roadmap-detail-title">Pre-Production · Grid System</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">The backbone of the entire game. Built the GridManager system in C++ from scratch — world-to-grid coordinate conversion, cell states, multi-floor support for stacking levels underground. Powers both the dollhouse / ant-farm side-view and the in-engine 3D base. Modules snap to the grid with adjacency detection — walls and doors auto-generate between rooms. This is the system everything else is built on top of.</div></div><div class="roadmap-detail-img"><img src="screenshots/airlock_screenshot_03.jpg" alt="AIRLOCK Grid System"></div></div></div>
+                <div data-detail="2" class="roadmap-detail"><div class="roadmap-detail-title">Pre-Production · Character</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">Took the ALS system apart and rebuilt it for AIRLOCK. Customised movement feel, camera behaviour, transitions between underground and surface modes. The character controller handles tight corridors and wide-open surface exploration seamlessly — two very different feels, one character.</div></div><div class="roadmap-detail-img"><img src="screenshots/airlock_screenshot_02.jpg" alt="AIRLOCK Character"></div></div></div>
+                <div data-detail="3" class="roadmap-detail"><div class="roadmap-detail-title">Pre-Production · UI System</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">Built the full main menu system from scratch — epilepsy warning, brightness calibration, press-any-key splash, main menu with all sub-screens and settings. Custom-designed with a worn aesthetic that feels like it belongs in a bunker.</div></div><div class="roadmap-detail-img"><img src="screenshots/4_mainmenu.png" alt="AIRLOCK UI"></div></div></div>
+                <div data-detail="4" class="roadmap-detail"><div class="roadmap-detail-title">Pre-Production · HUD System</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">In-game HUD: health, stamina, compass, status effects, notifications. Full inventory system — equip weapons, fire, swap, drop, pick up. Primary and secondary weapon slots. Items degrade over time. Nothing lasts forever in AIRLOCK.</div></div><div class="roadmap-detail-img"><img src="screenshots/airlock_screenshot_04.jpg" alt="AIRLOCK HUD"></div></div></div>
+                <div data-detail="5" class="roadmap-detail"><div class="roadmap-detail-title">Pre-Production · Combat</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">Weapons you can equip, fire, and feel. Ranged and melee integrated with the inventory system — every weapon degrades with use and can break. Ammunition is scarce. Combat is designed to feel desperate, not heroic. You're not a soldier — you're a survivor.</div></div><div class="roadmap-detail-img"><img src="screenshots/airlock_screenshot_05.jpg" alt="AIRLOCK Combat"></div></div></div>
+                <div data-detail="6" class="roadmap-detail"><div class="roadmap-detail-title">Pre-Production · Module System</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">The module system fully integrated into the HUD — browse 14+ categories, see every detail before you place (tier, size, morale bonus, build time, power draw, water usage). Place, move, remove. Started as a Blueprint system, transitioned mid-development to Level Instance modules to speed up authoring. The architecture decision that unlocked authoring speed.</div></div><div class="roadmap-detail-img"><img src="screenshots/airlock_screenshot_6.jpg" alt="AIRLOCK Modules"></div></div></div>
+                <div data-detail="7" class="roadmap-detail"><div class="roadmap-detail-title">Pre-Production · Horde System</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">An optimised horde system — large numbers of The Altered on screen without tanking performance. Spawn, detection, navigation, swarming attacks. AI states: idle wanderers, alerted searchers, full-speed chasers, swarming attackers. They hunt. They swarm. They overwhelm. Daytime is tense. Night is deadly.</div></div><div class="roadmap-detail-img"><img src="screenshots/airlock_screenshot_07.jpg" alt="AIRLOCK Hordes"></div></div></div>
+                <div data-detail="8" class="roadmap-detail"><div class="roadmap-detail-title">Pre-Production · Loot</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">Lootable items scattered throughout ruined buildings, abandoned vehicles, and the remains of those who didn't make it. Food, weapons, medicine, blueprints, raw materials, rare components. Every surface trip is a risk-reward calculation — push deeper for better loot, or play it safe near the airlock?</div></div><div class="roadmap-detail-img"><img src="screenshots/airlock_screenshot_08.jpg" alt="AIRLOCK Loot"></div></div></div>
+                <div data-detail="9" class="roadmap-detail"><div class="roadmap-detail-title">Pre-Production · MetaHuman</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">Out with the placeholder, in with the real thing. The ALS mannequin replaced with a fully assembled MetaHuman character — realistic face, hair, skin, expressions. The foundation for cutscenes, emotional storytelling, and characters you actually care about. First MetaHuman head swapped in for the first story-locked NPC.</div></div><div class="roadmap-detail-img"><img src="screenshots/airlock_screenshot_02.jpg" alt="AIRLOCK MetaHuman"></div></div></div>
+                <div data-detail="10" class="roadmap-detail"><div class="roadmap-detail-title">Pre-Production · Marv (Companion)</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">You shouldn't face the surface alone. Marv follows you — engaging enemies, sniffing out hidden loot, reacting to danger before you see it. Sit system, full locomotion, pose rules so he never floats or moves while resting. He has personality. He has moods. He remembers.</div></div><div class="roadmap-detail-img"><img src="screenshots/Marv.jpg" alt="AIRLOCK Marv"></div></div></div>
+                <div data-detail="11" class="roadmap-detail"><div class="roadmap-detail-title">Pre-Production · Tier System</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-body">Every module can be upgraded through five visual and functional tiers: Cave, Structured Cave, Brick + Wood, Concrete + Tile, Metal Sci-fi. Each upgrade costs resources, consumes utilities, and delivers real improvements. Mesh swaps, upgrade and downgrade flow, in-engine and working. Tier 0 is a shared cave that every module starts from. Tier 4 is the endgame "you rebuilt civilisation" payoff.</div></div>
+                <div data-detail="12" class="roadmap-detail"><div class="roadmap-detail-title">Pre-Production · Mining &amp; Interact</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-body">A universal Press-to-Interact framework drives every interaction in the game: doors, loot, NPCs, ore nodes, terminals. Platform-aware icons swap between keyboard, Xbox, and PlayStation glyphs automatically. The mining loop integrates with grid depth — the deeper you dig, the rarer the ores you find. Copper, iron, silver, gold and beyond.</div></div>
+                <div data-detail="13" class="roadmap-detail"><div class="roadmap-detail-title">Pre-Production · Skill System</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-body">A shared skill tree between player and Settlers. 17 parent categories, over 130 sub-skills, eight tiers each with ten sub-levels for a full 80-level ladder per skill. Pistols, cooking, brewing, husbandry, alchemy, fishing, tailoring, medical, and more. Learn by doing, read books, be taught by Settlers, or spend research points. Settlers level faster while stationed at their matching module.</div></div>
+            </div>
+        </div>
+
+        <!-- ROW 3B: PRE-PRODUCTION · VERTICAL SLICE -->
+        <div class="roadmap-phase-group fade-in">
+            <div class="roadmap-phase-label">Pre-Production · Vertical Slice</div>
+            <div class="roadmap-track">
+                <div class="roadmap-node completed" data-phase="16" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
+                    <div class="roadmap-label">NPC Foundation</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node completed" data-phase="46" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
+                    <div class="roadmap-label">Smart NPCs</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node completed" data-phase="17" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
+                    <div class="roadmap-label">Painted HUD</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node completed" data-phase="66" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
+                    <div class="roadmap-label">Survival Stats</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node completed" data-phase="67" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
+                    <div class="roadmap-label">Day &amp; Time</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node completed" data-phase="25" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
+                    <div class="roadmap-label">Power &amp; Electricity</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node completed" data-phase="24" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
+                    <div class="roadmap-label">Dialogue &amp; Voice</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node completed" data-phase="45" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
+                    <div class="roadmap-label">City &amp; Foliage Tools</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node completed" data-phase="18" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
+                    <div class="roadmap-label">Module Concepts</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node completed" data-phase="19" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">✓</span></div>
+                    <div class="roadmap-label">Module Build-Out</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node current" data-phase="26" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">⧗</span></div>
+                    <div class="roadmap-label">City Build-Out</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node" data-phase="23" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">Settlers Live</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node" data-phase="22" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">Module Unlocks</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node" data-phase="27" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">Construction State</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node" data-phase="28" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▶</span></div>
+                    <div class="roadmap-label">Demo Ready</div>
+                </div>
+            </div>
+            <div class="roadmap-detail-container">
+                <div data-detail="16" class="roadmap-detail"><div class="roadmap-detail-title">Vertical Slice · NPC Foundation</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-body">The C++ backbone for every NPC in AIRLOCK. A 9-state behaviour machine (Idle, Follow, Independent, Tasked, Combat, Flee, Injured, Conversational, Dead). A 7-faction team system (Player, Airlock, Altered, Legion, Raider, Wildlife, Neutral). Component stack for brains, combat, injury, tasking, dialogue. Every future Settler, enemy, and wildlife NPC slots in cleanly on top of this. Zombies now see multiple targets, not just the player.</div></div>
+                <div data-detail="46" class="roadmap-detail"><div class="roadmap-detail-title">Vertical Slice · Smart NPCs</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">The first proof that the airlock has people in it. Voice pipeline with TTS-generated lines and inline emotion tags. Per-NPC Data Tables drive line lookup by category (Greeting, IdleBark, WorkBark, Complaint, Bump, Story). Painted Subtitle Widget with stack mode for overlapping voices, proximity gating, italic-paren convention for non-speech. Activity Anchors so NPCs naturally migrate between content (chairs, workbenches, planning boards). Bump Component for visceral knockback. Power-aware barks fire instantly when the network state changes. The codebase is ready for every Settler class to slot in.</div></div><div class="roadmap-detail-img"><img src="screenshots/airlock_underworld_03.jpg" alt="NPC voice and subtitle live in PIE"></div></div></div>
+                <div data-detail="17" class="roadmap-detail"><div class="roadmap-detail-title">Vertical Slice · Painted HUD</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">The painted concept art direction landed in engine. Every HUD element rebuilt around the locked painted-monochrome aesthetic: cream sumi-ink on near-black, Cormorant Garamond display, Permanent Marker chrome labels. Ink-wash backings replaced hard borders. Compass strip, day-and-time stack, painted survival dial, weapon cards with brushstroke dividers, painted interact prompts, full subtitle widget with stack mode. Module padlock states for class-locked rooms. Auto-flashlight that engages when the airlock loses power or night falls.</div></div><div class="roadmap-detail-img"><img src="screenshots/airlock_underworld_03.jpg" alt="HUD V2 Painted UI live in PIE"></div></div></div>
+                <div data-detail="66" class="roadmap-detail"><div class="roadmap-detail-title">Vertical Slice · Survival Stats</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-body">The body keeps score. Stamina drains as you sprint, climb, fight, then recovers in safety. Hunger drains over a 28 in-game day curve — grounded in real human physiology, you can survive weeks without food but being underfed makes everything harder. Thirst drains over 48 in-game hours — fast, urgent, you can't ignore it. Low hunger doesn't instakill, it accelerates stamina drain. Radiation as a system is wired but parked for V2. The vitals dial in the bottom-left of the HUD updates live.</div></div>
+                <div data-detail="67" class="roadmap-detail"><div class="roadmap-detail-title">Vertical Slice · Day &amp; Time Cycle</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-body">A fully dynamic day-night cycle. 45 real-world minutes equals one in-game day. The time-of-day clock ticks over in the top-right of the HUD. Every system that cares about time reads from the same source of truth (Ultra Dynamic Sky): construction timers, Settler schedules, skill XP rates, expedition fatigue, weather, lighting. Toxic night-time air mechanic queued. Daytime is tense. Night is deadly.</div></div>
+                <div data-detail="25" class="roadmap-detail"><div class="roadmap-detail-title">Vertical Slice · Power &amp; Electricity</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">The base now has a real heartbeat. Generators with green / amber / red status LEDs, audio start-loop-stop with fail-attempt boot variants, vibration that rattles the housing while running, clean interact toggle. Multi-generator networks aggregate capacity. Sustained overload trips the breaker after five seconds. Powered lights and ambient audio emitters subscribe to the network and react instantly. Auto-flashlight engages when night falls or the airlock goes dark.</div></div><div class="roadmap-detail-img"><img src="screenshots/airlock_underworld_04.jpg" alt="Generator running with green status LED"></div></div></div>
+                <div data-detail="24" class="roadmap-detail"><div class="roadmap-detail-title">Vertical Slice · Dialogue &amp; Voice</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-body">The dialogue layer is live. Subtitle widget pushes painted-monochrome speech below the HUD with stack mode for overlapping voices. Voice lines drive through per-NPC Data Tables by category. The first NPC talks, the player hears her, the painted subtitle reads underneath. Generators hum, NPCs talk, ambient emitters push their own subtitles ("*Static*", "*Generator hum*"). The emotional layer of the game has landed in UI.</div></div>
+                <div data-detail="45" class="roadmap-detail"><div class="roadmap-detail-title">Vertical Slice · City &amp; Foliage Tools</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">A full toolkit for authoring Ashgate at speed without losing artistic control. Procedural city tool traces streets and arrays building blocks. City Block Breaker editor utility takes any block and explodes it into individually editable static meshes for hand-art-direction. Foliage Cascade marketplace-ready PCG node spawns hierarchical biomes of trees, juveniles, saplings, ground cover, scrub across landscape AND static meshes. PCG_Include / PCG_Remove tags. Bake to InstancedFoliageActor for editable Foliage Painter integration. The whole pipeline ships marketplace-ready.</div></div><div class="roadmap-detail-img"><img src="screenshots/airlock_world_06.jpg" alt="Ashgate procedural city + foliage"></div></div></div>
+                <div data-detail="18" class="roadmap-detail"><div class="roadmap-detail-title">Vertical Slice · Module Concepts</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-body">Painted concepts delivered for the demo modules. Each painted in the locked style: cream sumi-ink on near-black, grounded post-apocalyptic modern, never medieval. Operations Room with the Planning Board and salvaged radio desk. Workhouse with the multi-discipline crafting stations. Bunkroom with the bunk migration mechanic. Plus reference paintings for the next batch ready to slot in. The visual soul of the base-building experience locked.</div></div>
+                <div data-detail="19" class="roadmap-detail"><div class="roadmap-detail-title">Vertical Slice · Module Build-Out</div><div class="roadmap-detail-status">✓ Complete</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">The painted module concepts brought to life in Unreal. Interior levels per tier, front wall cutaways, data tables populated. The demo modules shipped: Operations Room with the Planning Board, salvaged radio desk, lockers, fluorescent buzz, ivy creeping in. Workhouse, the multi-discipline crafting space with workbench stations. Bunkroom with the bunk migration mechanic. The dollhouse cutaway view shows them all together, lit by the power network when generators are running.</div></div><div class="roadmap-detail-img"><img src="screenshots/airlock_underworld_01.jpg" alt="Modules in dollhouse view"></div></div></div>
+                <div data-detail="26" class="roadmap-detail"><div class="roadmap-detail-title">Vertical Slice · City Build-Out</div><div class="roadmap-detail-status">⧗ In Progress · Current Focus</div><div class="roadmap-detail-content"><div class="roadmap-detail-text"><div class="roadmap-detail-body">Turning the sandbox into a world with purpose. Ashgate streets traced and dressed. The hospital where Kore wakes up. The gas station for the first fuel run. The builders merchant for materials. The abandoned airlock entrance. Then mission scripting layered on top — survivor encounters, the first rescue, the night-falls escort. The procedural pipeline laid the streets, this is where the game's soul gets painted onto them. After this, the demo is playable end-to-end.</div></div><div class="roadmap-detail-img"><img src="screenshots/airlock_world_01.jpg" alt="Ashgate surface, current focus"></div></div></div>
+                <div data-detail="23" class="roadmap-detail"><div class="roadmap-detail-title">Vertical Slice · Settlers Live</div><div class="roadmap-detail-status">→ Next</div><div class="roadmap-detail-body">The moment the base comes alive. 14 Settler class Blueprints instantiated from the NPC foundation. Full ALS locomotion. Procedural names, traits, skill rolls. They walk into the airlock, they stand at their module, they react when Kore approaches. First playable test of the full Settler vision. From code in the foundation to bodies in the base.</div></div>
+                <div data-detail="22" class="roadmap-detail"><div class="roadmap-detail-title">Vertical Slice · Module Unlocks</div><div class="roadmap-detail-status">→ Next</div><div class="roadmap-detail-body">Settlers unlock modules. No Engineer in the base? No Tier 2+ upgrades, full stop. No Chemist? No explosives, no fuel, no pharmaceuticals. No Gunsmith? No silencer modding. Your rescue roster literally determines what your base can become. Kingdom-Tale-style progression. Rescue drives unlocks. The survival loop gains meaning. The "every Settler matters" beat.</div></div>
+                <div data-detail="27" class="roadmap-detail"><div class="roadmap-detail-title">Vertical Slice · Construction State</div><div class="roadmap-detail-status">→ Next</div><div class="roadmap-detail-body">Module upgrades stop being instant. When you kick off an upgrade, the room enters an Under Construction state. Time passes. Scaffolding appears. If the upgrade digs deeper, ore nodes spawn in the newly exposed rock — mine them before the timer ends or lose them forever. Settlers physically shove Kore out of the corridor during construction. The act of building feels real.</div></div>
+                <div data-detail="28" class="roadmap-detail"><div class="roadmap-detail-title">Vertical Slice · Demo Ready</div><div class="roadmap-detail-status">▶ Target 2026</div><div class="roadmap-detail-body">A 60+ minute guided experience. Wake up alone in a concrete room. A word scratched on the wall: KORE. Escape into Ashgate. Discover an airlock. Build your first rooms. Rescue your first Survivors. Watch them become Settlers. Venture back for supplies. Survive the night. The demo ends with a hook that makes you need to know what happens next. This goes onto Steam for the world to play.</div></div>
+            </div>
+        </div>
+
+        <!-- ROW 4: FUNDING & MARKETING -->
+        <div class="roadmap-phase-group fade-in">
+            <div class="roadmap-phase-label">Funding &amp; Marketing</div>
+            <div class="roadmap-track">
+                <div class="roadmap-node" data-phase="68" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">Steam Coming Soon</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node" data-phase="48" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">Player Feedback</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node" data-phase="63" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">Bug Bash &amp; Hotfix</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node" data-phase="69" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">Trailers &amp; Press</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node" data-phase="29" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">Kickstarter</div>
+                </div>
+            </div>
+            <div class="roadmap-detail-container">
+                <div data-detail="68" class="roadmap-detail"><div class="roadmap-detail-title">Funding · Steam Coming Soon Page</div><div class="roadmap-detail-status">→ Next</div><div class="roadmap-detail-body">The demo lands on Steam with a "Coming Soon" page. Header capsule, screenshots, trailer, short and long descriptions, tags (Post-apocalyptic, Survival, Base Building, Story Rich, Singleplayer, Indie). Wishlist collection from day one. Steam's algorithm surfaces pages with strong wishlist velocity, so the launch matters. AppID 1164822 already exists in Steamworks — Ironbridge Games LTD is an approved Steam Partner, the infrastructure is ready, the page just needs to go live.</div></div>
+                <div data-detail="48" class="roadmap-detail"><div class="roadmap-detail-title">Funding · Player Feedback</div><div class="roadmap-detail-status">→ Next</div><div class="roadmap-detail-body">The first weeks after the demo lands are about listening. Steam reviews, Discord community input, playtester surveys, hours-played analytics. Iterate based on what players actually do vs what we designed for. The Kickstarter pitch gets sharper with every piece of feedback. The roadmap below this point gets reshaped by what the community asks for.</div></div>
+                <div data-detail="63" class="roadmap-detail"><div class="roadmap-detail-title">Funding · Bug Bash &amp; Hotfix</div><div class="roadmap-detail-status">→ Next</div><div class="roadmap-detail-body">The month after demo lands is rapid-response. Crash reports, soft locks, missing tutorials, controller binding edge cases, save corruption stories — every loud signal gets a hotfix patch within days, not weeks. The aim is to walk into the Kickstarter launch with a demo already polished by community feedback. First impressions matter. Second impressions are made when bugs get fixed fast.</div></div>
+                <div data-detail="69" class="roadmap-detail"><div class="roadmap-detail-title">Funding · Trailers &amp; Press</div><div class="roadmap-detail-status">→ Next</div><div class="roadmap-detail-body">The marketing push. Cinematic trailer cut to "Calm Before The Storm". Gameplay trailer showing the dollhouse → 3D loop. Press kit assembled (high-res screenshots, key art, fact sheet, founder bio). 80 Level submission. Indie Discord and Slack communities. Influencer outreach. Steam Next Fest demo refresh slot. The work that turns "demo on Steam" into "demo people are talking about".</div></div>
+                <div data-detail="29" class="roadmap-detail"><div class="roadmap-detail-title">Funding · Kickstarter Campaign</div><div class="roadmap-detail-status">→ Crowdfunding</div><div class="roadmap-detail-body">The demo proves the game works. Now it needs to grow. The Kickstarter funds full-time development — Henry leaves the day job and builds AIRLOCK every single day. Clear goals, deliverables, purchase tiers. If funding goes well (£200K-300K+), local artists, modellers, and designers get hired — not contractors, real team members kept on long-term. If funding goes exceptionally well (£1M+), a publisher comes on board to supercharge marketing and community growth. Every tier of funding makes the game bigger, better, faster.</div></div>
+            </div>
+        </div>
+
+        <!-- ROW 5: PRODUCTION -->
+        <div class="roadmap-phase-group fade-in">
+            <div class="roadmap-phase-label">Production</div>
+            <div class="roadmap-track">
+                <div class="roadmap-node" data-phase="52" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">Hire Team</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node" data-phase="53" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">Animation Pipeline</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node" data-phase="54" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">Character Roster</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node" data-phase="55" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">Wildlife &amp; Animals</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node" data-phase="56" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">Combat Depth</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node" data-phase="57" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">Soundtrack</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node" data-phase="58" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">Voice Acting</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node" data-phase="59" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">Cinematics</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node" data-phase="31" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">Narrative Writer</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node" data-phase="21" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">Module Customisation</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node" data-phase="49" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">Farming Systems</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node" data-phase="50" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">Irrigation &amp; Water</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node" data-phase="60" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">Performance Pass</div>
+                </div>
+            </div>
+            <div class="roadmap-detail-container">
+                <div data-detail="52" class="roadmap-detail"><div class="roadmap-detail-title">Production · Hire Team</div><div class="roadmap-detail-status">→ Funded</div><div class="roadmap-detail-body">The hire pass. Animator, Character Artist, Concept Artist, AI Programmer for deeper NPC behaviour, Level Designer. Possibly a senior writer. Ironbridge goes from a small founder-led team to a real studio. Local hires kept on long-term, not contractors. The moment AIRLOCK stops being a one-person dream and becomes a team game.</div></div>
+                <div data-detail="53" class="roadmap-detail"><div class="roadmap-detail-title">Production · Animation Pipeline</div><div class="roadmap-detail-status">→ Funded</div><div class="roadmap-detail-body">Beyond ALS defaults. Custom Kore locomotion set with weight, intent, and survival pacing. Real combat anims: melee swing variety, ranged stance, reload variants per weapon type. Settler work anims per class — Cook chopping, Engineer welding, Medic treating, Farmer planting, Gunsmith assembling. Reaction anims for flinch, stagger, surprise, pain. Mocap session or a senior hand-key animator. The "stop looking like a Marketplace asset pack" moment.</div></div>
+                <div data-detail="54" class="roadmap-detail"><div class="roadmap-detail-title">Production · Character Roster</div><div class="roadmap-detail-status">→ Funded</div><div class="roadmap-detail-body">All 14 Settler classes get unique MetaHuman heads, hair, body variation, and full voice packs. Generic ALS bodies replaced with class-appropriate body types. Outfit variation per class. Each Settler reads as an individual at first glance. The first time the airlock looks populated by people not interchangeable mannequins. Procedural variation rolls so no two playthroughs see the same Settlers.</div></div>
+                <div data-detail="55" class="roadmap-detail"><div class="roadmap-detail-title">Production · Wildlife &amp; Animals</div><div class="roadmap-detail-status">→ Funded</div><div class="roadmap-detail-body">Three layers. Companions: Marv proper with full bark vocab, behaviour tree, feeding, injuries, plus optional second-companion variants. Hostile wildlife: irradiated wolves, feral hounds, mutated rats, infected birds — separate from The Altered. Livestock: chickens, cows, sheep, rabbits, bees, matching the Husbandry skill subs. Ambient critters: insects, sparrows, butterflies. The world stops feeling empty and starts feeling alive.</div></div>
+                <div data-detail="56" class="roadmap-detail"><div class="roadmap-detail-title">Production · Combat Depth</div><div class="roadmap-detail-status">→ Funded</div><div class="roadmap-detail-body">The current zombie spawn system is a placeholder. V2 brings proper Stalker AI (sneak, retreat, flank, ambush), Legion encounters with dialogue and special attacks, boss fights at story beats, melee combat depth (parry, dodge, heavy and light strings), weapon variety beyond the demo set, throwable variety, and the Geiger-counter mechanic for Stalker and Legion proximity warning. Combat that feels desperate and tactical, not generic.</div></div>
+                <div data-detail="57" class="roadmap-detail"><div class="roadmap-detail-title">Production · Original Soundtrack</div><div class="roadmap-detail-status">→ Funded</div><div class="roadmap-detail-body">"Calm Before The Storm" is the trailer spine. The full score: ambient layers per biome (Ashgate streets, underground corridors, Kitchen warmth, Combat tension), reactive music that responds to player state (low health, night, combat, exploration), boss themes, intro and outro pieces. Hire a Hans-Zimmer-tier composer or partner with one. The music budget is non-negotiable.</div></div>
+                <div data-detail="58" class="roadmap-detail"><div class="roadmap-detail-title">Production · Voice Acting</div><div class="roadmap-detail-status">→ Funded</div><div class="roadmap-detail-body">ElevenLabs Creator stays as the procedural-Settler tool — cheap, instant, scales to a full roster. Hero characters get real human voice actors: Mara, Varek, supporting story NPCs, possibly Kore if the design lands on a voiced protagonist. London talent pool is strong. Hybrid pipeline = best of both worlds, real performance where it matters, scale everywhere else.</div></div>
+                <div data-detail="59" class="roadmap-detail"><div class="roadmap-detail-title">Production · Cinematics</div><div class="roadmap-detail-status">→ Funded</div><div class="roadmap-detail-body">Opening cinematic where Kore wakes up alone with a word scratched on the wall. Mid-game Legion reveal beat. Ending sequence. Story-locked moments rendered in-engine using MetaHumans plus the painted aesthetic. Could be done with the in-house animation team or commissioned to a cinematics studio. The emotional weight that turns a base-builder into a story.</div></div>
+                <div data-detail="31" class="roadmap-detail"><div class="roadmap-detail-title">Production · Narrative Writer</div><div class="roadmap-detail-status">→ Funded</div><div class="roadmap-detail-body">The world has deep lore — the Sonic Nuclear War, the Altered, the Legion, three centuries of history. It deserves a professional narrative expert. This phase brings on a dedicated writer to structure the full story arc, character backgrounds, faction histories, environmental storytelling, and the mystery that drives you forward. The lore exists in Henry's head and design documents — this phase turns it into something players will obsess over and piece together one discovery at a time.</div></div>
+                <div data-detail="21" class="roadmap-detail"><div class="roadmap-detail-title">Production · Module Customisation</div><div class="roadmap-detail-status">→ Funded</div><div class="roadmap-detail-body">Paint your base your way. Per-module colour and material swaps for ceiling, walls, and floor. Brick primary plus mortar secondary via mask. Wood tints, tile patterns, metal finishes per tier. Free basic options unlock per tier, premium options cost resources, rare textures only found out in Ashgate. Higher-tier modules unlock more dressing slots: rugs, paintings, plants, pinned notes. The "make it home" feature.</div></div>
+                <div data-detail="49" class="roadmap-detail"><div class="roadmap-detail-title">Production · Farming Systems</div><div class="roadmap-detail-status">→ Funded</div><div class="roadmap-detail-body">Beyond the early Greenhouse module. Full crop systems with seasonal cycles, soil quality, fertilizer crafting, pest control, multi-tier crops from basic vegetables through cash crops to medicinal herbs. Integrated into the food chain: harvested crops feed Kitchen module recipes. Seasonal rotation forces strategic planning. Crop failures become real pressure on the base. The Farmer Settler class finally gets its full toolkit.</div></div>
+                <div data-detail="50" class="roadmap-detail"><div class="roadmap-detail-title">Production · Irrigation &amp; Water</div><div class="roadmap-detail-status">→ Funded</div><div class="roadmap-detail-body">Water beyond drinking. Pipes, valves, distribution from the Water Tank to Greenhouse, Aquaculture, Sanitation, and any future water-thirsty module. Pipe blockages, leaks, pressure drops as systems-level pressure on the base. Wells, surface runoff capture, condensation collection from ventilation. Water becomes a living system rather than a passive stat.</div></div>
+                <div data-detail="60" class="roadmap-detail"><div class="roadmap-detail-title">Production · Performance Pass</div><div class="roadmap-detail-status">→ Funded</div><div class="roadmap-detail-body">60fps locked on PC at recommended specs. Console-target framerate locked. Lumen and Nanite tuning for the worst-case scenes. Asset budget audits across every module, character, and environment. Memory profiling. The "stop the FPS counter dipping" pass before launch. Invisible work that determines whether reviews talk about the game or the framerate.</div></div>
+            </div>
+        </div>
+
+        <!-- ROW 6: EARLY ACCESS -->
+        <div class="roadmap-phase-group fade-in">
+            <div class="roadmap-phase-label">Early Access</div>
+            <div class="roadmap-track">
+                <div class="roadmap-node" data-phase="30" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">Early Access Launch</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node" data-phase="70" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">Community Building</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node" data-phase="71" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">Open Development</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node" data-phase="72" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">Iteration &amp; Patches</div>
+                </div>
+            </div>
+            <div class="roadmap-detail-container">
+                <div data-detail="30" class="roadmap-detail"><div class="roadmap-detail-title">Early Access · Launch</div><div class="roadmap-detail-status">→ Open Development</div><div class="roadmap-detail-body">AIRLOCK goes live on Steam Early Access. The core loop is complete: build, explore, survive, expand. This isn't a closed-door project. Early Access means the community is in the room. You play it, break it, tell us what works. Your feedback directly shapes what gets built next. Regular updates, dev diaries, transparent development. The game grows with its players.</div></div>
+                <div data-detail="70" class="roadmap-detail"><div class="roadmap-detail-title">Early Access · Community Building</div><div class="roadmap-detail-status">→ Open Development</div><div class="roadmap-detail-body">Discord and Slack communities built around AIRLOCK. Direct line between players and the studio. Community-managed channels for bug reports, feature requests, lore discussion, screenshot showcase, modding talk. Henry visible in chat answering questions. The kind of indie community that turns into the game's marketing arm because they care.</div></div>
+                <div data-detail="71" class="roadmap-detail"><div class="roadmap-detail-title">Early Access · Open Development</div><div class="roadmap-detail-status">→ Open Development</div><div class="roadmap-detail-body">Fully transparent studio operations. Public dev diaries showing every system as it's built. Public roadmap voting on what gets prioritised. "Where the money goes" — quarterly breakdown of the Kickstarter funds and how they're being spent. Players see the blood, sweat, and tears that go into development. The idea is an open-source-spirit game studio where backers feel like co-builders.</div></div>
+                <div data-detail="72" class="roadmap-detail"><div class="roadmap-detail-title">Early Access · Iteration &amp; Patches</div><div class="roadmap-detail-status">→ Open Development</div><div class="roadmap-detail-body">Weekly to monthly patches addressing community feedback. Bug fixes, balance tweaks, UI improvements, quality-of-life features. Major content drops every quarter: new modules, new locations, new Settler classes, deeper systems. Suggestions heard and prioritised in public. Every patch ships with a changelog that credits community-reported issues by username.</div></div>
+            </div>
+        </div>
+
+        <!-- ROW 7: FULL RELEASE -->
+        <div class="roadmap-phase-group fade-in">
+            <div class="roadmap-phase-label">Full Release</div>
+            <div class="roadmap-track">
+                <div class="roadmap-node" data-phase="43" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▶</span></div>
+                    <div class="roadmap-label">1.0 Launch</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node" data-phase="62" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">Console Builds</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node" data-phase="61" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">Localization</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node" data-phase="33" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">Trading &amp; Economy</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node" data-phase="34" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">Multi-Airlock</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node" data-phase="35" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">Underground Metro</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node" data-phase="36" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">Global Maps</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node" data-phase="44" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">Multiplayer</div>
+                </div>
+                <div class="roadmap-arrow">▸</div>
+                <div class="roadmap-node" data-phase="51" onclick="toggleRoadmap(this)">
+                    <div class="roadmap-diamond"><span class="roadmap-diamond-icon">▸</span></div>
+                    <div class="roadmap-label">DLC &amp; Beyond</div>
+                </div>
+            </div>
+            <div class="roadmap-detail-container">
+                <div data-detail="43" class="roadmap-detail"><div class="roadmap-detail-title">Release · 1.0 Launch</div><div class="roadmap-detail-status">▶ The Vision Realised</div><div class="roadmap-detail-body">All systems. Full narrative. Complete economy. The game Henry has carried in his head for over a decade, fully realised. A survival base-builder where you don't just survive — you rebuild. You trade. You explore. You discover the truth about what happened 300 years ago. Your way, in your airlock, in your corner of a broken world.</div></div>
+                <div data-detail="62" class="roadmap-detail"><div class="roadmap-detail-title">Release · Console Builds</div><div class="roadmap-detail-status">→ Post-Launch</div><div class="roadmap-detail-body">PS5, Xbox Series X|S, and Switch 2 builds. UE5 makes the actual ports feasible. Each platform requires certification: TRC for PlayStation, XR for Xbox, NCT for Nintendo. Cert is a real time sink — months not weeks. Console launches typically follow the PC launch by 3-6 months but expand the audience massively. The reach moment.</div></div>
+                <div data-detail="61" class="roadmap-detail"><div class="roadmap-detail-title">Release · Localization</div><div class="roadmap-detail-status">→ Post-Launch</div><div class="roadmap-detail-body">French, German, Spanish, Italian, Brazilian Portuguese, Russian, Polish, Simplified Chinese, Japanese, Korean. UI strings extracted to localizable tables. Subtitles for every voice line. Re-recording per language is out of scope for V1 — subtitle-only is the indie standard. The Steam wishlist conversion rate in non-English markets lives or dies on this.</div></div>
+                <div data-detail="33" class="roadmap-detail"><div class="roadmap-detail-title">Release · Trading &amp; Economy</div><div class="roadmap-detail-status">→ Post-Launch</div><div class="roadmap-detail-body">Set up automated trade routes between your airlocks. Previous airlocks you've moved on from don't sit empty, they become trading partners. Barter, buy, sell with NPC vendors. Supply and demand shifts based on scarcity. Surplus food but need medicine? Another airlock has the opposite problem. Trade routes emerge. An underground economy grows from the ashes, using UGA Credits as the post-war currency.</div></div>
+                <div data-detail="34" class="roadmap-detail"><div class="roadmap-detail-title">Release · Multi-Airlock System</div><div class="roadmap-detail-status">→ Post-Launch</div><div class="roadmap-detail-body">One airlock isn't enough. Discover new underground locations: pre-war military bunkers, research annexes, mine shafts, civic shelters. Each has unique starting features and unique upgrades. Build, max out, leave, find another. Your previous airlocks stay intact and active. Specialise them: your farm, your armoury, your research hub. Rebuild civilisation, one airlock at a time.</div></div>
+                <div data-detail="35" class="roadmap-detail"><div class="roadmap-detail-title">Release · Underground Metro</div><div class="roadmap-detail-status">→ Post-Launch</div><div class="roadmap-detail-body">Every airlock has a buried metro station at its deepest point. Excavate down through the grid. Clear the rubble. Assign an Engineer Settler to restore power. Reconnect the line to the wider UGA rail network. Once active, fast-travel between your airlocks without touching Ashgate. Supplies move. Settlers transfer where needed. You ride the rails through dark tunnels beneath a dead world. The spine of your underground civilisation.</div></div>
+                <div data-detail="36" class="roadmap-detail"><div class="roadmap-detail-title">Release · Global Maps</div><div class="roadmap-detail-status">→ Post-Launch</div><div class="roadmap-detail-body">Ashgate is just one city. Beyond the UK launch map: Tokyo's metro tunnels, New York's subway network, Berlin's bunkers, Moscow's deepest-in-the-world metro, the Australian outback's mining shafts, the Brazilian favela's vertical stack, the Amazon's jungle-swallowed cities. Each map regional-flavoured: unique architecture, unique threats, unique resources, unique survivor stories. Every map is its own self-contained adventure that connects to the larger network via the Underground Metro.</div></div>
+                <div data-detail="44" class="roadmap-detail"><div class="roadmap-detail-title">Release · Multiplayer</div><div class="roadmap-detail-status">→ Long-Term Vision</div><div class="roadmap-detail-body">The ultimate dream. Your airlock. Your friend's airlock. Connected. Trading between real players. Visiting each other's bases. Cooperative surface runs. Rival factions competing for the best locations. A monumental engineering challenge — but with the right team and funding, not impossible. This is the horizon. Everything else on this roadmap is the road that leads here.</div></div>
+                <div data-detail="51" class="roadmap-detail"><div class="roadmap-detail-title">Release · DLC &amp; Beyond</div><div class="roadmap-detail-status">→ Shaped by Community</div><div class="roadmap-detail-body">Post-1.0 expansions. New module categories, new Settler classes, new biomes, new story chapters, new Altered variants, deeper combat, expanded crafting, weather systems, ventilation, sleep cycles, electricity beyond Power V1. Major DLC drops driven by community-voted priorities. The post-1.0 roadmap is intentionally open — the players write this section by playing the game and telling us what they want next.</div></div>
+            </div>
+        </div>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIRLOCK · Stage 08 · Full Release</title>
+<meta name="description" content="1.0 ships. Console builds follow. Trading economies, multi-airlock networks, the underground metro, global maps, eventually multiplayer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>:root{--black:#050505;--bg:#0A0A0A;--bg-2:#141414;--bg-3:#1C1C1C;--bone:#ECE6D6;--bone-dim:rgba(236,230,214,0.7);--bone-faint:rgba(236,230,214,0.18);--accent:#D4A046;--accent-bright:#E8B86C;--crit:#C8463A;--green:#6FB85C;--classified:#8B2A2A;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--bone);font-family:'Inter',system-ui,sans-serif;font-size:17px;line-height:1.65;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;opacity:0.04;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");z-index:200;}
+nav{position:fixed;top:0;left:0;right:0;z-index:95;padding:1.5rem 4%;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to bottom,rgba(5,5,5,0.85),rgba(5,5,5,0.5));transition:all 0.4s ease;backdrop-filter:blur(8px);border-bottom:1px solid var(--bone-faint);}
+nav.scrolled{padding:0.9rem 4%;background:rgba(5,5,5,0.97);}
+.nav-logo img{height:36px;filter:drop-shadow(0 4px 14px rgba(0,0,0,0.85));transition:transform 0.2s;}
+.nav-logo:hover img{transform:scale(1.04);}
+.nav-links{display:flex;gap:2.5rem;list-style:none;}
+.nav-links a{color:var(--bone);text-decoration:none;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.3em;text-transform:uppercase;transition:color 0.2s;position:relative;}
+.nav-links a::after{content:'';position:absolute;bottom:-6px;left:50%;right:50%;height:1px;background:var(--accent);transition:left 0.25s,right 0.25s;}
+.nav-links a:hover{color:var(--accent);}
+.nav-links a:hover::after{left:0;right:0;}
+.nav-links a.active{color:var(--accent);}
+.nav-links a.active::after{left:0;right:0;}
+.nav-cta{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--black);background:var(--bone);padding:0.6rem 1.6rem;text-decoration:none;transition:all 0.2s;}
+.nav-cta:hover{background:var(--accent);transform:translateY(-2px);}
+.nav-toggle{display:none;background:none;border:none;color:var(--bone);font-size:1.5rem;cursor:pointer;padding:0;}
+/* HERO */
+.stage-hero{min-height:78vh;position:relative;display:flex;align-items:flex-end;padding:0 0 5rem;background-size:cover;background-position:center;border-bottom:1px solid var(--bone-faint);}
+.stage-hero::before{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(5,5,5,0.55) 0%,rgba(5,5,5,0.2) 35%,rgba(5,5,5,0.6) 70%,rgba(5,5,5,0.95) 100%);}
+.stage-hero-content{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:0 4%;width:100%;}
+.stage-hero-meta{font-family:'Inter',sans-serif;font-weight:500;font-size:0.78rem;color:var(--accent);letter-spacing:0.4em;text-transform:uppercase;margin-bottom:1.2rem;}
+.stage-hero-num{font-family:'Bebas Neue',sans-serif;font-size:clamp(5rem,12vw,10rem);line-height:0.9;color:var(--accent);letter-spacing:0.02em;margin-bottom:0.5rem;text-shadow:0 6px 30px rgba(0,0,0,0.7);}
+.stage-hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.6rem,5.5vw,5rem);letter-spacing:0.04em;color:var(--bone);text-transform:uppercase;line-height:1;margin-bottom:1.5rem;text-shadow:0 6px 30px rgba(0,0,0,0.85);}
+.stage-hero-summary{font-family:'Crimson Pro',serif;font-style:italic;font-size:clamp(1.05rem,1.6vw,1.4rem);color:var(--bone);max-width:760px;line-height:1.55;text-shadow:0 4px 20px rgba(0,0,0,0.85);}
+.stage-stamp{display:inline-block;font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.3em;padding:0.5rem 1.2rem;border:2px solid;transform:rotate(-2deg);margin-top:1.8rem;}
+.stage-stamp.declassified{color:var(--green);border-color:var(--green);}
+.stage-stamp.in-progress{color:var(--accent);border-color:var(--accent);}
+.stage-stamp.classified{color:var(--classified);border-color:var(--classified);}
+/* INTRO */
+.stage-intro{padding:6rem 4%;max-width:900px;margin:0 auto;}
+.stage-intro p{font-family:'Crimson Pro',serif;font-size:1.35rem;line-height:1.65;color:var(--bone);}
+.stage-intro p::first-letter{font-family:'Bebas Neue',sans-serif;font-size:4rem;float:left;line-height:0.9;margin-right:1rem;margin-top:0.4rem;color:var(--accent);}
+/* SUB-STAGES */
+.stage-substages{padding:2rem 4% 7rem;max-width:1300px;margin:0 auto;}
+.stage-substage{display:grid;grid-template-columns:1fr 1.2fr;gap:3.5rem;align-items:center;padding:5rem 0;border-bottom:1px solid var(--bone-faint);}
+.stage-substage:last-child{border-bottom:none;}
+.stage-substage.no-image{grid-template-columns:1fr;max-width:820px;}
+.stage-substage-image{position:relative;aspect-ratio:16/10;overflow:hidden;border:1px solid var(--bone-faint);}
+.stage-substage-image img{width:100%;height:100%;object-fit:cover;transition:transform 0.6s;}
+.stage-substage-image:hover img{transform:scale(1.04);}
+.stage-substage:nth-child(even):not(.no-image){direction:rtl;}
+.stage-substage:nth-child(even):not(.no-image) > *{direction:ltr;}
+.stage-substage-content{position:relative;}
+.stage-substage-stamp{display:inline-block;font-family:'Bebas Neue',sans-serif;font-size:0.65rem;letter-spacing:0.2em;padding:0.18rem 0.55rem;border:1.5px solid;margin-bottom:1rem;transform:rotate(-1deg);}
+.stage-substage-stamp.declassified{color:var(--green);border-color:var(--green);}
+.stage-substage-stamp.in-progress{color:var(--accent);border-color:var(--accent);}
+.stage-substage-stamp.classified{color:var(--classified);border-color:var(--classified);}
+.stage-substage-num{font-family:'Inter',sans-serif;font-weight:500;font-size:0.78rem;color:var(--accent);letter-spacing:0.35em;text-transform:uppercase;margin-bottom:0.6rem;}
+.stage-substage-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.7rem,3vw,2.4rem);letter-spacing:0.03em;color:var(--bone);text-transform:uppercase;line-height:1.05;margin-bottom:1.2rem;}
+.stage-substage-body{font-size:1.05rem;color:var(--bone-dim);line-height:1.6;margin-bottom:1rem;}
+.stage-substage-detail{font-family:'Crimson Pro',serif;font-style:italic;font-size:1.05rem;color:var(--bone);line-height:1.55;padding-left:1.2rem;border-left:2px solid var(--accent);}
+/* NAV PILLS */
+.stage-nav{padding:4rem 4%;max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:stretch;gap:1.5rem;flex-wrap:wrap;}
+.stage-nav-pill{flex:1;min-width:280px;padding:1.8rem 1.6rem;background:var(--bg-2);border:1px solid var(--bone-faint);text-decoration:none;transition:all 0.25s;display:flex;flex-direction:column;gap:0.4rem;}
+.stage-nav-pill:hover{border-color:var(--accent);background:var(--bg-3);transform:translateY(-3px);}
+.stage-nav-pill.disabled{opacity:0.35;pointer-events:none;}
+.stage-nav-meta{font-family:'Inter',sans-serif;font-size:0.7rem;color:var(--accent);letter-spacing:0.3em;text-transform:uppercase;}
+.stage-nav-name{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--bone);letter-spacing:0.05em;text-transform:uppercase;}
+.stage-nav-pill.next{text-align:right;}
+.stage-nav-pill.center{text-align:center;justify-content:center;background:transparent;border-color:var(--bone-faint);}
+.stage-nav-pill.center:hover{background:var(--bg-2);}
+/* FOOTER */
+footer{background:var(--black);padding:5rem 4% 2rem;border-top:1px solid var(--bone-faint);}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;max-width:1300px;margin:0 auto 3rem;}
+.footer-brand img{height:50px;margin-bottom:1rem;}
+.footer-brand p{color:var(--bone-dim);font-style:italic;font-size:0.95rem;line-height:1.6;}
+.footer-col h5{font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:1rem;}
+.footer-col ul{list-style:none;}
+.footer-col li{margin-bottom:0.5rem;}
+.footer-col a{color:var(--bone-dim);text-decoration:none;font-size:0.95rem;transition:color 0.2s;}
+.footer-col a:hover{color:var(--bone);}
+.footer-bottom{text-align:center;color:var(--bone-dim);font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.4em;padding-top:2rem;border-top:1px solid var(--bone-faint);max-width:1300px;margin:0 auto;}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 0.9s ease,transform 0.9s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+@media (max-width:1100px){.nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:rgba(5,5,5,0.98);flex-direction:column;padding:2rem;gap:1.5rem;border-bottom:1px solid var(--bone-faint);}.nav-links.open{display:flex;}.nav-toggle{display:block;}}
+@media (max-width:900px){.footer-grid{grid-template-columns:1fr;}.stage-substage{grid-template-columns:1fr!important;direction:ltr!important;}.stage-substage > *{direction:ltr!important;}.stage-nav{flex-direction:column;}.stage-nav-pill.next{text-align:left;}}</style>
+</head>
+<body>
+
+<nav id="nav">
+    <a href="index.html" class="nav-logo"><img src="airlock_menulogo.png" alt="AIRLOCK"></a>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">☰</button>
+    <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="roadmap.html" class="active">Roadmap</a></li>
+        <li><a href="diary.html">Updates</a></li>
+        <li><a href="media.html">Media</a></li>
+        <li><a href="index.html#support">Support</a></li>
+    </ul>
+    <a href="#" class="nav-cta">Wishlist</a>
+</nav>
+
+<section class="stage-hero" style="background-image:url('screenshots/airlock_world_05.jpg');">
+    <div class="stage-hero-content">
+        <div class="stage-hero-meta">// Stage 08 · Full Release</div>
+        <div class="stage-hero-num">08</div>
+        <h1 class="stage-hero-title">The Vision Realised</h1>
+        <p class="stage-hero-summary">1.0 ships. Console builds follow. Trading economies, multi-airlock networks, the underground metro, global maps, eventually multiplayer.</p>
+        <div class="stage-stamp classified">CLASSIFIED</div>
+    </div>
+</section>
+
+<section class="stage-intro">
+    <p>The full vision. Multiple airlocks per save. The underground metro stitching them together. Trading economies. Global maps, Ashgate, Tokyo, New York, Berlin, Moscow. Console launches. Localisation. And eventually, the horizon: multiplayer, where your airlock and a friend's are connected by the same dark tunnels. Every step before this is the road that leads here.</p>
+</section>
+
+<section class="stage-substages">
+<article class="stage-substage reveal no-image">
+<div class="stage-substage-content">
+<div class="stage-substage-stamp classified">CLASSIFIED</div>
+<div class="stage-substage-num">08.01</div>
+<h3 class="stage-substage-name">1.0 Launch</h3>
+<p class="stage-substage-body">All systems. Full narrative. Complete economy. The game Henry has carried in his head for over a decade, fully realised.</p>
+<p class="stage-substage-detail">// All systems. Full narrative. Complete economy. The game Henry has carried in his head for over a decade, fully realised.</p>
+</div></article>
+<article class="stage-substage reveal no-image">
+<div class="stage-substage-content">
+<div class="stage-substage-stamp classified">CLASSIFIED</div>
+<div class="stage-substage-num">08.02</div>
+<h3 class="stage-substage-name">Console Builds</h3>
+<p class="stage-substage-body">PS5, Xbox Series X|S, Switch 2. Each platform requires certification. Console launches typically follow PC by 3-6 months.</p>
+<p class="stage-substage-detail">// PS5, Xbox Series X|S, Switch 2. Each platform requires certification. Console launches typically follow PC by 3-6 months.</p>
+</div></article>
+<article class="stage-substage reveal no-image">
+<div class="stage-substage-content">
+<div class="stage-substage-stamp classified">CLASSIFIED</div>
+<div class="stage-substage-num">08.03</div>
+<h3 class="stage-substage-name">Localization</h3>
+<p class="stage-substage-body">French, German, Spanish, Italian, Brazilian Portuguese, Russian, Polish, Simplified Chinese, Japanese, Korean. Subtitles for every voice line.</p>
+<p class="stage-substage-detail">// French, German, Spanish, Italian, Brazilian Portuguese, Russian, Polish, Simplified Chinese, Japanese, Korean. Subtitles for every voice line.</p>
+</div></article>
+<article class="stage-substage reveal no-image">
+<div class="stage-substage-content">
+<div class="stage-substage-stamp classified">CLASSIFIED</div>
+<div class="stage-substage-num">08.04</div>
+<h3 class="stage-substage-name">Trading & Economy</h3>
+<p class="stage-substage-body">Automated trade routes between your airlocks. Previous airlocks become trading partners. Supply and demand shifts. UGA Credits as the post-war currency.</p>
+<p class="stage-substage-detail">// Automated trade routes between your airlocks. Previous airlocks become trading partners. Supply and demand shifts. UGA Credits as the post-war currency.</p>
+</div></article>
+<article class="stage-substage reveal no-image">
+<div class="stage-substage-content">
+<div class="stage-substage-stamp classified">CLASSIFIED</div>
+<div class="stage-substage-num">08.05</div>
+<h3 class="stage-substage-name">Multi-Airlock System</h3>
+<p class="stage-substage-body">Discover new locations: pre-war military bunkers, research annexes, mine shafts, civic shelters. Each unique. Specialise them. Rebuild civilisation, one airlock at a time.</p>
+<p class="stage-substage-detail">// Discover new locations: pre-war military bunkers, research annexes, mine shafts, civic shelters. Each unique. Specialise them. Rebuild civilisation, one airlock at a time.</p>
+</div></article>
+<article class="stage-substage reveal no-image">
+<div class="stage-substage-content">
+<div class="stage-substage-stamp classified">CLASSIFIED</div>
+<div class="stage-substage-num">08.06</div>
+<h3 class="stage-substage-name">Underground Metro</h3>
+<p class="stage-substage-body">Every airlock has a buried metro station. Excavate down. Restore power. Reconnect the line. Fast-travel through dark tunnels. The spine of your underground civilisation.</p>
+<p class="stage-substage-detail">// Every airlock has a buried metro station. Excavate down. Restore power. Reconnect the line. Fast-travel through dark tunnels. The spine of your underground civilisation.</p>
+</div></article>
+<article class="stage-substage reveal no-image">
+<div class="stage-substage-content">
+<div class="stage-substage-stamp classified">CLASSIFIED</div>
+<div class="stage-substage-num">08.07</div>
+<h3 class="stage-substage-name">Global Maps</h3>
+<p class="stage-substage-body">Ashgate is just one city. Tokyo's metro. New York's subway. Berlin's bunkers. Moscow's deepest. The Australian outback. Brazilian favelas. Each map regional-flavoured.</p>
+<p class="stage-substage-detail">// Ashgate is just one city. Tokyo's metro. New York's subway. Berlin's bunkers. Moscow's deepest. The Australian outback. Brazilian favelas. Each map regional-flavoured.</p>
+</div></article>
+<article class="stage-substage reveal no-image">
+<div class="stage-substage-content">
+<div class="stage-substage-stamp classified">CLASSIFIED</div>
+<div class="stage-substage-num">08.08</div>
+<h3 class="stage-substage-name">Multiplayer</h3>
+<p class="stage-substage-body">Your airlock. Your friend's airlock. Connected. Trading between real players. Visiting bases. Cooperative surface runs. The horizon. Everything else is the road that leads here.</p>
+<p class="stage-substage-detail">// Your airlock. Your friend's airlock. Connected. Trading between real players. Visiting bases. Cooperative surface runs. The horizon. Everything else is the road that leads here.</p>
+</div></article>
+<article class="stage-substage reveal no-image">
+<div class="stage-substage-content">
+<div class="stage-substage-stamp classified">CLASSIFIED</div>
+<div class="stage-substage-num">08.09</div>
+<h3 class="stage-substage-name">DLC & Beyond</h3>
+<p class="stage-substage-body">Post-1.0 expansions. New module categories, new Settler classes, new biomes, new story chapters, new Altered variants. Driven by community-voted priorities.</p>
+<p class="stage-substage-detail">// Post-1.0 expansions. New module categories, new Settler classes, new biomes, new story chapters, new Altered variants. Driven by community-voted priorities.</p>
+</div></article>
+</section>
+
+<nav class="stage-nav">
+    <a class="stage-nav-pill prev" href="stage-early-access.html"><div class="stage-nav-meta">← STAGE 07 · PREV</div><div class="stage-nav-name">Open Development</div></a>
+    <a class="stage-nav-pill center" href="roadmap.html"><div class="stage-nav-meta">⌂ ROADMAP</div><div class="stage-nav-name">All Stages</div></a>
+    <span class="stage-nav-pill next disabled"><div class="stage-nav-meta">END →</div><div class="stage-nav-name">Final Stage</div></span>
+</nav>
+
+<footer>
+    <div class="footer-grid">
+        <div class="footer-brand">
+            <img src="airlock_menulogo.png" alt="AIRLOCK">
+            <p>An Ironbridge Games title.<br>Built in the dark. Made for the surface.</p>
+        </div>
+        <div class="footer-col"><h5>The Game</h5><ul><li><a href="index.html">Home</a></li><li><a href="roadmap.html">Roadmap</a></li><li><a href="media.html">Media</a></li></ul></div>
+        <div class="footer-col"><h5>Channel</h5><ul><li><a href="diary.html">Dev Diary</a></li><li><a href="index.html#newsletter">Newsletter</a></li><li><a href="#">Discord</a></li></ul></div>
+        <div class="footer-col"><h5>Studio</h5><ul><li><a href="#">Ironbridge Games</a></li><li><a href="index.html#support">Support</a></li><li><a href="#">Press Kit</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">© 2026 Ironbridge Games Ltd · Company No. 16882669</div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav');
+function onScroll(){if(window.scrollY>80)nav.classList.add('scrolled');else nav.classList.remove('scrolled');}
+window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+const navToggle=document.getElementById('navToggle');
+const navLinks=document.getElementById('navLinks');
+if(navToggle)navToggle.addEventListener('click',()=>navLinks.classList.toggle('open'));
+const observer=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);}});},{threshold:0.12,rootMargin:'0px 0px -60px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+
+</body>
+</html>

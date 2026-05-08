@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIRLOCK · Media</title>
+    <meta name="description" content="Screenshots, gameplay GIFs, and trailer footage from AIRLOCK.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,400;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black: #050505;
+            --bg: #0A0A0A;
+            --bg-2: #141414;
+            --bone: #ECE6D6;
+            --bone-dim: rgba(236, 230, 214, 0.7);
+            --bone-faint: rgba(236, 230, 214, 0.18);
+            --accent: #D4A046;
+            --accent-bright: #E8B86C;
+            --green: #6FB85C;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            background: var(--black); color: var(--bone);
+            font-family: 'Inter', system-ui, sans-serif;
+            font-size: 17px; line-height: 1.65;
+            min-height: 100vh; overflow-x: hidden;
+        }
+        body::before {
+            content: ''; position: fixed; inset: 0; pointer-events: none;
+            opacity: 0.04; mix-blend-mode: overlay;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            z-index: 200;
+        }
+
+        /* === NAV === */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 95;
+            padding: 1.5rem 4%;
+            display: flex; align-items: center; justify-content: space-between;
+            background: linear-gradient(to bottom, rgba(5, 5, 5, 0.85), rgba(5, 5, 5, 0.5));
+            transition: all 0.4s ease; backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--bone-faint);
+        }
+        nav.scrolled { padding: 0.9rem 4%; background: rgba(5, 5, 5, 0.97); }
+        .nav-logo img { height: 36px; filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.85)); transition: transform 0.2s; }
+        .nav-logo:hover img { transform: scale(1.04); }
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-links a {
+            color: var(--bone); text-decoration: none;
+            font-family: 'Bebas Neue', sans-serif; font-size: 1rem;
+            letter-spacing: 0.3em; text-transform: uppercase;
+            transition: color 0.2s; position: relative;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -6px; left: 50%; right: 50%; height: 1px;
+            background: var(--accent); transition: left 0.25s, right 0.25s;
+        }
+        .nav-links a:hover { color: var(--accent); }
+        .nav-links a:hover::after { left: 0; right: 0; }
+        .nav-links a.active { color: var(--accent); }
+        .nav-links a.active::after { left: 0; right: 0; }
+        .nav-cta {
+            font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 0.3em;
+            text-transform: uppercase; color: var(--black); background: var(--bone);
+            padding: 0.6rem 1.6rem; text-decoration: none; transition: all 0.2s;
+        }
+        .nav-cta:hover { background: var(--accent); transform: translateY(-2px); }
+        .nav-toggle { display: none; background: none; border: none; color: var(--bone); font-size: 1.5rem; cursor: pointer; padding: 0; }
+
+        /* === PAGE HERO === */
+        .page-hero {
+            min-height: 50vh;
+            display: flex; align-items: center; justify-content: center;
+            padding: 8rem 4% 4rem;
+            position: relative; overflow: hidden;
+            background: var(--black);
+        }
+        .page-hero::before {
+            content: ''; position: absolute; inset: 0;
+            background: url('screenshots/airlock_world_02.jpg') center/cover;
+            opacity: 0.32; filter: contrast(1.05); z-index: 0;
+        }
+        .page-hero::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, var(--black) 100%);
+            z-index: 1;
+        }
+        .page-hero-content { position: relative; z-index: 2; text-align: center; max-width: 900px; }
+        .page-hero-meta {
+            font-family: 'Inter', sans-serif; font-weight: 500; font-size: 0.78rem;
+            color: var(--accent); letter-spacing: 0.6em; text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+        h1.page-title {
+            font-family: 'Bebas Neue', sans-serif; font-size: clamp(3.5rem, 8vw, 6rem);
+            letter-spacing: 0.04em; color: var(--bone); margin-bottom: 1.5rem;
+            text-transform: uppercase; line-height: 0.95;
+            text-shadow: 0 6px 30px rgba(0, 0, 0, 0.7);
+        }
+        .page-hero p {
+            font-family: 'Crimson Pro', serif; font-style: italic; font-size: 1.3rem;
+            color: var(--bone); max-width: 640px; margin: 0 auto; line-height: 1.5;
+        }
+
+        /* === FILTER TABS === */
+        .filter-bar {
+            display: flex; justify-content: center; gap: 1rem;
+            padding: 3rem 4% 2rem;
+            background: var(--bg);
+            position: sticky; top: 76px; z-index: 50;
+            border-bottom: 1px solid var(--bone-faint);
+            flex-wrap: wrap;
+        }
+        .filter-tab {
+            font-family: 'Bebas Neue', sans-serif; font-size: 0.9rem;
+            letter-spacing: 0.3em; text-transform: uppercase;
+            color: var(--bone-dim); background: transparent;
+            border: 1px solid var(--bone-faint); padding: 0.6rem 1.6rem;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .filter-tab:hover { color: var(--bone); border-color: var(--bone); }
+        .filter-tab.active {
+            background: var(--accent); color: var(--black);
+            border-color: var(--accent);
+        }
+
+        /* === MEDIA GRID === */
+        .media-section {
+            padding: 3rem 4% 6rem;
+            background: var(--bg);
+        }
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 1.5rem;
+            max-width: 1500px; margin: 0 auto;
+        }
+        .media-item {
+            position: relative; overflow: hidden;
+            background: var(--bg-2);
+            aspect-ratio: 16/10;
+            cursor: pointer; transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--bone-faint);
+        }
+        .media-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+            border-color: var(--accent);
+        }
+        .media-item img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.6s ease;
+            display: block;
+        }
+        .media-item:hover img { transform: scale(1.04); }
+        .media-item-label {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            padding: 1rem 1.2rem;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1rem; letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--bone);
+        }
+        .media-item-type {
+            position: absolute; top: 0.8rem; right: 0.8rem;
+            font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.65rem;
+            letter-spacing: 0.25em; text-transform: uppercase;
+            color: var(--bone); background: rgba(0, 0, 0, 0.75);
+            padding: 0.25rem 0.6rem;
+            backdrop-filter: blur(4px);
+        }
+        .media-item-type.gif { color: var(--accent); }
+        .media-item-type.screenshot { color: var(--green); }
+        .media-item-type.soundtrack { color: var(--accent-bright); }
+        .media-item.hidden { display: none; }
+
+        /* === SOUNDTRACK CARD === */
+        .media-item.soundtrack-item {
+            cursor: default;
+            aspect-ratio: 16/10;
+        }
+        .media-item.soundtrack-item:hover img { transform: scale(1.02); }
+        .soundtrack-overlay {
+            position: absolute; inset: 0;
+            display: flex; flex-direction: column; justify-content: flex-end;
+            padding: 1.4rem 1.4rem 1.1rem;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.94) 0%, rgba(0, 0, 0, 0.7) 30%, rgba(0, 0, 0, 0.15) 60%, transparent 100%);
+            pointer-events: none;
+        }
+        .soundtrack-overlay > * { pointer-events: auto; }
+        .soundtrack-artist {
+            font-family: 'Inter', sans-serif; font-weight: 500;
+            font-size: 0.7rem; color: var(--accent);
+            letter-spacing: 0.3em; text-transform: uppercase;
+            margin-bottom: 0.4rem;
+        }
+        .soundtrack-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem; letter-spacing: 0.04em;
+            color: var(--bone); text-transform: uppercase;
+            line-height: 1.0; margin-bottom: 0.9rem;
+        }
+        .soundtrack-audio {
+            width: 100%;
+            height: 38px;
+            outline: none;
+            border-radius: 0;
+            background: rgba(20, 20, 20, 0.85);
+        }
+        .soundtrack-audio::-webkit-media-controls-panel {
+            background: rgba(20, 20, 20, 0.85);
+        }
+
+        /* === LIGHTBOX === */
+        .lightbox {
+            display: none; position: fixed; inset: 0; z-index: 300;
+            background: rgba(0, 0, 0, 0.96); backdrop-filter: blur(8px);
+            align-items: center; justify-content: center;
+        }
+        .lightbox.open { display: flex; }
+        .lightbox img {
+            max-width: 92%; max-height: 88%;
+            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.8);
+        }
+        .lightbox-close {
+            position: absolute; top: 2rem; right: 2rem;
+            background: none; border: 1px solid var(--bone);
+            color: var(--bone); font-family: 'Bebas Neue', sans-serif;
+            font-size: 0.85rem; letter-spacing: 0.3em;
+            padding: 0.6rem 1.4rem; cursor: pointer;
+            text-transform: uppercase;
+        }
+        .lightbox-close:hover { background: var(--bone); color: var(--black); }
+        .lightbox-nav {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: none; border: 1px solid var(--bone);
+            color: var(--bone); font-size: 2rem;
+            padding: 0.5rem 1rem; cursor: pointer;
+        }
+        .lightbox-nav.prev { left: 2rem; }
+        .lightbox-nav.next { right: 2rem; }
+        .lightbox-nav:hover { background: var(--bone); color: var(--black); }
+        .lightbox-label {
+            position: absolute; bottom: 2rem; left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.1rem; letter-spacing: 0.25em;
+            color: var(--bone); text-transform: uppercase;
+        }
+
+        /* === FOOTER === */
+        footer {
+            background: var(--black);
+            padding: 5rem 4% 2rem;
+            border-top: 1px solid var(--bone-faint);
+        }
+        .footer-grid {
+            display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem; max-width: 1300px; margin: 0 auto 3rem;
+        }
+        .footer-brand img { height: 50px; margin-bottom: 1rem; }
+        .footer-brand p { color: var(--bone-dim); font-style: italic; font-size: 0.95rem; line-height: 1.6; }
+        .footer-col h5 {
+            font-family: 'Bebas Neue', sans-serif; font-size: 0.95rem;
+            letter-spacing: 0.3em; color: var(--accent); text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+        .footer-col ul { list-style: none; }
+        .footer-col li { margin-bottom: 0.5rem; }
+        .footer-col a { color: var(--bone-dim); text-decoration: none; font-size: 0.95rem; transition: color 0.2s; }
+        .footer-col a:hover { color: var(--bone); }
+        .footer-bottom {
+            text-align: center; color: var(--bone-dim);
+            font-family: 'Bebas Neue', sans-serif; font-size: 0.85rem;
+            letter-spacing: 0.4em; padding-top: 2rem;
+            border-top: 1px solid var(--bone-faint);
+            max-width: 1300px; margin: 0 auto;
+        }
+
+        @media (max-width: 1100px) {
+            .nav-links {
+                display: none; position: absolute; top: 100%; left: 0; right: 0;
+                background: rgba(5, 5, 5, 0.98);
+                flex-direction: column; padding: 2rem; gap: 1.5rem;
+                border-bottom: 1px solid var(--bone-faint);
+            }
+            .nav-links.open { display: flex; }
+            .nav-toggle { display: block; }
+            .filter-bar { top: 60px; }
+        }
+        @media (max-width: 900px) {
+            .footer-grid { grid-template-columns: 1fr; }
+            .media-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav id="nav">
+        <a href="index.html" class="nav-logo"><img src="airlock_menulogo.png" alt="AIRLOCK"></a>
+        <button class="nav-toggle" id="navToggle" aria-label="Menu">☰</button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="roadmap.html">Roadmap</a></li>
+            <li><a href="diary.html">Updates</a></li>
+            <li><a href="media.html" class="active">Media</a></li>
+            <li><a href="index.html#support">Support</a></li>
+        </ul>
+        <a href="#" class="nav-cta">Wishlist</a>
+    </nav>
+
+    <!-- PAGE HERO -->
+    <section class="page-hero">
+        <div class="page-hero-content">
+            <div class="page-hero-meta">// Image &amp; Footage Archive</div>
+            <h1 class="page-title">Media</h1>
+            <p>Screenshots from in-engine. GIFs from playtest sessions. Footage as it gets captured.</p>
+        </div>
+    </section>
+
+    <!-- FILTER -->
+    <div class="filter-bar">
+        <button class="filter-tab active" data-filter="all">All</button>
+        <button class="filter-tab" data-filter="screenshot">Screenshots</button>
+        <button class="filter-tab" data-filter="gif">GIFs</button>
+        <button class="filter-tab" data-filter="soundtrack">Soundtrack</button>
+    </div>
+
+    <!-- MEDIA GRID -->
+    <section class="media-section">
+        <div class="media-grid" id="mediaGrid">
+            <!-- Soundtrack cards rendered from soundtrack.js -->
+            <!-- Soundtrack -->
+
+            <!-- World screenshots (the new ones first) -->
+            <div class="media-item" data-type="screenshot" data-src="screenshots/airlock_world_01.jpg" data-label="Ashgate Surface">
+                <img src="screenshots/airlock_world_01.jpg" alt="Ashgate Surface" loading="lazy">
+                <div class="media-item-type screenshot">Screenshot</div>
+                <div class="media-item-label">Ashgate Surface</div>
+            </div>
+            <div class="media-item" data-type="screenshot" data-src="screenshots/airlock_world_02.jpg" data-label="Ruined Streets">
+                <img src="screenshots/airlock_world_02.jpg" alt="Ruined Streets" loading="lazy">
+                <div class="media-item-type screenshot">Screenshot</div>
+                <div class="media-item-label">Ruined Streets</div>
+            </div>
+            <div class="media-item" data-type="screenshot" data-src="screenshots/airlock_world_03.jpg" data-label="Overgrown City">
+                <img src="screenshots/airlock_world_03.jpg" alt="Overgrown City" loading="lazy">
+                <div class="media-item-type screenshot">Screenshot</div>
+                <div class="media-item-label">Overgrown City</div>
+            </div>
+            <div class="media-item" data-type="screenshot" data-src="screenshots/airlock_world_04.jpg" data-label="Cascade Foliage">
+                <img src="screenshots/airlock_world_04.jpg" alt="Cascade Foliage" loading="lazy">
+                <div class="media-item-type screenshot">Screenshot</div>
+                <div class="media-item-label">Cascade Foliage</div>
+            </div>
+            <div class="media-item" data-type="screenshot" data-src="screenshots/airlock_world_05.jpg" data-label="Reclaimed Buildings">
+                <img src="screenshots/airlock_world_05.jpg" alt="Reclaimed Buildings" loading="lazy">
+                <div class="media-item-type screenshot">Screenshot</div>
+                <div class="media-item-label">Reclaimed Buildings</div>
+            </div>
+            <div class="media-item" data-type="screenshot" data-src="screenshots/airlock_world_06.jpg" data-label="Surface Wandering">
+                <img src="screenshots/airlock_world_06.jpg" alt="Surface Wandering" loading="lazy">
+                <div class="media-item-type screenshot">Screenshot</div>
+                <div class="media-item-label">Surface Wandering</div>
+            </div>
+            <div class="media-item" data-type="screenshot" data-src="screenshots/Airlock_UnderWorld_DollhouseView.jpeg" data-label="Dollhouse View">
+                <img src="screenshots/Airlock_UnderWorld_DollhouseView.jpeg" alt="Dollhouse View" loading="lazy">
+                <div class="media-item-type screenshot">Screenshot</div>
+                <div class="media-item-label">Dollhouse View</div>
+            </div>
+            <div class="media-item" data-type="screenshot" data-src="screenshots/airlock_underworld_01.jpg" data-label="The Airlock">
+                <img src="screenshots/airlock_underworld_01.jpg" alt="The Airlock" loading="lazy">
+                <div class="media-item-type screenshot">Screenshot</div>
+                <div class="media-item-label">The Airlock</div>
+            </div>
+            <div class="media-item" data-type="screenshot" data-src="screenshots/airlock_underworld_02.jpg" data-label="Operations Room">
+                <img src="screenshots/airlock_underworld_02.jpg" alt="Operations Room" loading="lazy">
+                <div class="media-item-type screenshot">Screenshot</div>
+                <div class="media-item-label">Operations Room</div>
+            </div>
+            <div class="media-item" data-type="screenshot" data-src="screenshots/airlock_underworld_03.jpg" data-label="Workhouse">
+                <img src="screenshots/airlock_underworld_03.jpg" alt="Workhouse" loading="lazy">
+                <div class="media-item-type screenshot">Screenshot</div>
+                <div class="media-item-label">Workhouse</div>
+            </div>
+            <div class="media-item" data-type="screenshot" data-src="screenshots/airlock_underworld_04.jpg" data-label="Generator Room">
+                <img src="screenshots/airlock_underworld_04.jpg" alt="Generator Room" loading="lazy">
+                <div class="media-item-type screenshot">Screenshot</div>
+                <div class="media-item-label">Generator Room</div>
+            </div>
+            <div class="media-item" data-type="screenshot" data-src="screenshots/airlock_underworld_05.jpg" data-label="Underground Corridor">
+                <img src="screenshots/airlock_underworld_05.jpg" alt="Underground Corridor" loading="lazy">
+                <div class="media-item-type screenshot">Screenshot</div>
+                <div class="media-item-label">Underground Corridor</div>
+            </div>
+
+            <!-- GIFs (will load lazily) -->
+            <div class="media-item" data-type="gif" data-src="Airlock_BuildYourBase.gif" data-label="Build Your Base">
+                <img src="Airlock_BuildYourBase.gif" alt="Build Your Base" loading="lazy">
+                <div class="media-item-type gif">GIF</div>
+                <div class="media-item-label">Build Your Base</div>
+            </div>
+            <div class="media-item" data-type="gif" data-src="Airlock_UpgradeYourBase.gif" data-label="Upgrade Your Base">
+                <img src="Airlock_UpgradeYourBase.gif" alt="Upgrade Your Base" loading="lazy">
+                <div class="media-item-type gif">GIF</div>
+                <div class="media-item-label">Upgrade Your Base</div>
+            </div>
+            <div class="media-item" data-type="gif" data-src="Airlock_ExploreYourBase.gif" data-label="Explore Your Base">
+                <img src="Airlock_ExploreYourBase.gif" alt="Explore Your Base" loading="lazy">
+                <div class="media-item-type gif">GIF</div>
+                <div class="media-item-label">Explore Your Base</div>
+            </div>
+            <div class="media-item" data-type="gif" data-src="Airlock_SurviveUnderground.gif" data-label="Survive Underground">
+                <img src="Airlock_SurviveUnderground.gif" alt="Survive Underground" loading="lazy">
+                <div class="media-item-type gif">GIF</div>
+                <div class="media-item-label">Survive Underground</div>
+            </div>
+            <div class="media-item" data-type="gif" data-src="Airlock_AlteredHorde.gif" data-label="Altered Horde">
+                <img src="Airlock_AlteredHorde.gif" alt="Altered Horde" loading="lazy">
+                <div class="media-item-type gif">GIF</div>
+                <div class="media-item-label">Altered Horde</div>
+            </div>
+            <div class="media-item" data-type="gif" data-src="Airlock_Explore.gif" data-label="Explore">
+                <img src="Airlock_Explore.gif" alt="Explore" loading="lazy">
+                <div class="media-item-type gif">GIF</div>
+                <div class="media-item-label">Explore</div>
+            </div>
+            <div class="media-item" data-type="gif" data-src="Airlock_FightHordes.gif" data-label="Fight Hordes">
+                <img src="Airlock_FightHordes.gif" alt="Fight Hordes" loading="lazy">
+                <div class="media-item-type gif">GIF</div>
+                <div class="media-item-label">Fight Hordes</div>
+            </div>
+            <div class="media-item" data-type="gif" data-src="Airlock_RunAway.gif" data-label="Run Away">
+                <img src="Airlock_RunAway.gif" alt="Run Away" loading="lazy">
+                <div class="media-item-type gif">GIF</div>
+                <div class="media-item-label">Run Away</div>
+            </div>
+            <div class="media-item" data-type="gif" data-src="Airlock_SearchAnything.gif" data-label="Search Anything">
+                <img src="Airlock_SearchAnything.gif" alt="Search Anything" loading="lazy">
+                <div class="media-item-type gif">GIF</div>
+                <div class="media-item-label">Search Anything</div>
+            </div>
+
+            <!-- Older screenshots -->
+            <div class="media-item" data-type="screenshot" data-src="screenshots/airlock_screenshot_01.jpg" data-label="Military Compound">
+                <img src="screenshots/airlock_screenshot_01.jpg" alt="Military Compound" loading="lazy">
+                <div class="media-item-type screenshot">Screenshot</div>
+                <div class="media-item-label">Military Compound</div>
+            </div>
+            <div class="media-item" data-type="screenshot" data-src="screenshots/airlock_screenshot_02.jpg" data-label="Character">
+                <img src="screenshots/airlock_screenshot_02.jpg" alt="Character" loading="lazy">
+                <div class="media-item-type screenshot">Screenshot</div>
+                <div class="media-item-label">Character</div>
+            </div>
+            <div class="media-item" data-type="screenshot" data-src="screenshots/airlock_screenshot_03.jpg" data-label="Grid System">
+                <img src="screenshots/airlock_screenshot_03.jpg" alt="Grid System" loading="lazy">
+                <div class="media-item-type screenshot">Screenshot</div>
+                <div class="media-item-label">Grid System</div>
+            </div>
+            <div class="media-item" data-type="screenshot" data-src="screenshots/airlock_screenshot_04.jpg" data-label="HUD">
+                <img src="screenshots/airlock_screenshot_04.jpg" alt="HUD" loading="lazy">
+                <div class="media-item-type screenshot">Screenshot</div>
+                <div class="media-item-label">HUD</div>
+            </div>
+            <div class="media-item" data-type="screenshot" data-src="screenshots/airlock_screenshot_05.jpg" data-label="Combat">
+                <img src="screenshots/airlock_screenshot_05.jpg" alt="Combat" loading="lazy">
+                <div class="media-item-type screenshot">Screenshot</div>
+                <div class="media-item-label">Combat</div>
+            </div>
+            <div class="media-item" data-type="screenshot" data-src="screenshots/airlock_screenshot_6.jpg" data-label="Module System">
+                <img src="screenshots/airlock_screenshot_6.jpg" alt="Module System" loading="lazy">
+                <div class="media-item-type screenshot">Screenshot</div>
+                <div class="media-item-label">Module System</div>
+            </div>
+            <div class="media-item" data-type="screenshot" data-src="screenshots/airlock_screenshot_07.jpg" data-label="Horde">
+                <img src="screenshots/airlock_screenshot_07.jpg" alt="Horde" loading="lazy">
+                <div class="media-item-type screenshot">Screenshot</div>
+                <div class="media-item-label">Horde</div>
+            </div>
+            <div class="media-item" data-type="screenshot" data-src="screenshots/airlock_screenshot_08.jpg" data-label="Loot">
+                <img src="screenshots/airlock_screenshot_08.jpg" alt="Loot" loading="lazy">
+                <div class="media-item-type screenshot">Screenshot</div>
+                <div class="media-item-label">Loot</div>
+            </div>
+            <div class="media-item" data-type="screenshot" data-src="screenshots/4_mainmenu.png" data-label="Main Menu UI">
+                <img src="screenshots/4_mainmenu.png" alt="Main Menu UI" loading="lazy">
+                <div class="media-item-type screenshot">Screenshot</div>
+                <div class="media-item-label">Main Menu UI</div>
+            </div>
+            <div class="media-item" data-type="screenshot" data-src="screenshots/Marv.jpg" data-label="Marv · Companion">
+                <img src="screenshots/Marv.jpg" alt="Marv" loading="lazy">
+                <div class="media-item-type screenshot">Screenshot</div>
+                <div class="media-item-label">Marv · Companion</div>
+            </div>
+            <div class="media-item" data-type="screenshot" data-src="screenshots/airlock_screenshot_marv.jpg" data-label="Companion V1">
+                <img src="screenshots/airlock_screenshot_marv.jpg" alt="Companion V1" loading="lazy">
+                <div class="media-item-type screenshot">Screenshot</div>
+                <div class="media-item-label">Companion V1</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lbClose">[ Close ]</button>
+        <button class="lightbox-nav lightbox-prev" id="lbPrev">‹</button>
+        <button class="lightbox-nav lightbox-next" id="lbNext">›</button>
+        <img id="lbImg" src="" alt="">
+        <div class="lightbox-label" id="lbLabel"></div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <img src="airlock_menulogo.png" alt="AIRLOCK">
+                <p>An Ironbridge Games title.<br>Built in the dark. Made for the surface.</p>
+            </div>
+            <div class="footer-col">
+                <h5>The Game</h5>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">Roadmap</a></li>
+                    <li><a href="media.html">Media</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Channel</h5>
+                <ul>
+                    <li><a href="diary.html">Dev Diary</a></li>
+                    <li><a href="index.html#newsletter">Newsletter</a></li>
+                    <li><a href="#">Discord</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Studio</h5>
+                <ul>
+                    <li><a href="#">Ironbridge Games</a></li>
+                    <li><a href="index.html#support">Support</a></li>
+                    <li><a href="#">Press Kit</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">© 2026 Ironbridge Games Ltd · Company No. 16882669</div>
+    </footer>
+
+    <script src="soundtrack.js"></script>
+    <script>
+        // === RENDER SOUNDTRACK FROM MANIFEST ===
+        // Reads soundtrackTracks from soundtrack.js, builds a card per entry.
+        // Called BEFORE filter / lightbox setup so the new items are in the NodeList.
+        (function renderSoundtrack() {
+            if (typeof soundtrackTracks === 'undefined') return;
+            const grid = document.getElementById('mediaGrid');
+            if (!grid) return;
+            // Insert at the start of the grid, in order
+            const frag = document.createDocumentFragment();
+            soundtrackTracks.forEach((t, idx) => {
+                const card = document.createElement('div');
+                card.className = 'media-item soundtrack-item';
+                card.dataset.type = 'soundtrack';
+                const cover = t.cover || 'screenshots/airlock_world_05.jpg';
+                const trackNum = String(idx + 1).padStart(2, '0');
+                const titleSafe = (t.title || 'Untitled').replace(/</g, '&lt;');
+                const artistSafe = (t.artist || 'Henry Kelly').replace(/</g, '&lt;');
+                const fileEnc = encodeURI(t.file);
+                const isWav = (t.file || '').toLowerCase().endsWith('.wav');
+                const mime = isWav ? 'audio/wav' : 'audio/mpeg';
+                card.innerHTML = `
+                    <img src="${cover}" alt="${titleSafe} cover" loading="lazy">
+                    <div class="soundtrack-overlay">
+                        <div class="soundtrack-artist">${artistSafe} &middot; Track ${trackNum}</div>
+                        <h3 class="soundtrack-title">${titleSafe}</h3>
+                        <audio class="soundtrack-audio" controls preload="none">
+                            <source src="${fileEnc}" type="${mime}">
+                            Your browser does not support audio playback.
+                        </audio>
+                    </div>
+                    <div class="media-item-type soundtrack">Soundtrack</div>
+                `;
+                frag.appendChild(card);
+            });
+            // Insert at the very top of the grid (before any existing children)
+            grid.insertBefore(frag, grid.firstChild);
+        })();
+
+        const nav = document.getElementById('nav');
+        function onScroll() {
+            if (window.scrollY > 80) nav.classList.add('scrolled'); else nav.classList.remove('scrolled');
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        if (navToggle) navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+
+        // === FILTER ===
+        const tabs = document.querySelectorAll('.filter-tab');
+        const items = document.querySelectorAll('.media-item');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                const filter = tab.dataset.filter;
+                items.forEach(item => {
+                    if (filter === 'all' || item.dataset.type === filter) item.classList.remove('hidden');
+                    else item.classList.add('hidden');
+                });
+            });
+        });
+
+        // === LIGHTBOX ===
+        const lightbox = document.getElementById('lightbox');
+        const lbImg = document.getElementById('lbImg');
+        const lbLabel = document.getElementById('lbLabel');
+        const lbClose = document.getElementById('lbClose');
+        const lbPrev = document.getElementById('lbPrev');
+        const lbNext = document.getElementById('lbNext');
+        let currentIndex = 0;
+
+        const visibleItems = () => Array.from(items).filter(i => !i.classList.contains('hidden') && i.dataset.type !== 'soundtrack');
+
+        function showLightbox(idx) {
+            const visible = visibleItems();
+            if (visible.length === 0) return;
+            if (idx < 0) idx = visible.length - 1;
+            if (idx >= visible.length) idx = 0;
+            currentIndex = idx;
+            const item = visible[idx];
+            lbImg.src = item.dataset.src;
+            lbLabel.textContent = item.dataset.label;
+            lightbox.classList.add('open');
+        }
+
+        items.forEach((item, idx) => {
+            if (item.dataset.type === 'soundtrack') return;
+            item.addEventListener('click', () => {
+                const visible = visibleItems();
+                const i = visible.indexOf(item);
+                showLightbox(i);
+            });
+        });
+
+        lbClose.addEventListener('click', () => lightbox.classList.remove('open'));
+        lbPrev.addEventListener('click', (e) => { e.stopPropagation(); showLightbox(currentIndex - 1); });
+        lbNext.addEventListener('click', (e) => { e.stopPropagation(); showLightbox(currentIndex + 1); });
+        lightbox.addEventListener('click', (e) => { if (e.target === lightbox) lightbox.classList.remove('open'); });
+
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('open')) return;
+            if (e.key === 'Escape') lightbox.classList.remove('open');
+            if (e.key === 'ArrowLeft') showLightbox(currentIndex - 1);
+            if (e.key === 'ArrowRight') showLightbox(currentIndex + 1);
+        });
+
+        // Pause all other audio when one starts playing
+        document.querySelectorAll('.soundtrack-audio').forEach(a => {
+            a.addEventListener('play', () => {
+                document.querySelectorAll('.soundtrack-audio').forEach(other => {
+                    if (other !== a) other.pause();
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIRLOCK · Development Roadmap</title>
+    <meta name="description" content="The full AIRLOCK development roadmap from concept to release. Live updated.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black: #050505;
+            --bg: #0A0A0A;
+            --bg-2: #141414;
+            --bg-3: #1C1C1C;
+            --bone: #ECE6D6;
+            --bone-dim: rgba(236, 230, 214, 0.7);
+            --bone-faint: rgba(236, 230, 214, 0.18);
+            --accent: #D4A046;
+            --accent-bright: #E8B86C;
+            --crit: #C8463A;
+            --green: #6FB85C;
+            --classified: #8B2A2A;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--black);
+            color: var(--bone);
+            font-family: 'Inter', system-ui, sans-serif;
+            font-size: 17px;
+            line-height: 1.65;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.04;
+            mix-blend-mode: overlay;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            z-index: 200;
+        }
+
+        /* === NAV (same as index) === */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 95;
+            padding: 1.5rem 4%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(to bottom, rgba(5, 5, 5, 0.85), rgba(5, 5, 5, 0.5));
+            transition: all 0.4s ease;
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--bone-faint);
+        }
+        nav.scrolled { padding: 0.9rem 4%; background: rgba(5, 5, 5, 0.97); }
+        .nav-logo img { height: 36px; filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.85)); transition: transform 0.2s; }
+        .nav-logo:hover img { transform: scale(1.04); }
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-links a {
+            color: var(--bone);
+            text-decoration: none;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            transition: color 0.2s;
+            position: relative;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -6px; left: 50%; right: 50%; height: 1px;
+            background: var(--accent); transition: left 0.25s, right 0.25s;
+        }
+        .nav-links a:hover { color: var(--accent); }
+        .nav-links a:hover::after { left: 0; right: 0; }
+        .nav-links a.active { color: var(--accent); }
+        .nav-links a.active::after { left: 0; right: 0; }
+        .nav-cta {
+            font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 0.3em;
+            text-transform: uppercase; color: var(--black); background: var(--bone);
+            padding: 0.6rem 1.6rem; text-decoration: none; transition: all 0.2s;
+        }
+        .nav-cta:hover { background: var(--accent); transform: translateY(-2px); }
+        .nav-toggle { display: none; background: none; border: none; color: var(--bone); font-size: 1.5rem; cursor: pointer; padding: 0; }
+
+        /* === PAGE HERO === */
+        .page-hero {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 4% 4rem;
+            position: relative;
+            overflow: hidden;
+            background: var(--black);
+        }
+
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('screenshots/airlock_world_06.jpg') center/cover;
+            opacity: 0.32;
+            filter: contrast(1.05);
+            z-index: 0;
+        }
+
+        .page-hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, var(--black) 100%);
+            z-index: 1;
+        }
+
+        .page-hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 900px;
+        }
+
+        .page-hero-meta {
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 0.78rem;
+            color: var(--accent);
+            letter-spacing: 0.6em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        h1.page-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(3.5rem, 8vw, 6rem);
+            letter-spacing: 0.04em;
+            color: var(--bone);
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            line-height: 0.95;
+            text-shadow: 0 6px 30px rgba(0, 0, 0, 0.7);
+        }
+
+        .page-hero p {
+            font-family: 'Crimson Pro', serif;
+            font-style: italic;
+            font-size: 1.3rem;
+            color: var(--bone);
+            max-width: 640px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+
+        /* === SUB-NAV (scrollspy) === */
+        .subnav {
+            position: sticky;
+            top: 76px;
+            z-index: 80;
+            background: rgba(5, 5, 5, 0.97);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--bone-faint);
+            padding: 0;
+        }
+
+        nav.scrolled ~ .subnav,
+        body:has(nav.scrolled) .subnav { top: 60px; }
+
+        .subnav-inner {
+            display: flex;
+            gap: 0;
+            max-width: 1400px;
+            margin: 0 auto;
+            overflow-x: auto;
+            justify-content: center;
+            scrollbar-width: thin;
+        }
+
+        .subnav-inner::-webkit-scrollbar { height: 4px; }
+        .subnav-inner::-webkit-scrollbar-thumb { background: var(--accent); }
+
+        .subnav-item {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 0.82rem;
+            letter-spacing: 0.22em;
+            color: var(--bone-dim);
+            text-decoration: none;
+            padding: 1rem 1.4rem;
+            text-transform: uppercase;
+            white-space: nowrap;
+            transition: color 0.2s, background 0.2s;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .subnav-item:hover {
+            color: var(--bone);
+            background: rgba(212, 160, 70, 0.06);
+        }
+
+        .subnav-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%; right: 50%;
+            height: 3px;
+            background: var(--accent);
+            transition: left 0.3s ease, right 0.3s ease;
+        }
+
+        .subnav-item:hover::after { left: 16%; right: 16%; }
+
+        .subnav-item.active {
+            color: var(--accent);
+            background: rgba(212, 160, 70, 0.08);
+        }
+
+        .subnav-item.active::after {
+            left: 0;
+            right: 0;
+            height: 3px;
+        }
+
+        .subnav-num {
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            opacity: 0.7;
+        }
+
+        .subnav-item.active .subnav-num { opacity: 1; }
+
+        /* === Anchor scroll offset for sticky navs === */
+        .phase {
+            scroll-margin-top: 130px;
+        }
+
+        /* === CLASSIFIED STAMP (reusable) === */
+        .stamp {
+            display: inline-block;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 0.78rem;
+            letter-spacing: 0.25em;
+            padding: 0.35rem 0.9rem;
+            border: 2px solid;
+            transform: rotate(-2deg);
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .stamp.declassified { color: var(--green); border-color: var(--green); }
+        .stamp.in-progress { color: var(--accent); border-color: var(--accent); background: rgba(212, 160, 70, 0.1); }
+        .stamp.classified { color: var(--classified); border-color: var(--classified); }
+        .stamp.partial { color: var(--accent); border-color: var(--accent); }
+
+        /* === PHASE SECTION === */
+        .phase {
+            position: relative;
+            padding: 6rem 4%;
+            border-bottom: 1px solid var(--bone-faint);
+        }
+
+        .phase:nth-child(odd) { background: var(--bg); }
+        .phase:nth-child(even) { background: var(--bg-2); }
+
+        .phase-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .phase-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .phase-meta {
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 0.78rem;
+            color: var(--accent);
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            margin-bottom: 0.6rem;
+        }
+
+        .phase-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2.2rem, 4vw, 3.4rem);
+            letter-spacing: 0.04em;
+            color: var(--bone);
+            text-transform: uppercase;
+            line-height: 1.0;
+            margin-bottom: 1rem;
+        }
+
+        .phase-summary {
+            font-family: 'Crimson Pro', serif;
+            font-style: italic;
+            font-size: 1.15rem;
+            color: var(--bone-dim);
+            line-height: 1.6;
+            max-width: 760px;
+        }
+
+        /* === SUB-STAGE GRID === */
+        .substage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.2rem;
+            margin-top: 2rem;
+        }
+
+        .substage {
+            background: var(--bg-3);
+            border: 1px solid var(--bone-faint);
+            padding: 1.5rem;
+            transition: border-color 0.2s, transform 0.2s;
+            position: relative;
+        }
+
+        .substage:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        .substage.declassified { border-left: 3px solid var(--green); }
+        .substage.in-progress { border-left: 3px solid var(--accent); background: rgba(212, 160, 70, 0.06); }
+        .substage.classified { border-left: 3px solid var(--classified); opacity: 0.85; }
+
+        .substage-number {
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 0.7rem;
+            color: var(--accent);
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            margin-bottom: 0.6rem;
+        }
+
+        .substage-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.2rem;
+            letter-spacing: 0.05em;
+            color: var(--bone);
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .substage-stamp {
+            position: absolute;
+            top: 1.2rem;
+            right: 1.2rem;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            padding: 0.18rem 0.5rem;
+            border: 1.5px solid;
+            transform: rotate(2deg);
+        }
+
+        .substage-stamp.declassified { color: var(--green); border-color: var(--green); }
+        .substage-stamp.in-progress { color: var(--accent); border-color: var(--accent); }
+        .substage-stamp.classified { color: var(--classified); border-color: var(--classified); }
+
+        .substage-body {
+            font-size: 0.92rem;
+            color: var(--bone-dim);
+            line-height: 1.55;
+        }
+
+        /* === EXPANSION === */
+        .substage { cursor: pointer; }
+        .substage::after {
+            content: '+';
+            position: absolute;
+            bottom: 0.8rem;
+            right: 1.2rem;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.1rem;
+            color: var(--bone-faint);
+            transition: transform 0.25s, color 0.2s;
+        }
+        .substage:hover::after { color: var(--accent); }
+        .substage.expanded::after { content: '×'; transform: rotate(0deg); color: var(--accent); }
+
+        .substage-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            margin-top: 0;
+        }
+        .substage.expanded .substage-details {
+            max-height: 600px;
+            margin-top: 1rem;
+        }
+        .substage-details-divider {
+            height: 1px;
+            background: var(--bone-faint);
+            margin-bottom: 1rem;
+        }
+        .substage-details-detail {
+            font-family: 'Crimson Pro', serif;
+            font-style: italic;
+            font-size: 0.95rem;
+            color: var(--bone);
+            line-height: 1.6;
+            margin-bottom: 0.9rem;
+        }
+        .substage-details-img {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            border: 1px solid var(--bone-faint);
+            margin-bottom: 0.6rem;
+        }
+        .substage-details-meta {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.72rem;
+            color: var(--accent);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+        }
+
+        /* === FULL STAGE CTA === */
+        .phase-cta-wrap {
+            margin-top: 2rem;
+            text-align: center;
+        }
+        .phase-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.9rem 1.8rem;
+            background: transparent;
+            border: 1.5px solid var(--accent);
+            color: var(--accent);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .phase-cta:hover {
+            background: var(--accent);
+            color: var(--black);
+            transform: translateY(-2px);
+        }
+        .phase-cta-arrow {
+            transition: transform 0.2s;
+        }
+        .phase-cta:hover .phase-cta-arrow {
+            transform: translateX(6px);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.9s ease, transform 0.9s ease;
+        }
+
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* === FOOTER === */
+        footer {
+            background: var(--black);
+            padding: 5rem 4% 2rem;
+            border-top: 1px solid var(--bone-faint);
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            max-width: 1300px;
+            margin: 0 auto 3rem;
+        }
+        .footer-brand img { height: 50px; margin-bottom: 1rem; }
+        .footer-brand p { color: var(--bone-dim); font-style: italic; font-size: 0.95rem; line-height: 1.6; }
+        .footer-col h5 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 0.95rem;
+            letter-spacing: 0.3em;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+        .footer-col ul { list-style: none; }
+        .footer-col li { margin-bottom: 0.5rem; }
+        .footer-col a { color: var(--bone-dim); text-decoration: none; font-size: 0.95rem; transition: color 0.2s; }
+        .footer-col a:hover { color: var(--bone); }
+        .footer-bottom {
+            text-align: center;
+            color: var(--bone-dim);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 0.4em;
+            padding-top: 2rem;
+            border-top: 1px solid var(--bone-faint);
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 1100px) {
+            .nav-links {
+                display: none;
+                position: absolute; top: 100%; left: 0; right: 0;
+                background: rgba(5, 5, 5, 0.98);
+                flex-direction: column; padding: 2rem; gap: 1.5rem;
+                border-bottom: 1px solid var(--bone-faint);
+            }
+            .nav-links.open { display: flex; }
+            .nav-toggle { display: block; }
+        }
+        @media (max-width: 900px) {
+            .footer-grid { grid-template-columns: 1fr; }
+            .substage-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav id="nav">
+        <a href="index.html" class="nav-logo"><img src="airlock_menulogo.png" alt="AIRLOCK"></a>
+        <button class="nav-toggle" id="navToggle" aria-label="Menu">☰</button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="roadmap.html" class="active">Roadmap</a></li>
+            <li><a href="diary.html">Updates</a></li>
+            <li><a href="media.html">Media</a></li>
+            <li><a href="index.html#support">Support</a></li>
+        </ul>
+        <a href="#" class="nav-cta">Wishlist</a>
+    </nav>
+
+    <!-- SUB-NAV (stage scrollspy) -->
+    <div class="subnav" id="subnav">
+        <div class="subnav-inner">
+            <a href="#concept" class="subnav-item" data-target="concept"><span class="subnav-num">01</span>Concept</a>
+            <a href="#foundation" class="subnav-item" data-target="foundation"><span class="subnav-num">02</span>Foundation</a>
+            <a href="#architecture" class="subnav-item" data-target="architecture"><span class="subnav-num">03</span>Architecture</a>
+            <a href="#vertical-slice" class="subnav-item" data-target="vertical-slice"><span class="subnav-num">04</span>Vertical Slice</a>
+            <a href="#funding" class="subnav-item" data-target="funding"><span class="subnav-num">05</span>Funding</a>
+            <a href="#production" class="subnav-item" data-target="production"><span class="subnav-num">06</span>Production</a>
+            <a href="#early-access" class="subnav-item" data-target="early-access"><span class="subnav-num">07</span>Early Access</a>
+            <a href="#full-release" class="subnav-item" data-target="full-release"><span class="subnav-num">08</span>Full Release</a>
+        </div>
+    </div>
+
+    <!-- PAGE HERO -->
+    <section class="page-hero">
+        <div class="page-hero-content">
+            <div class="page-hero-meta">// Development Dossier · Live Feed</div>
+            <h1 class="page-title">The Roadmap</h1>
+            <p>From concept to release. Seven stages. Three deep. Demo's nearly here.</p>
+        </div>
+    </section>
+
+    <!-- PHASE 1 · CONCEPT -->
+    <section class="phase" id="concept">
+        <div class="phase-inner reveal">
+            <div class="phase-header">
+                <div>
+                    <div class="phase-meta">// Stage 01 · Concept</div>
+                    <h2 class="phase-title">The Idea That Wouldn't Die</h2>
+                </div>
+                <div class="stamp declassified">DECLASSIFIED</div>
+            </div>
+            <p class="phase-summary">The proof of concept. Was it fun? Did it look good? Yes and yes, that was the green light to build everything else.</p>
+            <div class="substage-grid">
+                <div class="substage declassified">
+                    <div class="substage-stamp declassified">CLEAR</div>
+                    <div class="substage-number">01.01</div>
+                    <div class="substage-name">Original Prototype</div>
+                    <p class="substage-body">Built a military compound blockout in Unreal Engine 5 to prove the concept actually works. Integrated ALS for third-person control. Built the prototype dollhouse camera. AIRLOCK stopped being an idea and started being a game.</p>
+                <div class="substage-details"><div class="substage-details-divider"></div><img class="substage-details-img" src="screenshots/airlock_screenshot_01.jpg" alt="" loading="lazy"><p class="substage-details-detail">ALS V4 dropped in. Custom dollhouse cam written from scratch. The military compound was throwaway, but proved the dual-view loop. The moment that build ran, AIRLOCK stopped being a pitch deck and became a project.</p><div class="substage-details-meta">READ MORE</div></div></div>
+            </div>
+        
+            <div class="phase-cta-wrap"><a class="phase-cta" href="stage-concept.html">View Full Stage <span class="phase-cta-arrow">→</span></a></div>
+        </div>
+    </section>
+
+    <!-- PHASE 2 · FOUNDATION -->
+    <section class="phase" id="foundation">
+        <div class="phase-inner reveal">
+            <div class="phase-header">
+                <div>
+                    <div class="phase-meta">// Stage 02 · Foundation</div>
+                    <h2 class="phase-title">The World Built First</h2>
+                </div>
+                <div class="stamp declassified">DECLASSIFIED</div>
+            </div>
+            <p class="phase-summary">Documentation, lore, audio direction, visual identity. Locked before code touched it. Every system built since references this foundation.</p>
+            <div class="substage-grid">
+                <div class="substage declassified">
+                    <div class="substage-stamp declassified">CLEAR</div>
+                    <div class="substage-number">02.01</div>
+                    <div class="substage-name">Documentation &amp; Lore</div>
+                    <p class="substage-body">Ashgate. The Altered (Feral, Familiars, Stalkers, Legion). The Settlers, 14 distinct classes. The post-war UGA. The Sonic War 300 years ago. The Legion reveal arc. Multi-airlock metro network.</p>
+                <div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">Confluence dossier of every faction, every settler class, every place name, every story beat. The Sonic War. The collapse of the UGA. The Legion arc. Memory locked into a single source of truth before a single line of gameplay code went in.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage declassified">
+                    <div class="substage-stamp declassified">CLEAR</div>
+                    <div class="substage-number">02.02</div>
+                    <div class="substage-name">Audio Direction</div>
+                    <p class="substage-body">TLOU + Days Gone reference lock. Hans Zimmer for the orchestral spine. "Calm Before The Storm" written and scored. Diegetic SFX rules. Submix routing. Sonic identity locked before any major audio shipped.</p>
+                <div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">Reference docs locked: TLOU + TLOU Part II + Days Gone for SFX. Hans Zimmer's emotional register for score. 'Calm Before The Storm' written, scored, performed, the spine the trailer will eventually be cut to.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage declassified">
+                    <div class="substage-stamp declassified">CLEAR</div>
+                    <div class="substage-number">02.03</div>
+                    <div class="substage-name">UI Art Direction</div>
+                    <p class="substage-body">After 20+ HUD variations across 10 style directions, the painted concept art aesthetic was locked. Cormorant Garamond. Permanent Marker labels. Brushstroke buttons. Ink-wash backings. Cream on near-black.</p>
+                <div class="substage-details"><div class="substage-details-divider"></div><img class="substage-details-img" src="screenshots/4_mainmenu.png" alt="" loading="lazy"><p class="substage-details-detail">Twenty-plus HUD variations across ten distinct directions, side-by-side mockups, ruthless elimination. The painted concept-art aesthetic survived. Cream sumi-ink on near-black. Hand-made energy. Nothing else came close.</p><div class="substage-details-meta">READ MORE</div></div></div>
+                <div class="substage declassified">
+                    <div class="substage-stamp declassified">CLEAR</div>
+                    <div class="substage-number">02.04</div>
+                    <div class="substage-name">Painted Icon Library</div>
+                    <p class="substage-body">91 painted monochrome icons delivered. Survival bars, status effects, weapons, consumables, loot, HUD chrome, banners, structural frames, screen overlays, map pins, Settler activities, skill tree parents.</p>
+                <div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">Ninety-one painted icons in a single sprite sheet. Cream monochrome masters. CSS-tinted at runtime. Survival bars, weapons, status effects, map pins, the whole UI vocabulary in one consistent painted hand.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+            </div>
+        
+            <div class="phase-cta-wrap"><a class="phase-cta" href="stage-foundation.html">View Full Stage <span class="phase-cta-arrow">→</span></a></div>
+        </div>
+    </section>
+
+    <!-- PHASE 3 · PRE-PRODUCTION · ARCHITECTURE -->
+    <section class="phase" id="architecture">
+        <div class="phase-inner reveal">
+            <div class="phase-header">
+                <div>
+                    <div class="phase-meta">// Stage 03 · Pre-Production · Architecture</div>
+                    <h2 class="phase-title">The Engine of Everything</h2>
+                </div>
+                <div class="stamp declassified">DECLASSIFIED</div>
+            </div>
+            <p class="phase-summary">The C++ backbone. Grid system, modules, AI, HUD, combat, mining, skills, MetaHumans, the Marv companion. Every system the game depends on.</p>
+            <div class="substage-grid">
+                <div class="substage declassified">
+                    <div class="substage-stamp declassified">CLEAR</div>
+                    <div class="substage-number">03.01</div>
+                    <div class="substage-name">Grid System</div>
+                    <p class="substage-body">GridManager in C++ from scratch. World-to-grid coordinate conversion, cell states, multi-floor support. The system everything else builds on top of.</p>
+                <div class="substage-details"><div class="substage-details-divider"></div><img class="substage-details-img" src="screenshots/Airlock_UnderWorld_DollhouseView.jpeg" alt="" loading="lazy"><p class="substage-details-detail">GridManager from blank file. Multi-floor support designed in from day one. World-to-grid coordinate conversion. Cell occupancy tracking. The bedrock everything else stands on.</p><div class="substage-details-meta">READ MORE</div></div></div>
+                <div class="substage declassified">
+                    <div class="substage-stamp declassified">CLEAR</div>
+                    <div class="substage-number">03.02</div>
+                    <div class="substage-name">Character</div>
+                    <p class="substage-body">ALS taken apart and rebuilt for AIRLOCK. Custom movement feel, camera behaviour, transitions between underground and surface. One controller, two very different feels.</p>
+                <div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">ALS V4 dismantled and rewired for AIRLOCK. Custom rotation modes. Stance changes. Crouch flow. The character feels heavy underground and alert above. Two worlds, one pawn.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage declassified">
+                    <div class="substage-stamp declassified">CLEAR</div>
+                    <div class="substage-number">03.03</div>
+                    <div class="substage-name">UI System</div>
+                    <p class="substage-body">Full main menu system from scratch. Epilepsy warning, brightness calibration, press-any-key splash, all sub-screens and settings.</p>
+                <div class="substage-details"><div class="substage-details-divider"></div><img class="substage-details-img" src="screenshots/city_bg_airlockPressAnyKey.jpg" alt="" loading="lazy"><p class="substage-details-detail">Main menu shell, settings, accessibility, brightness calibration, epilepsy warning, press-any-key splash. Every screen on the path from boot to gameplay built from the painted style guide.</p><div class="substage-details-meta">READ MORE</div></div></div>
+                <div class="substage declassified">
+                    <div class="substage-stamp declassified">CLEAR</div>
+                    <div class="substage-number">03.04</div>
+                    <div class="substage-name">HUD System</div>
+                    <p class="substage-body">In-game HUD: health, stamina, compass, status effects, notifications. Full inventory system, equip, fire, swap, drop, pick up. Items degrade.</p>
+                <div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">Compass, vitals, status effects, notifications, weapon ammo, day-time clock, modular sub-widgets feeding off a single HUD State Component. Add a new screen, it just plugs in. No legacy spaghetti.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage declassified">
+                    <div class="substage-stamp declassified">CLEAR</div>
+                    <div class="substage-number">03.05</div>
+                    <div class="substage-name">Combat</div>
+                    <p class="substage-body">Weapons you can equip, fire, and feel. Ranged + melee. Every weapon degrades. Ammunition is scarce. Combat designed to feel desperate, not heroic.</p>
+                <div class="substage-details"><div class="substage-details-divider"></div><img class="substage-details-img" src="screenshots/airlock_screenshot_07.jpg" alt="" loading="lazy"><p class="substage-details-detail">Weapons that degrade. Ammo that runs out. M4 Carbine, Glock, the demo loadout. Every shot is a trade. Combat designed to feel desperate, not heroic.</p><div class="substage-details-meta">READ MORE</div></div></div>
+                <div class="substage declassified">
+                    <div class="substage-stamp declassified">CLEAR</div>
+                    <div class="substage-number">03.06</div>
+                    <div class="substage-name">Module System</div>
+                    <p class="substage-body">Module system fully integrated. 14+ categories. Place, move, remove. Architecture mid-development transition from Blueprints to Level Instance modules, the speed-of-authoring unlock.</p>
+                <div class="substage-details"><div class="substage-details-divider"></div><img class="substage-details-img" src="screenshots/screenshot_buildmode.png.jpg" alt="" loading="lazy"><p class="substage-details-detail">Ghost placement, snap-to-grid, collision check, neighbour-aware wall toggling, save/load round-trip. Then the big architectural pivot mid-flight: monolithic Blueprints out, Level Instance modules in. Speed of authoring x10.</p><div class="substage-details-meta">READ MORE</div></div></div>
+                <div class="substage declassified">
+                    <div class="substage-stamp declassified">CLEAR</div>
+                    <div class="substage-number">03.07</div>
+                    <div class="substage-name">Horde System</div>
+                    <p class="substage-body">Optimised horde, large numbers of The Altered without tanking performance. Spawn, detection, navigation, swarming. They hunt. They overwhelm. Daytime tense. Night deadly.</p>
+                <div class="substage-details"><div class="substage-details-divider"></div><img class="substage-details-img" src="screenshots/airlock_screenshot_08.jpg" alt="" loading="lazy"><p class="substage-details-detail">Days-Gone-style horde architecture. Hundreds of Altered chasing one player without tanking the framerate. Spawn manager, perception, navigation. They hunt. They overwhelm. Daytime tense, night deadly.</p><div class="substage-details-meta">READ MORE</div></div></div>
+                <div class="substage declassified">
+                    <div class="substage-stamp declassified">CLEAR</div>
+                    <div class="substage-number">03.08</div>
+                    <div class="substage-name">Loot</div>
+                    <p class="substage-body">Lootable items scattered through ruined buildings. Food, weapons, medicine, blueprints, raw materials. Every surface trip is a risk-reward calculation.</p>
+                <div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">Cabinets. Drawers. Lockers. Every container a hand-stocked moment of risk-reward. Food, weapons, blueprints, raw materials. The reason every surface trip means something.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage declassified">
+                    <div class="substage-stamp declassified">CLEAR</div>
+                    <div class="substage-number">03.09</div>
+                    <div class="substage-name">MetaHuman</div>
+                    <p class="substage-body">ALS mannequin replaced with a fully assembled MetaHuman. Realistic face, hair, skin, expressions. The foundation for cutscenes and characters you care about.</p>
+                <div class="substage-details"><div class="substage-details-divider"></div><img class="substage-details-img" src="screenshots/airlock_screenshot_marv.jpg" alt="" loading="lazy"><p class="substage-details-detail">ALS mannequin retired. MetaHuman in. Real face, real hair, real subsurface scattering. The foundation for every cutscene moment that has to land emotionally, not just animations playing on a doll.</p><div class="substage-details-meta">READ MORE</div></div></div>
+                <div class="substage declassified">
+                    <div class="substage-stamp declassified">CLEAR</div>
+                    <div class="substage-number">03.10</div>
+                    <div class="substage-name">Marv (Companion)</div>
+                    <p class="substage-body">Marv follows you. Engages enemies. Sniffs out hidden loot. Reacts to danger. Sit system, full locomotion, pose rules. Personality. Moods. Memory.</p>
+                <div class="substage-details"><div class="substage-details-divider"></div><img class="substage-details-img" src="screenshots/Marv.jpg" alt="" loading="lazy"><p class="substage-details-detail">Marv has moods. He sniffs. He sits. He chases. He has poses that lock when the player moves. He's not a turret on legs, he's a dog you start to worry about.</p><div class="substage-details-meta">READ MORE</div></div></div>
+                <div class="substage declassified">
+                    <div class="substage-stamp declassified">CLEAR</div>
+                    <div class="substage-number">03.11</div>
+                    <div class="substage-name">Tier System</div>
+                    <p class="substage-body">Five visual and functional tiers per module: Cave, Structured Cave, Brick + Wood, Concrete + Tile, Metal Sci-fi. Each upgrade visible and earned.</p>
+                <div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">Cave → Structured Cave → Brick + Wood → Concrete + Tile → Metal Sci-Fi. Every upgrade re-skins a module visually and functionally. You see the progress when you walk past it.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage declassified">
+                    <div class="substage-stamp declassified">CLEAR</div>
+                    <div class="substage-number">03.12</div>
+                    <div class="substage-name">Mining &amp; Interact</div>
+                    <p class="substage-body">Universal Press-to-Interact framework. Doors, loot, NPCs, ore nodes, terminals. Platform-aware icons (KB / Xbox / PlayStation). Mining loop integrates with grid depth, deeper = rarer ores.</p>
+                <div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">One framework for every interactable in the game. Press, hold, contextual prompt, platform-aware glyph (KB/Xbox/PS). Mining ties into grid depth, deeper rooms surface rarer ore.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage declassified">
+                    <div class="substage-stamp declassified">CLEAR</div>
+                    <div class="substage-number">03.13</div>
+                    <div class="substage-name">Skill System</div>
+                    <p class="substage-body">Shared skill tree between player and Settlers. 17 parent categories, 130+ sub-skills, 8 tiers × 10 sub-levels. Pistols, cooking, brewing, husbandry, alchemy, fishing, tailoring, medical, more.</p>
+                <div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">Seventeen parent skill categories. A hundred and thirty plus sub-skills. Eight tiers, ten sub-levels each. Player and Settlers share the tree. XP propagates across related skills. Built for hundreds of hours of progression.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+            </div>
+        
+            <div class="phase-cta-wrap"><a class="phase-cta" href="stage-architecture.html">View Full Stage <span class="phase-cta-arrow">→</span></a></div>
+        </div>
+    </section>
+
+    <!-- PHASE 4 · PRE-PRODUCTION · VERTICAL SLICE -->
+    <section class="phase" id="vertical-slice">
+        <div class="phase-inner reveal">
+            <div class="phase-header">
+                <div>
+                    <div class="phase-meta">// Stage 04 · Pre-Production · Vertical Slice</div>
+                    <h2 class="phase-title">The Demo Comes Alive</h2>
+                </div>
+                <div class="stamp in-progress">PARTIALLY DECLASSIFIED</div>
+            </div>
+            <p class="phase-summary">The V2 polish + content build. Painted UI in engine. Power. Voice. NPCs. Procedural city. Currently dressing Ashgate. Then the demo ships.</p>
+            <div class="substage-grid">
+                <div class="substage declassified">
+                    <div class="substage-stamp declassified">CLEAR</div>
+                    <div class="substage-number">04.01</div>
+                    <div class="substage-name">NPC Foundation</div>
+                    <p class="substage-body">C++ backbone for every NPC. 9-state behaviour machine. 7-faction team system. Component stack for brains, combat, injury, tasking, dialogue. Every Settler, enemy, wildlife slots in cleanly.</p>
+                <div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">Faction system. Behaviour state machine. Combat component. Injury component. Dialogue component. Voice component. Bump component. Every NPC inherits the spine; specialisations layer on top.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage declassified">
+                    <div class="substage-stamp declassified">CLEAR</div>
+                    <div class="substage-number">04.02</div>
+                    <div class="substage-name">Smart NPCs</div>
+                    <p class="substage-body">Voice pipeline with TTS + emotion tags. Per-NPC Data Tables. Subtitle Widget with stack mode. Activity Anchors so NPCs migrate between content. Bump knockback. Power-aware barks.</p>
+                <div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">Mara has fifty-five voice lines, recorded with inline emotion tags through ElevenLabs and CF Flow. She greets, complains, reacts to power loss. Subtitles stack. NPCs walk between activity anchors. Real life inside the airlock.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage declassified">
+                    <div class="substage-stamp declassified">CLEAR</div>
+                    <div class="substage-number">04.03</div>
+                    <div class="substage-name">Painted HUD</div>
+                    <p class="substage-body">Painted concept art direction landed in engine. Cream sumi-ink on near-black. Cormorant Garamond + Permanent Marker. Ink-wash backings. Module padlocks. Auto-flashlight that engages in the dark.</p>
+                <div class="substage-details"><div class="substage-details-divider"></div><img class="substage-details-img" src="screenshots/airlock_underworld_05.jpg" alt="" loading="lazy"><p class="substage-details-detail">Painted sumi-ink HUD landed in engine. Inventory, build menu, compass, notifications, skill XP popups, every panel rebuilt on the painted style. Module padlocks. Auto-flashlight that engages when night falls or the lights die.</p><div class="substage-details-meta">READ MORE</div></div></div>
+                <div class="substage declassified">
+                    <div class="substage-stamp declassified">CLEAR</div>
+                    <div class="substage-number">04.04</div>
+                    <div class="substage-name">Survival Stats</div>
+                    <p class="substage-body">Stamina, hunger (28 days to zero), thirst (48 hours to zero), stress, morale. The body keeps score. Manage them or fall.</p>
+                <div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">Ultra Dynamic Sky drives every timer. Hunger drains over twenty-eight in-game days. Thirst over forty-eight hours. Stress and morale react to the base around you. The body keeps score.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage declassified">
+                    <div class="substage-stamp declassified">CLEAR</div>
+                    <div class="substage-number">04.05</div>
+                    <div class="substage-name">Day &amp; Time Cycle</div>
+                    <p class="substage-body">Fully dynamic day-night. 45 real-world minutes = 1 in-game day. Ultra Dynamic Sky drives every time-aware system. Toxic night queued.</p>
+                <div class="substage-details"><div class="substage-details-divider"></div><img class="substage-details-img" src="screenshots/airlock_world_06.jpg" alt="" loading="lazy"><p class="substage-details-detail">Forty-five real minutes per in-game day. Sky shifts, lighting reacts, NPCs change schedule. Toxic night queued. Going to the surface after dark will not be optional, it will be a calculation.</p><div class="substage-details-meta">READ MORE</div></div></div>
+                <div class="substage declassified">
+                    <div class="substage-stamp declassified">CLEAR</div>
+                    <div class="substage-number">04.06</div>
+                    <div class="substage-name">Power &amp; Electricity</div>
+                    <p class="substage-body">Generators with green/amber/red status LEDs. Multi-generator networks. 5-second overload trip. Powered lights and ambient emitters subscribe by ID. Auto-flashlight engages in the dark.</p>
+                <div class="substage-details"><div class="substage-details-divider"></div><img class="substage-details-img" src="screenshots/airlock_underworld_02.jpg" alt="" loading="lazy"><p class="substage-details-detail">Generators with green/amber/red status LEDs you can read across a room. Networks of generators. Five-second overload trips. Powered lights subscribe to a power source by ID. Pull the plug and the world reacts visually + audibly.</p><div class="substage-details-meta">READ MORE</div></div></div>
+                <div class="substage declassified">
+                    <div class="substage-stamp declassified">CLEAR</div>
+                    <div class="substage-number">04.07</div>
+                    <div class="substage-name">Dialogue &amp; Voice</div>
+                    <p class="substage-body">Subtitle widget pushes painted-monochrome speech. Stack mode for overlapping voices. Italic-paren for non-speech (humming, sighs). Generators hum, NPCs talk, ambient emitters push their own subtitles.</p>
+                <div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">Subtitle widget supports stack mode, Mara talking, the radio crackling, the generator humming, all on screen at once without overwriting. Italic-paren convention for non-speech. Proximity-gated so the line only shows when you're near.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage declassified">
+                    <div class="substage-stamp declassified">CLEAR</div>
+                    <div class="substage-number">04.08</div>
+                    <div class="substage-name">City &amp; Foliage Tools</div>
+                    <p class="substage-body">Procedural city tool. City Block Breaker for hand-art-direction. Foliage Cascade marketplace-ready PCG node. PCG Foliage Baker. PCG_Include / PCG_Remove tags. Ashgate has its overgrowth.</p>
+                <div class="substage-details"><div class="substage-details-divider"></div><img class="substage-details-img" src="screenshots/airlock_world_03.jpg" alt="" loading="lazy"><p class="substage-details-detail">Custom PCG cascade node, designer drops a biome volume, the system spawns mature trees, then juveniles around them, then saplings around those, then ground cover. Tag-based include/exclude. Marketplace-ready.</p><div class="substage-details-meta">READ MORE</div></div></div>
+                <div class="substage declassified">
+                    <div class="substage-stamp declassified">CLEAR</div>
+                    <div class="substage-number">04.09</div>
+                    <div class="substage-name">Module Concepts</div>
+                    <p class="substage-body">Painted concepts for the demo modules. Cream sumi-ink, grounded post-apocalyptic modern. Operations Room, Workhouse, Bunkroom + reference paintings for the next batch.</p>
+                <div class="substage-details"><div class="substage-details-divider"></div><img class="substage-details-img" src="screenshots/airlock_underworld_01.jpg" alt="" loading="lazy"><p class="substage-details-detail">Painted hero concepts for every demo module. Operations Room, Workhouse, Bunkroom, the three locked + dressed in engine. Reference paintings for Kitchen, Greenhouse, Aquaculture, Power Room queued.</p><div class="substage-details-meta">READ MORE</div></div></div>
+                <div class="substage declassified">
+                    <div class="substage-stamp declassified">CLEAR</div>
+                    <div class="substage-number">04.10</div>
+                    <div class="substage-name">Module Build-Out</div>
+                    <p class="substage-body">Operations Room with the Planning Board, salvaged radio desk, lockers, fluorescent buzz, ivy creeping in. Workhouse, the multi-discipline crafting space. Bunkroom with the bunk migration mechanic.</p>
+                <div class="substage-details"><div class="substage-details-divider"></div><img class="substage-details-img" src="screenshots/airlock_underworld_04.jpg" alt="" loading="lazy"><p class="substage-details-detail">Operations Room: Planning Board, salvaged radio desk, lockers, fluorescent buzz, ivy through the cracks. Workhouse: multi-discipline crafting space. Bunkroom: where rescued Settlers sleep before they migrate to their specialist module.</p><div class="substage-details-meta">READ MORE</div></div></div>
+                <div class="substage in-progress">
+                    <div class="substage-stamp in-progress">IN PROGRESS</div>
+                    <div class="substage-number">04.11</div>
+                    <div class="substage-name">City Build-Out</div>
+                    <p class="substage-body">Ashgate streets traced + dressed. Hospital where Kore wakes. Gas station for fuel. Builders merchant. Abandoned airlock entrance. Mission scripting layered on top, survivor encounters, the first rescue, the night escort.</p>
+                <div class="substage-details"><div class="substage-details-divider"></div><img class="substage-details-img" src="screenshots/airlock_world_01.jpg" alt="" loading="lazy"><p class="substage-details-detail">Ashgate streets traced with the new procedural city tool. Hospital where Kore wakes. Gas station for fuel. Builders merchant. The abandoned airlock entrance, a boarded-up cellar door, not a sci-fi blast hatch. Grounded.</p><div class="substage-details-meta">READ MORE</div></div></div>
+                <div class="substage classified">
+                    <div class="substage-stamp classified">CLASSIFIED</div>
+                    <div class="substage-number">04.12</div>
+                    <div class="substage-name">Settlers Live</div>
+                    <p class="substage-body">14 Settler class Blueprints instantiated. Full ALS locomotion. Procedural names, traits, skill rolls. They walk into the airlock. They stand at their module. They react when Kore approaches.</p>
+                <div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">Procedural names. Procedural traits. Procedural skill rolls weighted by class. Fourteen Settler classes ready to instantiate. They walk in. They stand at their module. They greet Kore by name when he passes.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage classified">
+                    <div class="substage-stamp classified">CLASSIFIED</div>
+                    <div class="substage-number">04.13</div>
+                    <div class="substage-name">Module Unlocks</div>
+                    <p class="substage-body">Settlers unlock modules. No Engineer = no Tier 2+ upgrades. No Chemist = no explosives. Your rescue roster determines what your base can become. Rescue drives unlocks.</p>
+                <div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">Kingdom Tale-style gating. No Engineer in the airlock means no Tier 2+ upgrades. No Chemist means no explosives. The rescue loop directly determines what your base can become. Strategy from the very first choice.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage classified">
+                    <div class="substage-stamp classified">CLASSIFIED</div>
+                    <div class="substage-number">04.14</div>
+                    <div class="substage-name">Construction State</div>
+                    <p class="substage-body">Module upgrades stop being instant. Time passes. Scaffolding appears. If the upgrade digs deeper, ore nodes spawn, mine them before the timer ends. Settlers shove Kore out of the corridor during construction.</p>
+                <div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">Module upgrades stop being instant mesh swaps. A timer runs. Scaffolding visible. If the upgrade digs deeper, ore nodes spawn in the new cells, mine them before the timer ends or lose the haul. Settlers shove Kore back if he tries to walk in mid-build.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage classified">
+                    <div class="substage-stamp classified">CLASSIFIED</div>
+                    <div class="substage-number">04.15</div>
+                    <div class="substage-name">Demo Ready</div>
+                    <p class="substage-body">A 60+ minute guided experience. Wake up alone. Discover the airlock. Build your first rooms. Rescue your first Survivors. Survive the night. The hook that makes you need to know what happens next.</p>
+                <div class="substage-details"><div class="substage-details-divider"></div><img class="substage-details-img" src="screenshots/airlock_world_02.jpg" alt="" loading="lazy"><p class="substage-details-detail">Sixty-plus minutes of the game's bones. Wake alone in the hospital. Step into the silence. Meet Mara. Reach the airlock. Build your first rooms. Survive the night. End on the hook that makes the player need the next chapter.</p><div class="substage-details-meta">READ MORE</div></div></div>
+            </div>
+        
+            <div class="phase-cta-wrap"><a class="phase-cta" href="stage-vertical-slice.html">View Full Stage <span class="phase-cta-arrow">→</span></a></div>
+        </div>
+    </section>
+
+    <!-- PHASE 5 · FUNDING & MARKETING -->
+    <section class="phase" id="funding">
+        <div class="phase-inner reveal">
+            <div class="phase-header">
+                <div>
+                    <div class="phase-meta">// Stage 05 · Funding &amp; Marketing</div>
+                    <h2 class="phase-title">The Public Reveal</h2>
+                </div>
+                <div class="stamp classified">CLASSIFIED</div>
+            </div>
+            <p class="phase-summary">Demo lands on Steam. Players play. The Kickstarter campaign. The push that funds full-time development.</p>
+            <div class="substage-grid">
+                <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">05.01</div><div class="substage-name">Steam Coming Soon</div><p class="substage-body">The demo lands on Steam with a Coming Soon page. Header capsule, screenshots, trailer, descriptions. Wishlist collection from day one.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// Coming soon page locked. Header capsule, screenshots, trailer, descriptions. Wishlist collection from day one. The page lives quiet in Steamworks until the demo is footage-ready, then goes public.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">05.02</div><div class="substage-name">Player Feedback</div><p class="substage-body">First weeks after demo lands are about listening. Steam reviews, Discord input, playtester surveys. Iterate based on what players actually do vs what we designed for.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// First weeks live are listening time. Discord, Steam reviews, recorded sessions, surveys. Iterate based on what players actually do, not what we designed for. Telemetry with respect.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">05.03</div><div class="substage-name">Bug Bash &amp; Hotfix</div><p class="substage-body">Rapid-response month. Crash reports, soft locks, missing tutorials, controller binding edge cases, every loud signal gets a hotfix patch within days, not weeks.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// Rapid-response month. Crash reports, soft locks, missing tutorials, controller binding edge cases, every loud signal gets a hotfix patch within days, not weeks.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">05.04</div><div class="substage-name">Trailers &amp; Press</div><p class="substage-body">Cinematic trailer cut to "Calm Before The Storm". Gameplay trailer showing the dollhouse → 3D loop. Press kit. 80 Level submission. Indie communities. Steam Next Fest.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// Cinematic trailer cut to 'Calm Before The Storm'. Gameplay trailer showing the dollhouse → 3D loop. Press kit. 80 Level submission. Indie communities. Steam Next Fest.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">05.05</div><div class="substage-name">Kickstarter Campaign</div><p class="substage-body">Funds full-time development. Henry leaves the day job. Local artists, modellers, designers hired long-term. £200K-300K+ unlocks the full team build.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// Funds full-time development. Henry leaves the day job. Local artists, modellers, designers hired long-term. £200K-300K+ unlocks the full team build.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+            </div>
+        
+            <div class="phase-cta-wrap"><a class="phase-cta" href="stage-funding.html">View Full Stage <span class="phase-cta-arrow">→</span></a></div>
+        </div>
+    </section>
+
+    <!-- PHASE 6 · PRODUCTION -->
+    <section class="phase" id="production">
+        <div class="phase-inner reveal">
+            <div class="phase-header">
+                <div>
+                    <div class="phase-meta">// Stage 06 · Production</div>
+                    <h2 class="phase-title">The Funded Build</h2>
+                </div>
+                <div class="stamp classified">CLASSIFIED</div>
+            </div>
+            <p class="phase-summary">The studio scales. Animator, character artist, AI programmer, level designer, narrative writer. The systems that ship in 1.0 land here.</p>
+            <div class="substage-grid">
+                <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">06.01</div><div class="substage-name">Hire Team</div><p class="substage-body">Animator. Character Artist. Concept Artist. AI Programmer. Level Designer. Possibly a senior writer. Ironbridge goes from solo to a real studio.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// Animator. Character Artist. Concept Artist. AI Programmer. Level Designer. Possibly a senior writer. Ironbridge goes from solo to a real studio.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">06.02</div><div class="substage-name">Animation Pipeline</div><p class="substage-body">Custom Kore locomotion set. Real combat anims. Settler work anims per class, Cook, Engineer, Medic, Farmer, Gunsmith. Reaction anims. Mocap session OR senior hand-key animator.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// Custom Kore locomotion set. Real combat anims. Settler work anims per class. Reaction anims. Mocap session OR senior hand-key animator.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">06.03</div><div class="substage-name">Character Roster</div><p class="substage-body">All 14 Settler classes get unique MetaHuman heads, hair, body variation, full voice packs. Each Settler reads as an individual. The airlock looks populated by people, not mannequins.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// All 14 Settler classes get unique MetaHuman heads, hair, body variation, full voice packs. Each Settler reads as an individual.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">06.04</div><div class="substage-name">Wildlife &amp; Animals</div><p class="substage-body">Companions: Marv proper. Hostile wildlife: irradiated wolves, mutated rats. Livestock: chickens, cows, sheep, rabbits, bees. Ambient critters: insects, sparrows, butterflies. The world feels alive.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// Companions: Marv proper. Hostile wildlife: irradiated wolves, mutated rats. Livestock: chickens, cows, sheep, rabbits, bees. Ambient critters: insects, sparrows, butterflies.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">06.05</div><div class="substage-name">Combat Depth</div><p class="substage-body">Stalker AI (sneak, retreat, flank). Legion encounters with dialogue. Boss fights at story beats. Melee depth (parry, dodge). Weapon variety. Geiger-counter mechanic for proximity warning.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// Stalker AI (sneak, retreat, flank). Legion encounters with dialogue. Boss fights at story beats. Melee depth. Weapon variety. Geiger-counter mechanic.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">06.06</div><div class="substage-name">Original Soundtrack</div><p class="substage-body">"Calm Before The Storm" is the trailer spine. The full score: ambient layers per biome, reactive music per player state, boss themes, intro and outro. Hans-Zimmer-tier composer.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// 'Calm Before The Storm' is the trailer spine. The full score: ambient layers per biome, reactive music per player state, boss themes, intro and outro. Hans-Zimmer-tier composer.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">06.07</div><div class="substage-name">Voice Acting</div><p class="substage-body">ElevenLabs for procedural Settlers. Hero characters get real human voice actors: Mara, Varek, supporting story NPCs. London talent pool is strong.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// ElevenLabs for procedural Settlers. Hero characters get real human voice actors: Mara, Varek, supporting story NPCs. London talent pool is strong.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">06.08</div><div class="substage-name">Cinematics</div><p class="substage-body">Opening cinematic where Kore wakes up. Mid-game Legion reveal. Ending sequence. Story-locked moments rendered in-engine using MetaHumans + the painted aesthetic.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// Opening cinematic where Kore wakes up. Mid-game Legion reveal. Ending sequence. Story-locked moments rendered in-engine using MetaHumans + the painted aesthetic.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">06.09</div><div class="substage-name">Narrative Writer</div><p class="substage-body">A professional writer to structure the full story arc, character backgrounds, faction histories, environmental storytelling. The lore turned into something players obsess over.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// A professional writer to structure the full story arc, character backgrounds, faction histories, environmental storytelling. Lore turned into something players obsess over.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">06.10</div><div class="substage-name">Module Customisation</div><p class="substage-body">Paint your base your way. Per-module colour and material swaps. Brick, wood, tile, metal finishes per tier. Free basics, premium options cost resources. The "make it home" feature.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// Paint your base your way. Per-module colour and material swaps. Brick, wood, tile, metal finishes per tier. Free basics, premium options cost resources.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">06.11</div><div class="substage-name">Farming Systems</div><p class="substage-body">Beyond the early Greenhouse. Full crop systems, seasonal cycles, soil quality, fertilizer crafting, multi-tier crops. Crop failures become real pressure.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// Beyond the early Greenhouse. Full crop systems, seasonal cycles, soil quality, fertilizer crafting, multi-tier crops. Crop failures become real pressure.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">06.12</div><div class="substage-name">Irrigation &amp; Water</div><p class="substage-body">Pipes, valves, distribution from Water Tank to Greenhouse, Aquaculture, Sanitation. Pipe blockages, leaks, pressure drops. Wells, runoff, condensation.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// Pipes, valves, distribution from Water Tank to Greenhouse, Aquaculture, Sanitation. Pipe blockages, leaks, pressure drops. Wells, runoff, condensation.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">06.13</div><div class="substage-name">Performance Pass</div><p class="substage-body">60fps locked on PC at recommended specs. Lumen and Nanite tuning. Asset budget audits. Memory profiling. Invisible work that determines whether reviews talk about the game or the framerate.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// 60fps locked on PC at recommended specs. Lumen and Nanite tuning. Asset budget audits. Memory profiling. Invisible work that determines whether reviews talk about the game or the framerate.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+            </div>
+        
+            <div class="phase-cta-wrap"><a class="phase-cta" href="stage-production.html">View Full Stage <span class="phase-cta-arrow">→</span></a></div>
+        </div>
+    </section>
+
+    <!-- PHASE 7 · EARLY ACCESS -->
+    <section class="phase" id="early-access">
+        <div class="phase-inner reveal">
+            <div class="phase-header">
+                <div>
+                    <div class="phase-meta">// Stage 07 · Early Access</div>
+                    <h2 class="phase-title">Open Development</h2>
+                </div>
+                <div class="stamp classified">CLASSIFIED</div>
+            </div>
+            <p class="phase-summary">AIRLOCK goes live on Steam Early Access. The community is in the room. Players play, break, tell us what works. Updates ship every quarter.</p>
+            <div class="substage-grid">
+                <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">07.01</div><div class="substage-name">Early Access Launch</div><p class="substage-body">AIRLOCK goes live on Steam Early Access. Core loop complete: build, explore, survive, expand. Not a closed-door project.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// AIRLOCK goes live on Steam Early Access. Core loop complete: build, explore, survive, expand. Not a closed-door project.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">07.02</div><div class="substage-name">Community Building</div><p class="substage-body">Discord and Slack communities. Direct line between players and studio. Bug reports, feature requests, lore discussion, screenshot showcase.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// Discord and Slack communities. Direct line between players and studio. Bug reports, feature requests, lore discussion, screenshot showcase.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">07.03</div><div class="substage-name">Open Development</div><p class="substage-body">Public dev diaries. Public roadmap voting. "Where the money goes", quarterly breakdown of Kickstarter spend. Players feel like co-builders.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// Public dev diaries. Public roadmap voting. 'Where the money goes', quarterly breakdown of Kickstarter spend. Players feel like co-builders.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">07.04</div><div class="substage-name">Iteration &amp; Patches</div><p class="substage-body">Weekly to monthly patches. Bug fixes, balance tweaks, UI improvements. Major content drops every quarter. Suggestions heard and prioritised in public.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// Weekly to monthly patches. Bug fixes, balance tweaks, UI improvements. Major content drops every quarter. Suggestions heard and prioritised in public.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+            </div>
+        
+            <div class="phase-cta-wrap"><a class="phase-cta" href="stage-early-access.html">View Full Stage <span class="phase-cta-arrow">→</span></a></div>
+        </div>
+    </section>
+
+    <!-- PHASE 8 · FULL RELEASE -->
+    <section class="phase" id="full-release">
+        <div class="phase-inner reveal">
+            <div class="phase-header">
+                <div>
+                    <div class="phase-meta">// Stage 08 · Full Release</div>
+                    <h2 class="phase-title">The Vision Realised</h2>
+                </div>
+                <div class="stamp classified">CLASSIFIED</div>
+            </div>
+            <p class="phase-summary">1.0 ships. Console builds follow. Trading economies, multi-airlock networks, the underground metro, global maps, eventually multiplayer.</p>
+            <div class="substage-grid">
+                <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">08.01</div><div class="substage-name">1.0 Launch</div><p class="substage-body">All systems. Full narrative. Complete economy. The game Henry has carried in his head for over a decade, fully realised.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// All systems. Full narrative. Complete economy. The game Henry has carried in his head for over a decade, fully realised.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">08.02</div><div class="substage-name">Console Builds</div><p class="substage-body">PS5, Xbox Series X|S, Switch 2. Each platform requires certification. Console launches typically follow PC by 3-6 months.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// PS5, Xbox Series X|S, Switch 2. Each platform requires certification. Console launches typically follow PC by 3-6 months.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">08.03</div><div class="substage-name">Localization</div><p class="substage-body">French, German, Spanish, Italian, Brazilian Portuguese, Russian, Polish, Simplified Chinese, Japanese, Korean. Subtitles for every voice line.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// French, German, Spanish, Italian, Brazilian Portuguese, Russian, Polish, Simplified Chinese, Japanese, Korean. Subtitles for every voice line.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">08.04</div><div class="substage-name">Trading &amp; Economy</div><p class="substage-body">Automated trade routes between your airlocks. Previous airlocks become trading partners. Supply and demand shifts. UGA Credits as the post-war currency.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// Automated trade routes between your airlocks. Previous airlocks become trading partners. Supply and demand shifts. UGA Credits as the post-war currency.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">08.05</div><div class="substage-name">Multi-Airlock System</div><p class="substage-body">Discover new locations: pre-war military bunkers, research annexes, mine shafts, civic shelters. Each unique. Specialise them. Rebuild civilisation, one airlock at a time.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// Discover new locations: pre-war military bunkers, research annexes, mine shafts, civic shelters. Each unique. Specialise them. Rebuild civilisation, one airlock at a time.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">08.06</div><div class="substage-name">Underground Metro</div><p class="substage-body">Every airlock has a buried metro station. Excavate down. Restore power. Reconnect the line. Fast-travel through dark tunnels. The spine of your underground civilisation.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// Every airlock has a buried metro station. Excavate down. Restore power. Reconnect the line. Fast-travel through dark tunnels. The spine of your underground civilisation.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">08.07</div><div class="substage-name">Global Maps</div><p class="substage-body">Ashgate is just one city. Tokyo's metro. New York's subway. Berlin's bunkers. Moscow's deepest. The Australian outback. Brazilian favelas. Each map regional-flavoured.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// Ashgate is just one city. Tokyo's metro. New York's subway. Berlin's bunkers. Moscow's deepest. The Australian outback. Brazilian favelas. Each map regional-flavoured.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">08.08</div><div class="substage-name">Multiplayer</div><p class="substage-body">Your airlock. Your friend's airlock. Connected. Trading between real players. Visiting bases. Cooperative surface runs. The horizon. Everything else is the road that leads here.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// Your airlock. Your friend's airlock. Connected. Trading between real players. Visiting bases. Cooperative surface runs. The horizon. Everything else is the road that leads here.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+                <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">08.09</div><div class="substage-name">DLC &amp; Beyond</div><p class="substage-body">Post-1.0 expansions. New module categories, new Settler classes, new biomes, new story chapters, new Altered variants. Driven by community-voted priorities.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// Post-1.0 expansions. New module categories, new Settler classes, new biomes, new story chapters, new Altered variants. Driven by community-voted priorities.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
+            </div>
+        
+            <div class="phase-cta-wrap"><a class="phase-cta" href="stage-full-release.html">View Full Stage <span class="phase-cta-arrow">→</span></a></div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <img src="airlock_menulogo.png" alt="AIRLOCK">
+                <p>An Ironbridge Games title.<br>Built in the dark. Made for the surface.</p>
+            </div>
+            <div class="footer-col">
+                <h5>The Game</h5>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">Roadmap</a></li>
+                    <li><a href="media.html">Media</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Channel</h5>
+                <ul>
+                    <li><a href="diary.html">Dev Diary</a></li>
+                    <li><a href="index.html#newsletter">Newsletter</a></li>
+                    <li><a href="#">Discord</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Studio</h5>
+                <ul>
+                    <li><a href="#">Ironbridge Games</a></li>
+                    <li><a href="index.html#support">Support</a></li>
+                    <li><a href="#">Press Kit</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2026 Ironbridge Games Ltd · Company No. 16882669
+        </div>
+    </footer>
+
+    <script>
+        const nav = document.getElementById('nav');
+        function onScroll() {
+            if (window.scrollY > 80) nav.classList.add('scrolled'); else nav.classList.remove('scrolled');
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        if (navToggle) navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // === SCROLLSPY for sub-nav ===
+        const phases = document.querySelectorAll('.phase');
+        const subnavItems = document.querySelectorAll('.subnav-item');
+        const subnavInner = document.querySelector('.subnav-inner');
+
+        function setActiveSubnav(id) {
+            subnavItems.forEach(item => {
+                if (item.dataset.target === id) {
+                    item.classList.add('active');
+                    if (subnavInner && item.offsetWidth) {
+                        const itemLeft = item.offsetLeft;
+                        const itemRight = itemLeft + item.offsetWidth;
+                        const navLeft = subnavInner.scrollLeft;
+                        const navRight = navLeft + subnavInner.clientWidth;
+                        if (itemLeft < navLeft || itemRight > navRight) {
+                            subnavInner.scrollTo({
+                                left: itemLeft - subnavInner.clientWidth / 2 + item.offsetWidth / 2,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+
+        const spyObserver = new IntersectionObserver((entries) => {
+            let best = null;
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    if (!best || entry.intersectionRatio > best.intersectionRatio) {
+                        best = entry;
+                    }
+                }
+            });
+            if (best) setActiveSubnav(best.target.id);
+        }, {
+            rootMargin: '-150px 0px -50% 0px',
+            threshold: [0, 0.25, 0.5, 0.75, 1]
+        });
+
+        phases.forEach(phase => spyObserver.observe(phase));
+
+        if (phases.length) setActiveSubnav(phases[0].id);
+
+        // === SUB-STAGE EXPAND ON CLICK ===
+        document.querySelectorAll('.substage').forEach(card => {
+            card.addEventListener('click', (e) => {
+                if (e.target.closest('a')) return;
+                const isOpen = card.classList.contains('expanded');
+                if (!isOpen) {
+                    const sibling = card.closest('.phase').querySelectorAll('.substage.expanded');
+                    sibling.forEach(s => { if (s !== card) s.classList.remove('expanded'); });
+                }
+                card.classList.toggle('expanded');
+            });
+        });
+    </script>
+
+</body>
+</html>

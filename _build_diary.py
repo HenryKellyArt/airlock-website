@@ -1,0 +1,520 @@
+"""Build the new month-grouped diary.html with embedded dev diary videos."""
+from pathlib import Path
+
+# --- Data: dev diary videos from videos.js, mapped to approximate months ---
+# Henry can re-shuffle which video goes in which month later.
+VIDEOS = {
+    "may-2026": [
+        {"num": "#9", "title": "Working UI", "id": "jkKNAZXYc6Q",
+         "blurb": "The painted concept-art UI direction landed in engine. Inventory, build menu, compass, every panel rebuilt on the painted style. Module padlocks. Auto-flashlight that engages in the dark."},
+    ],
+    "april-2026": [
+        {"num": "#8", "title": "Creating the Mining System", "id": "5_p4QZIDfz0",
+         "blurb": "Universal Press-to-Interact framework. Ore nodes, depth-based rarity, the mining loop tied to grid depth. Deeper rooms surface rarer ore."},
+        {"num": "#7", "title": "My Dog as a Companion", "id": "yvhs73xOKz0",
+         "blurb": "Marv. Follows you, engages enemies, sniffs hidden loot, sits on command. He has poses that lock when the player moves. He's a dog you start to worry about."},
+        {"num": "#6", "title": "Semi-Functioning Characters", "id": "0SJlhL-wPT0",
+         "blurb": "Settlers walking. Settlers reacting. Settlers standing at their workstation. The C++ NPC backbone proves itself in PIE for the first time."},
+        {"num": "#5", "title": "Weapon System & HUD", "id": "J-m2STKvmeA",
+         "blurb": "Weapons that degrade. Ammo that runs out. Pistol and carbine in player hands. Painted HUD readouts feeding directly off the live weapon state."},
+        {"num": "#4", "title": "First Gameplay Test", "id": "5ImnDOJfiEc",
+         "blurb": "The first time AIRLOCK ran like a game, not a test scene. Walking. Looking. Touching. The dollhouse-to-3D loop firing for real."},
+    ],
+    "origins": [
+        {"num": "#3.5", "title": "New Main Menu", "id": "eYbaZtMVxZ8",
+         "blurb": "Main menu V2. After a fresh visual pass, brightness calibration, the press-any-key splash, and the path from boot to gameplay locked into the painted style guide."},
+        {"num": "#3", "title": "First Main Menu", "id": "E_qn8X-d1qo",
+         "blurb": "The first main menu in engine. Epilepsy warning, splash, settings shell. Functional, ugly, real."},
+        {"num": "#2", "title": "The Code", "id": "oiayvFF2z84",
+         "blurb": "The ground-up C++ work begins. GridManager. Modules. The skeleton AIRLOCK is built on."},
+        {"num": "#1", "title": "The Concept", "id": "ebCsXnsQUGc",
+         "blurb": "Where it started. The pitch. The vision. The proof of concept that turned an idea into a project."},
+    ],
+}
+
+# --- Data: written diary entries grouped by month ---
+ENTRIES = {
+    "may-2026": [
+        {"date": "7 May 2026", "title": "Procedural Pipeline V1 shipped",
+         "body": "Procedural city tool traces streets and arrays buildings. City Block Breaker editor utility explodes any block into individually editable static meshes so hero locations can be hand-art-directed, then baked back into instanced meshes for performance. The Foliage Cascade tool, marketplace-ready, spawns hierarchical biomes of trees, juveniles, saplings, ground cover, and scrub across landscape and static meshes. PCG Foliage Baker bakes any procedural output into the level's InstancedFoliageActor for editing in the standard Foliage Painter. PCG_Include and PCG_Remove tags scope where foliage spawns. Ashgate finally has its overgrowth."},
+        {"date": "1 May 2026", "title": "Three flagship systems landed",
+         "body": "A single Friday session that landed three flagship systems. The HUD V2 painted UI is now live in engine end-to-end. Power System V1 shipped with generators, multi-generator networks, five-second overload trips, powered lights, ambient audio emitters, status LEDs, vibration, and a fail-attempt boot sequence with audio variations. The Voice + Subtitle pipeline is live: NPC voice lines pre-cache at BeginPlay so first-play has zero hitch, the painted Subtitle Widget pushes speech below the HUD, stack mode supports overlapping voices, and proximity gating prevents distant lines from rendering subtitles when they shouldn't. Auto-flashlight engages in the dark, NPC bump knockback is visceral, gamepad layout is locked across PS5 and Xbox conventions. The airlock has a heartbeat now."},
+    ],
+    "april-2026": [
+        {"date": "29 April 2026", "title": "NPCs come alive",
+         "body": "First MetaHuman head swapped in for the first story-locked NPC. NPC Foundation V1 is the C++ scaffold; NPCs V1 is what happens when you give it a voice, a face, and a place to stand. Activity Anchor system Phase 1 shipped: designers drop a component onto any piece of content (a chair, a workbench, a planning board) and Settlers naturally wander to it, claim it, and use it. The Bump Component handles physical knockback when Kore walks into a Settler. The 9-state behaviour machine (Idle, Follow, Independent, Tasked, Combat, Flee, Injured, Conversational, Dead) drives every NPC from this point on."},
+        {"date": "17 April 2026", "title": "Canon lockdown day",
+         "body": "The biggest canon lockdown day in the project's history. Locked the full Altered class breakdown (Feral with 7 visual sub-types, Familiars, Stalkers, Legion with Geiger-counter mechanic). Locked the 14 Settler classes and their signature modules. Locked the skill system at 8 tiers x 10 sub-levels (80 total levels per skill), 17 parent categories, 130+ sub-skills, with full XP propagation rules (100% sub + 10% parent trickle + 10% cross-skill bleed). Locked the multi-airlock + metro network as core design, not late-game. Locked the ant farm + dual-view camera system. Wrote USkillComponent and SkillTypes in C++. Wrote the AirlockSkillXPWidget popup. Updated performance config for Lumen software-RT. Steamworks account registered (phase 1 done). Updated every section of this website."},
+        {"date": "14 April 2026", "title": "Website visual overhaul",
+         "body": "The site has been fully redesigned to match AIRLOCK's in-game UI aesthetic: dark warm palette, cream and bone-white text, grey-forward accents, torn/damaged edges on panels. All blues are gone. Buttons now look like aged parchment, matching the in-game module UI exactly. All dev diary videos embedded. The website finally feels like the game."},
+        {"date": "13 April 2026", "title": "DT_Modules single source of truth",
+         "body": "Major codebase refactor complete: DT_Modules is now the single source of truth for all module data. Previously, every Blueprint had its own duplicate display name, description, tier stats, power draw, morale bonus and build time, now all of that lives in the Data Table. The UI panels (Selected, Upgrade, Compare) now pull directly from DT_Modules first, falling back to Blueprint properties only if no DT entry exists. Cleaner, faster, and far easier to balance."},
+        {"date": "13 April 2026", "title": "Tier persistence bug fixed",
+         "body": "Save/load tier persistence bug fixed. Modules were always spawning at tier 0 on load, regardless of what tier they were at when saved. Root cause: relying on UE's SaveGame property specifier, which has no effect in AIRLOCK's manual struct-based save system. Fixed by adding CurrentTier to the FPlacedModuleSaveData struct, capturing it from the live actor at save time, and restoring it via SetTier() on load. Tiers now survive a full save/load cycle correctly."},
+        {"date": "9 April 2026", "title": "Website goes live",
+         "body": "theairlock.co.uk goes live. Built from scratch, single-page HTML with particle effects, interactive roadmap, dev diary section, and embedded music player. Hosted on GitHub Pages. Domain connected. The game finally has a home on the internet."},
+        {"date": "9 April 2026", "title": "MetaHuman assembled",
+         "body": "MetaHuman character (MH_Adrien) successfully assembled in UE5 after fixing a Derived Data Cache issue that was eating 256GB of disk space. Redirected DDC to D: drive. Next step: retarget ALS animations onto the MetaHuman skeleton and swap out the placeholder character."},
+        {"date": "9 April 2026", "title": "Roadmap finalised",
+         "body": "Full development roadmap finalised, phases from prototype to multiplayer. Stages: Building the Demo, Funding & Launch, Expanding the World, Global Maps. (Since restructured into 8 industry-standard phases, see the Roadmap page for the live version.)"},
+        {"date": "4 April 2026", "title": "UE5 project locked",
+         "body": "UE5 project settings locked. Async level streaming working. Demo roadmap created, 56 tasks across 8 sprints."},
+        {"date": "3 April 2026", "title": "Surface world working",
+         "body": "Surface world pipeline working end-to-end, massive ruined city environment now loading as a playable level. Module system expanded to 14 categories. Full 60-minute demo gameplay loop documented."},
+    ],
+    "origins": [],  # written entries pre-April don't exist; this section only has video logs
+}
+
+MONTHS = [
+    {"id": "may-2026", "label": "May 2026", "meta": "// 05.2026 · Field Log"},
+    {"id": "april-2026", "label": "April 2026", "meta": "// 04.2026 · Field Log"},
+    {"id": "origins", "label": "Origins", "meta": "// Pre-04.2026 · How It Started"},
+]
+
+
+def render_video_card(v):
+    return f'''            <article class="video-card reveal" data-vid="{v['id']}">
+                <div class="video-thumb">
+                    <img src="https://img.youtube.com/vi/{v['id']}/maxresdefault.jpg" alt="" loading="lazy">
+                    <button class="video-play" aria-label="Play"><svg viewBox="0 0 24 24" width="36" height="36" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+                    <div class="video-tag">DEV DIARY {v['num']}</div>
+                </div>
+                <div class="video-meta">
+                    <div class="video-kicker">// VIDEO LOG</div>
+                    <h3 class="video-title">Dev Diary {v['num']}, {v['title']}</h3>
+                    <p class="video-blurb">{v['blurb']}</p>
+                </div>
+            </article>'''
+
+
+def render_text_entry(e):
+    return f'''            <article class="diary-entry reveal">
+                <div class="diary-date">{e['date']}</div>
+                <h3>{e['title']}</h3>
+                <p>{e['body']}</p>
+            </article>'''
+
+
+def render_month(month):
+    mid = month["id"]
+    items = []
+    # Videos first (newest first within month)
+    for v in VIDEOS.get(mid, []):
+        items.append(render_video_card(v))
+    # Then written entries (already newest first)
+    for e in ENTRIES.get(mid, []):
+        items.append(render_text_entry(e))
+    body = "\n".join(items) if items else '            <p class="month-empty">No written entries this month, just the video log above. (Or below.)</p>'
+    return f'''    <section class="month-section reveal" id="{mid}">
+        <header class="month-header">
+            <div class="month-meta">{month["meta"]}</div>
+            <h2 class="month-title">{month["label"]}</h2>
+        </header>
+        <div class="month-entries">
+{body}
+        </div>
+    </section>'''
+
+
+# Sub-nav for months
+SUBNAV = '\n'.join([f'            <a href="#{m["id"]}" class="subnav-item" data-target="{m["id"]}">{m["label"]}</a>' for m in MONTHS])
+
+MONTHS_HTML = '\n'.join(render_month(m) for m in MONTHS)
+
+HTML = f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIRLOCK , Dev Diary</title>
+    <meta name="description" content="Honest, frequent, unfiltered AIRLOCK development updates by month.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {{
+            --black: #050505;
+            --bg: #0A0A0A;
+            --bg-2: #141414;
+            --bg-3: #1C1C1C;
+            --bone: #ECE6D6;
+            --bone-dim: rgba(236, 230, 214, 0.7);
+            --bone-faint: rgba(236, 230, 214, 0.18);
+            --accent: #D4A046;
+            --accent-bright: #E8B86C;
+            --green: #6FB85C;
+        }}
+        * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+        html {{ scroll-behavior: smooth; }}
+        body {{
+            background: var(--black);
+            color: var(--bone);
+            font-family: 'Inter', system-ui, sans-serif;
+            font-size: 17px;
+            line-height: 1.65;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }}
+        body::before {{
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.04;
+            mix-blend-mode: overlay;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            z-index: 200;
+        }}
+        nav {{
+            position: fixed; top: 0; left: 0; right: 0; z-index: 95;
+            padding: 1.5rem 4%; display: flex; align-items: center; justify-content: space-between;
+            background: linear-gradient(to bottom, rgba(5, 5, 5, 0.85), rgba(5, 5, 5, 0.5));
+            transition: all 0.4s ease; backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--bone-faint);
+        }}
+        nav.scrolled {{ padding: 0.9rem 4%; background: rgba(5, 5, 5, 0.97); }}
+        .nav-logo img {{ height: 36px; filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.85)); transition: transform 0.2s; }}
+        .nav-logo:hover img {{ transform: scale(1.04); }}
+        .nav-links {{ display: flex; gap: 2.5rem; list-style: none; }}
+        .nav-links a {{
+            color: var(--bone); text-decoration: none;
+            font-family: 'Bebas Neue', sans-serif; font-size: 1rem;
+            letter-spacing: 0.3em; text-transform: uppercase;
+            transition: color 0.2s; position: relative;
+        }}
+        .nav-links a::after {{
+            content: ''; position: absolute; bottom: -6px; left: 50%; right: 50%; height: 1px;
+            background: var(--accent); transition: left 0.25s, right 0.25s;
+        }}
+        .nav-links a:hover {{ color: var(--accent); }}
+        .nav-links a:hover::after {{ left: 0; right: 0; }}
+        .nav-links a.active {{ color: var(--accent); }}
+        .nav-links a.active::after {{ left: 0; right: 0; }}
+        .nav-cta {{
+            font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 0.3em;
+            text-transform: uppercase; color: var(--black); background: var(--bone);
+            padding: 0.6rem 1.6rem; text-decoration: none; transition: all 0.2s;
+        }}
+        .nav-cta:hover {{ background: var(--accent); transform: translateY(-2px); }}
+        .nav-toggle {{ display: none; background: none; border: none; color: var(--bone); font-size: 1.5rem; cursor: pointer; padding: 0; }}
+
+        /* HERO */
+        .page-hero {{ min-height: 60vh; display: flex; align-items: center; padding: 7rem 4% 4rem; border-bottom: 1px solid var(--bone-faint); position: relative; }}
+        .page-hero-content {{ max-width: 1100px; margin: 0 auto; width: 100%; }}
+        .page-hero-meta {{ font-family: 'Inter', sans-serif; font-weight: 500; font-size: 0.78rem; color: var(--accent); letter-spacing: 0.4em; text-transform: uppercase; margin-bottom: 1.2rem; }}
+        .page-title {{ font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 7vw, 6rem); letter-spacing: 0.04em; color: var(--bone); text-transform: uppercase; line-height: 1; margin-bottom: 1.5rem; }}
+        .page-hero-content > p {{ font-family: 'Crimson Pro', serif; font-style: italic; font-size: clamp(1.1rem, 1.6vw, 1.4rem); color: var(--bone-dim); max-width: 760px; }}
+
+        /* SUB-NAV (months) */
+        .subnav {{
+            position: sticky; top: 76px; z-index: 80;
+            background: rgba(5, 5, 5, 0.97); backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--bone-faint);
+        }}
+        .subnav-inner {{
+            display: flex; gap: 0;
+            max-width: 1100px; margin: 0 auto;
+            overflow-x: auto; scrollbar-width: thin;
+        }}
+        .subnav-inner::-webkit-scrollbar {{ height: 4px; }}
+        .subnav-inner::-webkit-scrollbar-thumb {{ background: var(--bone-faint); }}
+        .subnav-item {{
+            font-family: 'Bebas Neue', sans-serif; font-size: 0.95rem;
+            letter-spacing: 0.25em; text-transform: uppercase;
+            padding: 1.1rem 1.6rem; color: var(--bone-dim);
+            text-decoration: none; transition: color 0.2s, background 0.2s;
+            white-space: nowrap; position: relative; flex-shrink: 0;
+        }}
+        .subnav-item:hover {{ color: var(--bone); background: rgba(212, 160, 70, 0.04); }}
+        .subnav-item.active {{ color: var(--accent); background: rgba(212, 160, 70, 0.08); }}
+        .subnav-item::after {{
+            content: ''; position: absolute; bottom: 0; left: 50%; right: 50%;
+            height: 3px; background: var(--accent); transition: left 0.25s, right 0.25s;
+        }}
+        .subnav-item.active::after {{ left: 0; right: 0; }}
+
+        /* MONTH SECTIONS */
+        .month-section {{
+            padding: 6rem 4% 5rem;
+            border-bottom: 1px solid var(--bone-faint);
+        }}
+        .month-section:last-of-type {{ border-bottom: none; }}
+        .month-header {{
+            max-width: 1100px; margin: 0 auto 3rem;
+        }}
+        .month-meta {{
+            font-family: 'Inter', sans-serif; font-weight: 500;
+            font-size: 0.78rem; color: var(--accent);
+            letter-spacing: 0.4em; text-transform: uppercase;
+            margin-bottom: 0.6rem;
+        }}
+        .month-title {{
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem); letter-spacing: 0.04em;
+            color: var(--bone); text-transform: uppercase; line-height: 1.0;
+        }}
+        .month-entries {{
+            max-width: 1100px; margin: 0 auto;
+            display: flex; flex-direction: column; gap: 1.5rem;
+        }}
+
+        /* TEXT ENTRY (existing style) */
+        .diary-entry {{
+            background: var(--bg-2);
+            padding: 2rem 2.2rem;
+            border-left: 3px solid var(--accent);
+            transition: border-color 0.25s, transform 0.25s;
+        }}
+        .diary-entry:hover {{
+            border-left-color: var(--accent-bright);
+            transform: translateX(4px);
+        }}
+        .diary-date {{
+            font-family: 'Bebas Neue', sans-serif; font-size: 0.85rem;
+            color: var(--accent); letter-spacing: 0.3em; text-transform: uppercase;
+            margin-bottom: 0.6rem;
+        }}
+        .diary-entry h3 {{
+            font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem;
+            color: var(--bone); letter-spacing: 0.05em;
+            text-transform: uppercase; line-height: 1.1; margin-bottom: 0.9rem;
+        }}
+        .diary-entry p {{
+            font-size: 1.02rem; color: var(--bone-dim); line-height: 1.65;
+        }}
+
+        /* VIDEO CARD */
+        .video-card {{
+            display: grid; grid-template-columns: 0.95fr 1.05fr;
+            gap: 2rem; align-items: center;
+            background: var(--bg-2);
+            border-left: 3px solid var(--green);
+            padding: 1.6rem;
+            transition: border-color 0.25s, transform 0.25s;
+        }}
+        .video-card:hover {{ border-left-color: var(--accent-bright); transform: translateX(4px); }}
+        .video-thumb {{
+            position: relative; aspect-ratio: 16/9; overflow: hidden;
+            background: var(--black); cursor: pointer;
+            border: 1px solid var(--bone-faint);
+        }}
+        .video-thumb img {{ width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s, filter 0.4s; }}
+        .video-thumb:hover img {{ transform: scale(1.04); filter: brightness(0.7); }}
+        .video-play {{
+            position: absolute; inset: 0; margin: auto;
+            width: 90px; height: 90px; border-radius: 50%;
+            background: rgba(212, 160, 70, 0.92); border: none; color: var(--black);
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.75);
+            transition: transform 0.2s, background 0.2s;
+        }}
+        .video-thumb:hover .video-play {{ transform: scale(1.08); background: var(--accent-bright); }}
+        .video-play svg {{ margin-left: 4px; }}
+        .video-tag {{
+            position: absolute; top: 0.9rem; left: 0.9rem;
+            background: rgba(5, 5, 5, 0.85); color: var(--accent);
+            padding: 0.3rem 0.7rem; font-family: 'Bebas Neue', sans-serif;
+            font-size: 0.75rem; letter-spacing: 0.25em;
+            border: 1px solid var(--bone-faint);
+        }}
+        .video-meta {{ padding: 0.4rem 0; }}
+        .video-kicker {{
+            font-family: 'Inter', sans-serif; font-weight: 500;
+            font-size: 0.7rem; color: var(--green);
+            letter-spacing: 0.35em; text-transform: uppercase;
+            margin-bottom: 0.7rem;
+        }}
+        .video-title {{
+            font-family: 'Bebas Neue', sans-serif; font-size: 1.7rem;
+            color: var(--bone); letter-spacing: 0.04em;
+            text-transform: uppercase; line-height: 1.1; margin-bottom: 0.9rem;
+        }}
+        .video-blurb {{ font-size: 1rem; color: var(--bone-dim); line-height: 1.6; }}
+        .video-card iframe {{
+            width: 100%; aspect-ratio: 16/9; border: none; display: block;
+        }}
+        .video-card.playing {{ grid-template-columns: 1fr; }}
+        .video-card.playing .video-meta {{ display: none; }}
+
+        .month-empty {{ font-family: 'Crimson Pro', serif; font-style: italic; color: var(--bone-dim); }}
+
+        /* FOOTER */
+        footer {{ background: var(--black); padding: 5rem 4% 2rem; border-top: 1px solid var(--bone-faint); }}
+        .footer-grid {{ display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; max-width: 1300px; margin: 0 auto 3rem; }}
+        .footer-brand img {{ height: 50px; margin-bottom: 1rem; }}
+        .footer-brand p {{ color: var(--bone-dim); font-style: italic; font-size: 0.95rem; line-height: 1.6; }}
+        .footer-col h5 {{ font-family: 'Bebas Neue', sans-serif; font-size: 0.95rem; letter-spacing: 0.3em; color: var(--accent); text-transform: uppercase; margin-bottom: 1rem; }}
+        .footer-col ul {{ list-style: none; }}
+        .footer-col li {{ margin-bottom: 0.5rem; }}
+        .footer-col a {{ color: var(--bone-dim); text-decoration: none; font-size: 0.95rem; transition: color 0.2s; }}
+        .footer-col a:hover {{ color: var(--bone); }}
+        .footer-bottom {{ text-align: center; color: var(--bone-dim); font-family: 'Bebas Neue', sans-serif; font-size: 0.85rem; letter-spacing: 0.4em; padding-top: 2rem; border-top: 1px solid var(--bone-faint); max-width: 1300px; margin: 0 auto; }}
+
+        .reveal {{ opacity: 0; transform: translateY(30px); transition: opacity 0.9s ease, transform 0.9s ease; }}
+        .reveal.visible {{ opacity: 1; transform: translateY(0); }}
+
+        @media (max-width: 1100px) {{
+            .nav-links {{ display: none; position: absolute; top: 100%; left: 0; right: 0; background: rgba(5, 5, 5, 0.98); flex-direction: column; padding: 2rem; gap: 1.5rem; border-bottom: 1px solid var(--bone-faint); }}
+            .nav-links.open {{ display: flex; }}
+            .nav-toggle {{ display: block; }}
+        }}
+        @media (max-width: 800px) {{
+            .video-card {{ grid-template-columns: 1fr; }}
+            .footer-grid {{ grid-template-columns: 1fr; }}
+        }}
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav id="nav">
+        <a href="index.html" class="nav-logo"><img src="airlock_menulogo.png" alt="AIRLOCK"></a>
+        <button class="nav-toggle" id="navToggle" aria-label="Menu">☰</button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="roadmap.html">Roadmap</a></li>
+            <li><a href="diary.html" class="active">Updates</a></li>
+            <li><a href="media.html">Media</a></li>
+            <li><a href="index.html#support">Support</a></li>
+        </ul>
+        <a href="#" class="nav-cta">Wishlist</a>
+    </nav>
+
+    <!-- PAGE HERO -->
+    <section class="page-hero">
+        <div class="page-hero-content">
+            <div class="page-hero-meta">// Field Logs · Live Feed</div>
+            <h1 class="page-title">Updates</h1>
+            <p>Honest, frequent, unfiltered. Every win and every setback documented as it happens. Video diaries embedded inline. Latest at the top.</p>
+        </div>
+    </section>
+
+    <!-- MONTH SUB-NAV -->
+    <div class="subnav" id="subnav">
+        <div class="subnav-inner">
+{SUBNAV}
+        </div>
+    </div>
+
+{MONTHS_HTML}
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <img src="airlock_menulogo.png" alt="AIRLOCK">
+                <p>An Ironbridge Games title.<br>Built in the dark. Made for the surface.</p>
+            </div>
+            <div class="footer-col">
+                <h5>The Game</h5>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmap.html">Roadmap</a></li>
+                    <li><a href="media.html">Media</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Channel</h5>
+                <ul>
+                    <li><a href="diary.html">Dev Diary</a></li>
+                    <li><a href="index.html#newsletter">Newsletter</a></li>
+                    <li><a href="#">Discord</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Studio</h5>
+                <ul>
+                    <li><a href="#">Ironbridge Games</a></li>
+                    <li><a href="index.html#support">Support</a></li>
+                    <li><a href="#">Press Kit</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">© 2026 Ironbridge Games Ltd · Company No. 16882669</div>
+    </footer>
+
+    <script>
+        const nav = document.getElementById('nav');
+        function onScroll() {{
+            if (window.scrollY > 80) nav.classList.add('scrolled'); else nav.classList.remove('scrolled');
+        }}
+        window.addEventListener('scroll', onScroll, {{ passive: true }});
+        onScroll();
+
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        if (navToggle) navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+
+        const observer = new IntersectionObserver((entries) => {{
+            entries.forEach(e => {{
+                if (e.isIntersecting) {{ e.target.classList.add('visible'); observer.unobserve(e.target); }}
+            }});
+        }}, {{ threshold: 0.12, rootMargin: '0px 0px -60px 0px' }});
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // === SCROLLSPY for month sub-nav ===
+        const months = document.querySelectorAll('.month-section');
+        const subnavItems = document.querySelectorAll('.subnav-item');
+        const subnavInner = document.querySelector('.subnav-inner');
+
+        function setActiveSubnav(id) {{
+            subnavItems.forEach(item => {{
+                if (item.dataset.target === id) {{
+                    item.classList.add('active');
+                    if (subnavInner && item.offsetWidth) {{
+                        const itemLeft = item.offsetLeft;
+                        const itemRight = itemLeft + item.offsetWidth;
+                        const navLeft = subnavInner.scrollLeft;
+                        const navRight = navLeft + subnavInner.clientWidth;
+                        if (itemLeft < navLeft || itemRight > navRight) {{
+                            subnavInner.scrollTo({{
+                                left: itemLeft - subnavInner.clientWidth / 2 + item.offsetWidth / 2,
+                                behavior: 'smooth'
+                            }});
+                        }}
+                    }}
+                }} else {{
+                    item.classList.remove('active');
+                }}
+            }});
+        }}
+
+        const spyObserver = new IntersectionObserver((entries) => {{
+            let best = null;
+            entries.forEach(entry => {{
+                if (entry.isIntersecting) {{
+                    if (!best || entry.intersectionRatio > best.intersectionRatio) {{
+                        best = entry;
+                    }}
+                }}
+            }});
+            if (best) setActiveSubnav(best.target.id);
+        }}, {{
+            rootMargin: '-150px 0px -50% 0px',
+            threshold: [0, 0.25, 0.5, 0.75, 1]
+        }});
+        months.forEach(m => spyObserver.observe(m));
+        if (months.length) setActiveSubnav(months[0].id);
+
+        // === VIDEO CLICK-TO-LOAD ===
+        document.querySelectorAll('.video-card').forEach(card => {{
+            const thumb = card.querySelector('.video-thumb');
+            const vid = card.dataset.vid;
+            if (!thumb || !vid) return;
+            thumb.addEventListener('click', () => {{
+                const iframe = document.createElement('iframe');
+                iframe.src = `https://www.youtube.com/embed/${{vid}}?autoplay=1&rel=0`;
+                iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+                iframe.allowFullscreen = true;
+                thumb.replaceWith(iframe);
+                card.classList.add('playing');
+            }});
+        }});
+    </script>
+
+</body>
+</html>
+'''
+
+Path("diary.html").write_text(HTML, encoding='utf-8')
+print(f"Wrote diary.html ({Path('diary.html').stat().st_size} bytes)")

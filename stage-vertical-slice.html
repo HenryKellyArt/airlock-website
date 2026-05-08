@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIRLOCK · Stage 04 · Pre-Production · Vertical Slice</title>
+<meta name="description" content="The V2 polish + content build. Painted UI in engine. Power. Voice. NPCs. Procedural city. Currently dressing Ashgate. Then the demo ships.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>:root{--black:#050505;--bg:#0A0A0A;--bg-2:#141414;--bg-3:#1C1C1C;--bone:#ECE6D6;--bone-dim:rgba(236,230,214,0.7);--bone-faint:rgba(236,230,214,0.18);--accent:#D4A046;--accent-bright:#E8B86C;--crit:#C8463A;--green:#6FB85C;--classified:#8B2A2A;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--bone);font-family:'Inter',system-ui,sans-serif;font-size:17px;line-height:1.65;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;opacity:0.04;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");z-index:200;}
+nav{position:fixed;top:0;left:0;right:0;z-index:95;padding:1.5rem 4%;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to bottom,rgba(5,5,5,0.85),rgba(5,5,5,0.5));transition:all 0.4s ease;backdrop-filter:blur(8px);border-bottom:1px solid var(--bone-faint);}
+nav.scrolled{padding:0.9rem 4%;background:rgba(5,5,5,0.97);}
+.nav-logo img{height:36px;filter:drop-shadow(0 4px 14px rgba(0,0,0,0.85));transition:transform 0.2s;}
+.nav-logo:hover img{transform:scale(1.04);}
+.nav-links{display:flex;gap:2.5rem;list-style:none;}
+.nav-links a{color:var(--bone);text-decoration:none;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.3em;text-transform:uppercase;transition:color 0.2s;position:relative;}
+.nav-links a::after{content:'';position:absolute;bottom:-6px;left:50%;right:50%;height:1px;background:var(--accent);transition:left 0.25s,right 0.25s;}
+.nav-links a:hover{color:var(--accent);}
+.nav-links a:hover::after{left:0;right:0;}
+.nav-links a.active{color:var(--accent);}
+.nav-links a.active::after{left:0;right:0;}
+.nav-cta{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--black);background:var(--bone);padding:0.6rem 1.6rem;text-decoration:none;transition:all 0.2s;}
+.nav-cta:hover{background:var(--accent);transform:translateY(-2px);}
+.nav-toggle{display:none;background:none;border:none;color:var(--bone);font-size:1.5rem;cursor:pointer;padding:0;}
+/* HERO */
+.stage-hero{min-height:78vh;position:relative;display:flex;align-items:flex-end;padding:0 0 5rem;background-size:cover;background-position:center;border-bottom:1px solid var(--bone-faint);}
+.stage-hero::before{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(5,5,5,0.55) 0%,rgba(5,5,5,0.2) 35%,rgba(5,5,5,0.6) 70%,rgba(5,5,5,0.95) 100%);}
+.stage-hero-content{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:0 4%;width:100%;}
+.stage-hero-meta{font-family:'Inter',sans-serif;font-weight:500;font-size:0.78rem;color:var(--accent);letter-spacing:0.4em;text-transform:uppercase;margin-bottom:1.2rem;}
+.stage-hero-num{font-family:'Bebas Neue',sans-serif;font-size:clamp(5rem,12vw,10rem);line-height:0.9;color:var(--accent);letter-spacing:0.02em;margin-bottom:0.5rem;text-shadow:0 6px 30px rgba(0,0,0,0.7);}
+.stage-hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.6rem,5.5vw,5rem);letter-spacing:0.04em;color:var(--bone);text-transform:uppercase;line-height:1;margin-bottom:1.5rem;text-shadow:0 6px 30px rgba(0,0,0,0.85);}
+.stage-hero-summary{font-family:'Crimson Pro',serif;font-style:italic;font-size:clamp(1.05rem,1.6vw,1.4rem);color:var(--bone);max-width:760px;line-height:1.55;text-shadow:0 4px 20px rgba(0,0,0,0.85);}
+.stage-stamp{display:inline-block;font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.3em;padding:0.5rem 1.2rem;border:2px solid;transform:rotate(-2deg);margin-top:1.8rem;}
+.stage-stamp.declassified{color:var(--green);border-color:var(--green);}
+.stage-stamp.in-progress{color:var(--accent);border-color:var(--accent);}
+.stage-stamp.classified{color:var(--classified);border-color:var(--classified);}
+/* INTRO */
+.stage-intro{padding:6rem 4%;max-width:900px;margin:0 auto;}
+.stage-intro p{font-family:'Crimson Pro',serif;font-size:1.35rem;line-height:1.65;color:var(--bone);}
+.stage-intro p::first-letter{font-family:'Bebas Neue',sans-serif;font-size:4rem;float:left;line-height:0.9;margin-right:1rem;margin-top:0.4rem;color:var(--accent);}
+/* SUB-STAGES */
+.stage-substages{padding:2rem 4% 7rem;max-width:1300px;margin:0 auto;}
+.stage-substage{display:grid;grid-template-columns:1fr 1.2fr;gap:3.5rem;align-items:center;padding:5rem 0;border-bottom:1px solid var(--bone-faint);}
+.stage-substage:last-child{border-bottom:none;}
+.stage-substage.no-image{grid-template-columns:1fr;max-width:820px;}
+.stage-substage-image{position:relative;aspect-ratio:16/10;overflow:hidden;border:1px solid var(--bone-faint);}
+.stage-substage-image img{width:100%;height:100%;object-fit:cover;transition:transform 0.6s;}
+.stage-substage-image:hover img{transform:scale(1.04);}
+.stage-substage:nth-child(even):not(.no-image){direction:rtl;}
+.stage-substage:nth-child(even):not(.no-image) > *{direction:ltr;}
+.stage-substage-content{position:relative;}
+.stage-substage-stamp{display:inline-block;font-family:'Bebas Neue',sans-serif;font-size:0.65rem;letter-spacing:0.2em;padding:0.18rem 0.55rem;border:1.5px solid;margin-bottom:1rem;transform:rotate(-1deg);}
+.stage-substage-stamp.declassified{color:var(--green);border-color:var(--green);}
+.stage-substage-stamp.in-progress{color:var(--accent);border-color:var(--accent);}
+.stage-substage-stamp.classified{color:var(--classified);border-color:var(--classified);}
+.stage-substage-num{font-family:'Inter',sans-serif;font-weight:500;font-size:0.78rem;color:var(--accent);letter-spacing:0.35em;text-transform:uppercase;margin-bottom:0.6rem;}
+.stage-substage-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.7rem,3vw,2.4rem);letter-spacing:0.03em;color:var(--bone);text-transform:uppercase;line-height:1.05;margin-bottom:1.2rem;}
+.stage-substage-body{font-size:1.05rem;color:var(--bone-dim);line-height:1.6;margin-bottom:1rem;}
+.stage-substage-detail{font-family:'Crimson Pro',serif;font-style:italic;font-size:1.05rem;color:var(--bone);line-height:1.55;padding-left:1.2rem;border-left:2px solid var(--accent);}
+/* NAV PILLS */
+.stage-nav{padding:4rem 4%;max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:stretch;gap:1.5rem;flex-wrap:wrap;}
+.stage-nav-pill{flex:1;min-width:280px;padding:1.8rem 1.6rem;background:var(--bg-2);border:1px solid var(--bone-faint);text-decoration:none;transition:all 0.25s;display:flex;flex-direction:column;gap:0.4rem;}
+.stage-nav-pill:hover{border-color:var(--accent);background:var(--bg-3);transform:translateY(-3px);}
+.stage-nav-pill.disabled{opacity:0.35;pointer-events:none;}
+.stage-nav-meta{font-family:'Inter',sans-serif;font-size:0.7rem;color:var(--accent);letter-spacing:0.3em;text-transform:uppercase;}
+.stage-nav-name{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--bone);letter-spacing:0.05em;text-transform:uppercase;}
+.stage-nav-pill.next{text-align:right;}
+.stage-nav-pill.center{text-align:center;justify-content:center;background:transparent;border-color:var(--bone-faint);}
+.stage-nav-pill.center:hover{background:var(--bg-2);}
+/* FOOTER */
+footer{background:var(--black);padding:5rem 4% 2rem;border-top:1px solid var(--bone-faint);}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;max-width:1300px;margin:0 auto 3rem;}
+.footer-brand img{height:50px;margin-bottom:1rem;}
+.footer-brand p{color:var(--bone-dim);font-style:italic;font-size:0.95rem;line-height:1.6;}
+.footer-col h5{font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:1rem;}
+.footer-col ul{list-style:none;}
+.footer-col li{margin-bottom:0.5rem;}
+.footer-col a{color:var(--bone-dim);text-decoration:none;font-size:0.95rem;transition:color 0.2s;}
+.footer-col a:hover{color:var(--bone);}
+.footer-bottom{text-align:center;color:var(--bone-dim);font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.4em;padding-top:2rem;border-top:1px solid var(--bone-faint);max-width:1300px;margin:0 auto;}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 0.9s ease,transform 0.9s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+@media (max-width:1100px){.nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:rgba(5,5,5,0.98);flex-direction:column;padding:2rem;gap:1.5rem;border-bottom:1px solid var(--bone-faint);}.nav-links.open{display:flex;}.nav-toggle{display:block;}}
+@media (max-width:900px){.footer-grid{grid-template-columns:1fr;}.stage-substage{grid-template-columns:1fr!important;direction:ltr!important;}.stage-substage > *{direction:ltr!important;}.stage-nav{flex-direction:column;}.stage-nav-pill.next{text-align:left;}}</style>
+</head>
+<body>
+
+<nav id="nav">
+    <a href="index.html" class="nav-logo"><img src="airlock_menulogo.png" alt="AIRLOCK"></a>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">☰</button>
+    <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="roadmap.html" class="active">Roadmap</a></li>
+        <li><a href="diary.html">Updates</a></li>
+        <li><a href="media.html">Media</a></li>
+        <li><a href="index.html#support">Support</a></li>
+    </ul>
+    <a href="#" class="nav-cta">Wishlist</a>
+</nav>
+
+<section class="stage-hero" style="background-image:url('screenshots/airlock_underworld_05.jpg');">
+    <div class="stage-hero-content">
+        <div class="stage-hero-meta">// Stage 04 · Pre-Production · Vertical Slice</div>
+        <div class="stage-hero-num">04</div>
+        <h1 class="stage-hero-title">The Demo Comes Alive</h1>
+        <p class="stage-hero-summary">The V2 polish + content build. Painted UI in engine. Power. Voice. NPCs. Procedural city. Currently dressing Ashgate. Then the demo ships.</p>
+        <div class="stage-stamp in-progress">PARTIALLY DECLASSIFIED</div>
+    </div>
+</section>
+
+<section class="stage-intro">
+    <p>Where AIRLOCK is right now. Painted UI shipped in engine. The voice pipeline real and end-to-end. Power systems with audible, visible cause-and-effect. The procedural city tool laying down Ashgate's bones. Module concept art turning into module reality. The demo arc, wake up, find Mara, reach the airlock, build, sleep, fetch, repeat, is being assembled stage by stage.</p>
+</section>
+
+<section class="stage-substages">
+<article class="stage-substage reveal no-image">
+<div class="stage-substage-content">
+<div class="stage-substage-stamp declassified">CLEAR</div>
+<div class="stage-substage-num">04.01</div>
+<h3 class="stage-substage-name">NPC Foundation</h3>
+<p class="stage-substage-body">C++ backbone for every NPC. 9-state behaviour machine. 7-faction team system. Component stack for brains, combat, injury, tasking, dialogue. Every Settler, enemy, wildlife slots in cleanly.</p>
+<p class="stage-substage-detail">Faction system. Behaviour state machine. Combat component. Injury component. Dialogue component. Voice component. Bump component. Every NPC inherits the spine; specialisations layer on top.</p>
+</div></article>
+<article class="stage-substage reveal no-image">
+<div class="stage-substage-content">
+<div class="stage-substage-stamp declassified">CLEAR</div>
+<div class="stage-substage-num">04.02</div>
+<h3 class="stage-substage-name">Smart NPCs</h3>
+<p class="stage-substage-body">Voice pipeline with TTS + emotion tags. Per-NPC Data Tables. Subtitle Widget with stack mode. Activity Anchors so NPCs migrate between content. Bump knockback. Power-aware barks.</p>
+<p class="stage-substage-detail">Mara has fifty-five voice lines, recorded with inline emotion tags through ElevenLabs and CF Flow. She greets, complains, reacts to power loss. Subtitles stack. NPCs walk between activity anchors. Real life inside the airlock.</p>
+</div></article>
+<article class="stage-substage reveal">
+<div class="stage-substage-image"><img src="screenshots/airlock_underworld_05.jpg" alt="" loading="lazy"></div>
+<div class="stage-substage-content">
+<div class="stage-substage-stamp declassified">CLEAR</div>
+<div class="stage-substage-num">04.03</div>
+<h3 class="stage-substage-name">Painted HUD</h3>
+<p class="stage-substage-body">Painted concept art direction landed in engine. Cream sumi-ink on near-black. Cormorant Garamond + Permanent Marker. Ink-wash backings. Module padlocks. Auto-flashlight that engages in the dark.</p>
+<p class="stage-substage-detail">Painted sumi-ink HUD landed in engine. Inventory, build menu, compass, notifications, skill XP popups, every panel rebuilt on the painted style. Module padlocks. Auto-flashlight that engages when night falls or the lights die.</p>
+</div></article>
+<article class="stage-substage reveal no-image">
+<div class="stage-substage-content">
+<div class="stage-substage-stamp declassified">CLEAR</div>
+<div class="stage-substage-num">04.04</div>
+<h3 class="stage-substage-name">Survival Stats</h3>
+<p class="stage-substage-body">Stamina, hunger (28 days to zero), thirst (48 hours to zero), stress, morale. The body keeps score. Manage them or fall.</p>
+<p class="stage-substage-detail">Ultra Dynamic Sky drives every timer. Hunger drains over twenty-eight in-game days. Thirst over forty-eight hours. Stress and morale react to the base around you. The body keeps score.</p>
+</div></article>
+<article class="stage-substage reveal">
+<div class="stage-substage-image"><img src="screenshots/airlock_world_06.jpg" alt="" loading="lazy"></div>
+<div class="stage-substage-content">
+<div class="stage-substage-stamp declassified">CLEAR</div>
+<div class="stage-substage-num">04.05</div>
+<h3 class="stage-substage-name">Day & Time Cycle</h3>
+<p class="stage-substage-body">Fully dynamic day-night. 45 real-world minutes = 1 in-game day. Ultra Dynamic Sky drives every time-aware system. Toxic night queued.</p>
+<p class="stage-substage-detail">Forty-five real minutes per in-game day. Sky shifts, lighting reacts, NPCs change schedule. Toxic night queued. Going to the surface after dark will not be optional, it will be a calculation.</p>
+</div></article>
+<article class="stage-substage reveal">
+<div class="stage-substage-image"><img src="screenshots/airlock_underworld_02.jpg" alt="" loading="lazy"></div>
+<div class="stage-substage-content">
+<div class="stage-substage-stamp declassified">CLEAR</div>
+<div class="stage-substage-num">04.06</div>
+<h3 class="stage-substage-name">Power & Electricity</h3>
+<p class="stage-substage-body">Generators with green/amber/red status LEDs. Multi-generator networks. 5-second overload trip. Powered lights and ambient emitters subscribe by ID. Auto-flashlight engages in the dark.</p>
+<p class="stage-substage-detail">Generators with green/amber/red status LEDs you can read across a room. Networks of generators. Five-second overload trips. Powered lights subscribe to a power source by ID. Pull the plug and the world reacts visually + audibly.</p>
+</div></article>
+<article class="stage-substage reveal no-image">
+<div class="stage-substage-content">
+<div class="stage-substage-stamp declassified">CLEAR</div>
+<div class="stage-substage-num">04.07</div>
+<h3 class="stage-substage-name">Dialogue & Voice</h3>
+<p class="stage-substage-body">Subtitle widget pushes painted-monochrome speech. Stack mode for overlapping voices. Italic-paren for non-speech (humming, sighs). Generators hum, NPCs talk, ambient emitters push their own subtitles.</p>
+<p class="stage-substage-detail">Subtitle widget supports stack mode, Mara talking, the radio crackling, the generator humming, all on screen at once without overwriting. Italic-paren convention for non-speech. Proximity-gated so the line only shows when you're near.</p>
+</div></article>
+<article class="stage-substage reveal">
+<div class="stage-substage-image"><img src="screenshots/airlock_world_03.jpg" alt="" loading="lazy"></div>
+<div class="stage-substage-content">
+<div class="stage-substage-stamp declassified">CLEAR</div>
+<div class="stage-substage-num">04.08</div>
+<h3 class="stage-substage-name">City & Foliage Tools</h3>
+<p class="stage-substage-body">Procedural city tool. City Block Breaker for hand-art-direction. Foliage Cascade marketplace-ready PCG node. PCG Foliage Baker. PCG_Include / PCG_Remove tags. Ashgate has its overgrowth.</p>
+<p class="stage-substage-detail">Custom PCG cascade node, designer drops a biome volume, the system spawns mature trees, then juveniles around them, then saplings around those, then ground cover. Tag-based include/exclude. Marketplace-ready.</p>
+</div></article>
+<article class="stage-substage reveal">
+<div class="stage-substage-image"><img src="screenshots/airlock_underworld_01.jpg" alt="" loading="lazy"></div>
+<div class="stage-substage-content">
+<div class="stage-substage-stamp declassified">CLEAR</div>
+<div class="stage-substage-num">04.09</div>
+<h3 class="stage-substage-name">Module Concepts</h3>
+<p class="stage-substage-body">Painted concepts for the demo modules. Cream sumi-ink, grounded post-apocalyptic modern. Operations Room, Workhouse, Bunkroom + reference paintings for the next batch.</p>
+<p class="stage-substage-detail">Painted hero concepts for every demo module. Operations Room, Workhouse, Bunkroom, the three locked + dressed in engine. Reference paintings for Kitchen, Greenhouse, Aquaculture, Power Room queued.</p>
+</div></article>
+<article class="stage-substage reveal">
+<div class="stage-substage-image"><img src="screenshots/airlock_underworld_04.jpg" alt="" loading="lazy"></div>
+<div class="stage-substage-content">
+<div class="stage-substage-stamp declassified">CLEAR</div>
+<div class="stage-substage-num">04.10</div>
+<h3 class="stage-substage-name">Module Build-Out</h3>
+<p class="stage-substage-body">Operations Room with the Planning Board, salvaged radio desk, lockers, fluorescent buzz, ivy creeping in. Workhouse, the multi-discipline crafting space. Bunkroom with the bunk migration mechanic.</p>
+<p class="stage-substage-detail">Operations Room: Planning Board, salvaged radio desk, lockers, fluorescent buzz, ivy through the cracks. Workhouse: multi-discipline crafting space. Bunkroom: where rescued Settlers sleep before they migrate to their specialist module.</p>
+</div></article>
+<article class="stage-substage reveal">
+<div class="stage-substage-image"><img src="screenshots/airlock_world_01.jpg" alt="" loading="lazy"></div>
+<div class="stage-substage-content">
+<div class="stage-substage-stamp in-progress">IN PROGRESS</div>
+<div class="stage-substage-num">04.11</div>
+<h3 class="stage-substage-name">City Build-Out</h3>
+<p class="stage-substage-body">Ashgate streets traced + dressed. Hospital where Kore wakes. Gas station for fuel. Builders merchant. Abandoned airlock entrance. Mission scripting layered on top, survivor encounters, the first rescue, the night escort.</p>
+<p class="stage-substage-detail">Ashgate streets traced with the new procedural city tool. Hospital where Kore wakes. Gas station for fuel. Builders merchant. The abandoned airlock entrance, a boarded-up cellar door, not a sci-fi blast hatch. Grounded.</p>
+</div></article>
+<article class="stage-substage reveal no-image">
+<div class="stage-substage-content">
+<div class="stage-substage-stamp classified">CLASSIFIED</div>
+<div class="stage-substage-num">04.12</div>
+<h3 class="stage-substage-name">Settlers Live</h3>
+<p class="stage-substage-body">14 Settler class Blueprints instantiated. Full ALS locomotion. Procedural names, traits, skill rolls. They walk into the airlock. They stand at their module. They react when Kore approaches.</p>
+<p class="stage-substage-detail">Procedural names. Procedural traits. Procedural skill rolls weighted by class. Fourteen Settler classes ready to instantiate. They walk in. They stand at their module. They greet Kore by name when he passes.</p>
+</div></article>
+<article class="stage-substage reveal no-image">
+<div class="stage-substage-content">
+<div class="stage-substage-stamp classified">CLASSIFIED</div>
+<div class="stage-substage-num">04.13</div>
+<h3 class="stage-substage-name">Module Unlocks</h3>
+<p class="stage-substage-body">Settlers unlock modules. No Engineer = no Tier 2+ upgrades. No Chemist = no explosives. Your rescue roster determines what your base can become. Rescue drives unlocks.</p>
+<p class="stage-substage-detail">Kingdom Tale-style gating. No Engineer in the airlock means no Tier 2+ upgrades. No Chemist means no explosives. The rescue loop directly determines what your base can become. Strategy from the very first choice.</p>
+</div></article>
+<article class="stage-substage reveal no-image">
+<div class="stage-substage-content">
+<div class="stage-substage-stamp classified">CLASSIFIED</div>
+<div class="stage-substage-num">04.14</div>
+<h3 class="stage-substage-name">Construction State</h3>
+<p class="stage-substage-body">Module upgrades stop being instant. Time passes. Scaffolding appears. If the upgrade digs deeper, ore nodes spawn, mine them before the timer ends. Settlers shove Kore out of the corridor during construction.</p>
+<p class="stage-substage-detail">Module upgrades stop being instant mesh swaps. A timer runs. Scaffolding visible. If the upgrade digs deeper, ore nodes spawn in the new cells, mine them before the timer ends or lose the haul. Settlers shove Kore back if he tries to walk in mid-build.</p>
+</div></article>
+<article class="stage-substage reveal">
+<div class="stage-substage-image"><img src="screenshots/airlock_world_02.jpg" alt="" loading="lazy"></div>
+<div class="stage-substage-content">
+<div class="stage-substage-stamp classified">CLASSIFIED</div>
+<div class="stage-substage-num">04.15</div>
+<h3 class="stage-substage-name">Demo Ready</h3>
+<p class="stage-substage-body">A 60+ minute guided experience. Wake up alone. Discover the airlock. Build your first rooms. Rescue your first Survivors. Survive the night. The hook that makes you need to know what happens next.</p>
+<p class="stage-substage-detail">Sixty-plus minutes of the game's bones. Wake alone in the hospital. Step into the silence. Meet Mara. Reach the airlock. Build your first rooms. Survive the night. End on the hook that makes the player need the next chapter.</p>
+</div></article>
+</section>
+
+<nav class="stage-nav">
+    <a class="stage-nav-pill prev" href="stage-architecture.html"><div class="stage-nav-meta">← STAGE 03 · PREV</div><div class="stage-nav-name">The Engine of Everything</div></a>
+    <a class="stage-nav-pill center" href="roadmap.html"><div class="stage-nav-meta">⌂ ROADMAP</div><div class="stage-nav-name">All Stages</div></a>
+    <a class="stage-nav-pill next" href="stage-funding.html"><div class="stage-nav-meta">→ STAGE 05 · NEXT</div><div class="stage-nav-name">The Public Reveal</div></a>
+</nav>
+
+<footer>
+    <div class="footer-grid">
+        <div class="footer-brand">
+            <img src="airlock_menulogo.png" alt="AIRLOCK">
+            <p>An Ironbridge Games title.<br>Built in the dark. Made for the surface.</p>
+        </div>
+        <div class="footer-col"><h5>The Game</h5><ul><li><a href="index.html">Home</a></li><li><a href="roadmap.html">Roadmap</a></li><li><a href="media.html">Media</a></li></ul></div>
+        <div class="footer-col"><h5>Channel</h5><ul><li><a href="diary.html">Dev Diary</a></li><li><a href="index.html#newsletter">Newsletter</a></li><li><a href="#">Discord</a></li></ul></div>
+        <div class="footer-col"><h5>Studio</h5><ul><li><a href="#">Ironbridge Games</a></li><li><a href="index.html#support">Support</a></li><li><a href="#">Press Kit</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">© 2026 Ironbridge Games Ltd · Company No. 16882669</div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav');
+function onScroll(){if(window.scrollY>80)nav.classList.add('scrolled');else nav.classList.remove('scrolled');}
+window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+const navToggle=document.getElementById('navToggle');
+const navLinks=document.getElementById('navLinks');
+if(navToggle)navToggle.addEventListener('click',()=>navLinks.classList.toggle('open'));
+const observer=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);}});},{threshold:0.12,rootMargin:'0px 0px -60px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+
+</body>
+</html>
