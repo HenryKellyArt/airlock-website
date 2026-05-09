@@ -49,9 +49,25 @@ const devDiaryVideos = [
         title: "Dev Diary #9 - Working UI",
         id: "jkKNAZXYc6Q"
     },
+    {
+        title: "Dev Diary #10 - Building the Demo City (Timelapse)",
+        id: "YflhAyiqj_0"
+    },
+    {
+        title: "Dev Diary #11 - Testing the Underground Vibe",
+        id: "dOVnz5Q4wxo"
+    },
+    {
+        title: "Dev Diary #12 - Power Overload Testing",
+        id: "cGtGIjze1Cw"
+    },
+    {
+        title: "Dev Diary #13 - Fighting The Altered (50+ Horde)",
+        id: "Uwpn6RpTn3U"
+    },
     // ── Add new entries below this line ──────────────────────────────────────
     // {
-    //     title: "Dev Diary #8 - Your Title Here",
+    //     title: "Dev Diary #14 - Your Title Here",
     //     id: "PASTE_VIDEO_ID_HERE"
     // },
 ];
