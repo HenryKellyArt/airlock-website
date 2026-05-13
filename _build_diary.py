@@ -377,7 +377,7 @@ HTML = f'''<!DOCTYPE html>
             <li><a href="media.html">Media</a></li>
             <li><a href="index.html#support">Support</a></li>
         </ul>
-        <a href="#" class="nav-cta">Wishlist</a>
+        <a href="https://store.steampowered.com/app/4652950/Airlock/?utm_source=officialsite" target="_blank" rel="noopener" class="nav-cta">Wishlist</a>
     </nav>
 
     <!-- PAGE HERO -->
