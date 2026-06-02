@@ -43,8 +43,9 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity
 /* Logo image only, never an "AIRLOCK" text wordmark (Henry 2026-06-02). */
 .brand-logo img { height: 40px; width: auto; display: block; }
 .nav-links { display: flex; gap: 26px; margin-left: 18px; list-style: none; }
-.nav-links a { font-size: 13px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--bone-dim); transition: color .15s; }
-.nav-links a:hover { color: var(--green-bright); }
+.nav-links a { position: relative; font-size: 13px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--bone-dim); transition: color .15s; padding-bottom: 4px; }
+.nav-links a:hover, .nav-links a.is-active { color: var(--green-bright); }
+.nav-links a.is-active::after { content: ''; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px; background: var(--green-bright); }
 .nav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; }
 .steam-btn { display: inline-flex; align-items: center; gap: 9px; background: var(--green-deep); color: var(--bone); border: 1px solid var(--green); padding: 11px 20px; font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; border-radius: 3px; transition: all .15s; }
 .steam-btn:hover { background: var(--green); color: #04210a; }
@@ -735,6 +736,26 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity
     var dt = document.getElementById("dhToggle"), ds = document.getElementById("dhSee");
     if (dt) dt.addEventListener("click", toggleDH);
     if (ds) ds.addEventListener("click", toggleDH);
+
+    // Scroll-spy: highlight the nav link for the on-page section in view.
+    // Only same-page (#) links are tracked; cross-page links (Dev Log, Media)
+    // never highlight, which is fine. Henry 2026-06-03.
+    var spyLinks = Array.prototype.slice.call(document.querySelectorAll('.nav-links a[href^="#"]'));
+    var spyMap = {}, spyTargets = [];
+    spyLinks.forEach(function (a) {
+        var el = document.getElementById(a.getAttribute("href").slice(1));
+        if (el) { spyMap[el.id] = a; spyTargets.push(el); }
+    });
+    if (spyTargets.length && "IntersectionObserver" in window) {
+        var spyObs = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) {
+                if (!e.isIntersecting) return;
+                spyLinks.forEach(function (a) { a.classList.remove("is-active"); });
+                if (spyMap[e.target.id]) spyMap[e.target.id].classList.add("is-active");
+            });
+        }, { rootMargin: "-45% 0px -50% 0px", threshold: 0 });
+        spyTargets.forEach(function (t) { spyObs.observe(t); });
+    }
 })();
 </script>
 
