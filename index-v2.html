@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIRLOCK · Every shelter tells a story</title>
+<meta name="description" content="AIRLOCK: a post-apocalyptic survival base-builder. Rescue survivors, build your shelter beneath the ruins, survive the night. By Ironbridge Games.">
+<meta property="og:title" content="AIRLOCK · Every shelter tells a story">
+<meta property="og:description" content="Rescue survivors. Build your shelter. Survive the night. A post-apocalyptic survival base-builder.">
+<meta property="og:image" content="city_bg_airlockF.jpg">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --black: #050505; --bg: #0A0A0A; --bg-2: #121512;
+    --bone: #ECE6D6; --bone-dim: rgba(236,230,214,0.72); --bone-faint: rgba(236,230,214,0.16);
+    --green: #9CAF88; --green-bright: #B7C7A3; --green-deep: #54603c;
+    --amber: #D4A046; --amber-bright: #E8B86C;
+    --locked: rgba(236,230,214,0.34);
+    --line: rgba(236,230,214,0.12);
+    --container: 1760px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--black); color: var(--bone); font-family: 'Inter', system-ui, sans-serif; font-size: 17px; line-height: 1.6; overflow-x: hidden; }
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+/* Full-width, fluid padding (Unreal-anchor style): content uses the whole
+   width with breathing room that scales with the viewport, so it always
+   sits right at any size. Henry 2026-06-02. */
+.container { width: 100%; max-width: var(--container); margin: 0 auto; padding: 0 clamp(28px, 5vw, 110px); }
+.display { font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px; }
+
+/* film grain */
+body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity:.05; mix-blend-mode:overlay; z-index:200;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+/* ===== NAV ===== */
+.nav { position: sticky; top: 0; z-index: 100; background: rgba(5,5,5,0.82); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+.nav-inner { display: flex; align-items: center; gap: 30px; height: 72px; }
+/* Logo image only, never an "AIRLOCK" text wordmark (Henry 2026-06-02). */
+.brand-logo img { height: 40px; width: auto; display: block; }
+.nav-links { display: flex; gap: 26px; margin-left: 18px; list-style: none; }
+.nav-links a { font-size: 13px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--bone-dim); transition: color .15s; }
+.nav-links a:hover { color: var(--green-bright); }
+.nav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; }
+.steam-btn { display: inline-flex; align-items: center; gap: 9px; background: var(--green-deep); color: var(--bone); border: 1px solid var(--green); padding: 11px 20px; font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; border-radius: 3px; transition: all .15s; }
+.steam-btn:hover { background: var(--green); color: #04210a; }
+.steam-btn svg { width: 18px; height: 18px; }
+.nav-soc { display: inline-flex; color: var(--bone-dim); transition: color .15s; }
+.nav-soc:hover { color: var(--green-bright); }
+.nav-soc svg { width: 21px; height: 21px; }
+
+/* ===== HERO ===== */
+.hero { position: relative; min-height: 94vh; overflow: hidden; }
+.hero-bg { position: absolute; inset: 0; z-index: 0; }
+.hero-bg img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.hero-bg::after { content:''; position:absolute; inset:0; background:
+    radial-gradient(ellipse 75% 65% at 50% 42%, transparent 30%, rgba(5,5,5,0.5) 100%),
+    linear-gradient(0deg, var(--black) 4%, transparent 42%),
+    linear-gradient(90deg, rgba(5,5,5,0.72) 0%, transparent 40%); }
+/* Big AIRLOCK logo across the TOP; Kore's head pokes through the I-R gap
+   (Steam-capsule key-art style). Henry 2026-06-02. */
+.hero-logo-top { position: absolute; top: clamp(84px, 11vh, 150px); left: 50%; transform: translateX(-50%); width: min(900px, 62vw); z-index: 1; pointer-events: none; filter: drop-shadow(0 8px 34px rgba(0,0,0,.78)); }
+/* Kore centered + Marv right beside him, standing from the bottom so Kore's
+   head reaches up into the logo. */
+.hero-chars { position: absolute; left: 50%; bottom: 0; transform: translateX(-68%); height: 86%; z-index: 2; display: flex; align-items: flex-end; justify-content: center; pointer-events: none; }
+.hero-chars img { width: auto; filter: drop-shadow(0 16px 44px rgba(0,0,0,.7)); }
+.hero-kore { height: 100%; }
+.hero-marv { height: 50%; align-self: flex-end; margin-left: 1%; }
+/* Tagline + CTAs on the LEFT. */
+.hero-copy { position: absolute; left: clamp(28px, 5vw, 110px); top: 50%; transform: translateY(-46%); z-index: 3; max-width: 480px; }
+.hero-copy .eyebrow { font-family: 'Bebas Neue', sans-serif; font-size: clamp(14px, 1.5vw, 19px); letter-spacing: 3px; text-transform: uppercase; color: var(--green-bright); margin-bottom: 12px; text-shadow: 0 2px 12px rgba(0,0,0,.8); }
+.hero-copy h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(34px, 4.4vw, 58px); line-height: .92; letter-spacing: 1px; color: var(--bone); text-shadow: 0 4px 26px rgba(0,0,0,.9); }
+.hero-copy .desc { font-size: 15px; color: var(--bone-dim); line-height: 1.6; margin: 16px 0 4px; max-width: 440px; text-shadow: 0 2px 10px rgba(0,0,0,.7); }
+.hero-copy .sub { font-family: 'Bebas Neue', sans-serif; font-size: clamp(18px, 2vw, 26px); letter-spacing: 1.5px; color: var(--green-bright); margin: 14px 0 26px; text-shadow: 0 2px 14px rgba(0,0,0,.85); }
+.hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+.hero-copy .meta { display: flex; gap: 8px 18px; flex-wrap: wrap; margin-top: 22px; font-size: 11.5px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--bone-faint); }
+@media (max-width: 1100px) { .hero-logo-top { width: 74vw; } .hero-marv { height: 32%; } }
+@media (max-width: 760px) { .hero-chars { opacity: .22; } .hero-copy { max-width: 78%; } }
+.btn-ghost { display: inline-flex; align-items: center; gap: 10px; padding: 13px 24px; border: 1px solid var(--bone-faint); color: var(--bone); font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; border-radius: 3px; background: rgba(0,0,0,.35); cursor: pointer; transition: all .15s; font-family: inherit; }
+.btn-ghost:hover { border-color: var(--green); color: var(--green-bright); }
+.btn-ghost svg { width: 16px; height: 16px; }
+
+/* ===== PILLAR BAR (Explore / Rescue / Build / Survive) ===== */
+.section { padding: 80px 0; }
+/* Pillar bar OVERLAID over the bottom of the hero (over Kore + Marv),
+   translucent dark band. Henry 2026-06-02. */
+.hero-pillars { position: absolute; left: 50%; transform: translateX(-50%); bottom: clamp(22px, 4vh, 52px); z-index: 4; width: calc(100% - 36px); padding: 34px clamp(28px, 3vw, 56px); border-radius: 16px; background: rgba(10, 13, 10, 0.5); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); border: 1px solid rgba(236,230,214,0.14); box-shadow: 0 24px 70px rgba(0,0,0,0.55); }
+.pbar-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+.pbar { display: flex; flex-direction: column; gap: 10px; padding: 2px clamp(22px, 2.4vw, 44px); }
+.pbar:first-child { padding-left: 0; }
+.pbar:last-child { padding-right: 0; }
+.pbar:not(:last-child) { border-right: 1px solid rgba(236,230,214,0.16); }
+.pbar svg { width: 34px; height: 34px; color: var(--green); stroke-width: 1.4; }
+.pbar h3 { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 2px; color: var(--green-bright); }
+.pbar p { font-size: 13px; color: var(--bone-dim); line-height: 1.55; }
+@media (max-width: 900px) { .hero-pillars { left: 0; transform: none; bottom: 0; width: 100%; border-radius: 0; padding: 16px 20px; } .pbar-grid { grid-template-columns: 1fr 1fr; gap: 20px; } }
+.cards { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
+.card { position: relative; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; background: var(--bg-2); }
+.card-media { aspect-ratio: 4/3; overflow: hidden; background: #000; }
+.card-media img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s, filter .5s; filter: brightness(.82) saturate(.9); }
+.card:hover .card-media img { transform: scale(1.06); filter: brightness(1) saturate(1); }
+.card-body { padding: 16px 18px 20px; }
+.card-body h3 { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 1.5px; color: var(--bone); }
+.card-body p { font-size: 14px; color: var(--bone-dim); margin-top: 4px; line-height: 1.5; }
+
+/* ===== YOUR STORY ===== */
+.story { background: linear-gradient(180deg, var(--bg-2), var(--bg)); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.story-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 40px; align-items: center; }
+.story h2 { font-family: 'Bebas Neue', sans-serif; font-size: 36px; letter-spacing: 1.5px; }
+.story p { font-size: 15px; color: var(--bone-dim); margin-top: 8px; max-width: 340px; }
+.pillars { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.pillar { text-align: center; }
+.pillar svg { width: 46px; height: 46px; color: var(--green); stroke-width: 1.3; }
+.pillar div { font-family: 'Bebas Neue', sans-serif; font-size: 17px; letter-spacing: 1.5px; margin-top: 10px; color: var(--bone); }
+
+/* ===== DOLLHOUSE ===== */
+.dh { display: grid; grid-template-columns: 0.8fr 1.4fr; gap: 36px; align-items: center; border: 1px solid var(--line); border-radius: 6px; padding: 36px; background: linear-gradient(135deg, rgba(63,106,52,0.10), rgba(5,5,5,0.4)); }
+.dh h2 { font-family: 'Bebas Neue', sans-serif; font-size: 40px; letter-spacing: 1.5px; }
+.dh p { font-size: 16px; color: var(--bone-dim); margin: 14px 0 24px; line-height: 1.7; }
+.dh-views { position: relative; }
+.dh-views img { width: 100%; border-radius: 4px; border: 1px solid var(--line); aspect-ratio: 16/9; object-fit: cover; }
+.dh-views .live { display: none; }
+.dh-views.show-live .above { display: none; }
+.dh-views.show-live .live { display: block; }
+.dh-toggle { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 56px; height: 56px; border-radius: 50%; background: var(--green-deep); border: 1px solid var(--green); color: var(--bone); display: grid; place-items: center; cursor: pointer; z-index: 2; transition: all .15s; }
+.dh-toggle:hover { background: var(--green); color: #04210a; }
+.dh-toggle svg { width: 22px; height: 22px; }
+
+/* ===== ROADMAP (Where We Are - dossier timeline) ===== */
+.roadmap { background: linear-gradient(180deg, var(--bg), var(--bg-2)); border-top: 1px solid var(--line); }
+.rm-head { display: grid; grid-template-columns: 1fr auto; gap: 30px; align-items: start; margin-bottom: 46px; }
+.rm-eyebrow { font-family: 'Bebas Neue', sans-serif; font-size: clamp(13px,1.4vw,17px); letter-spacing: 5px; text-transform: uppercase; color: var(--green-bright); margin-bottom: 8px; }
+.rm-h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(46px,7vw,104px); line-height: .88; letter-spacing: 2px; color: var(--bone); }
+.rm-sub { color: var(--bone-dim); font-size: 15px; margin-top: 16px; max-width: 420px; }
+/* Dossier status panel (top-right) */
+.dossier { width: min(440px, 42vw); border: 1px solid var(--amber); border-radius: 4px; background: rgba(20,18,10,0.6); padding: 20px 22px; }
+.dossier-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid rgba(212,160,70,0.3); padding-bottom: 12px; margin-bottom: 16px; }
+.dossier-top .lhs { display: flex; align-items: center; gap: 10px; font-family: 'Bebas Neue', sans-serif; letter-spacing: 2px; font-size: 14px; color: var(--amber-bright); }
+.dossier-top svg { width: 18px; height: 18px; color: var(--amber); flex-shrink: 0; }
+.dossier-code { font-size: 11px; letter-spacing: 2px; color: var(--bone-faint); white-space: nowrap; }
+.dossier-row { margin-bottom: 14px; }
+.dossier-label { font-size: 10.5px; letter-spacing: 2px; text-transform: uppercase; color: var(--bone-faint); margin-bottom: 4px; }
+.dossier-val { font-family: 'Bebas Neue', sans-serif; letter-spacing: 1.5px; font-size: 20px; color: var(--amber-bright); }
+.dossier-val.ok { color: var(--green-bright); }
+.dossier-foot { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-top: 1px solid rgba(212,160,70,0.3); padding-top: 14px; margin-top: 2px; }
+.dossier-foot .dossier-label { margin: 0; }
+.dossier-foot .date { font-size: 12px; letter-spacing: 1.5px; color: var(--bone-dim); white-space: nowrap; }
+/* Horizontal track + stage cards */
+.rm-track { position: relative; }
+.rm-track::before { content:''; position: absolute; top: 22px; left: 6%; right: 6%; height: 2px; z-index: 0;
+    background: linear-gradient(90deg, var(--green) 0%, var(--green) 32%, var(--line) 40%, var(--line) 100%); }
+.rm-cards { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(7, 1fr); gap: 14px; align-items: stretch; }
+.rm-card { display: flex; flex-direction: column; }
+.rm-node { width: 16px; height: 16px; border-radius: 50%; margin: 14px auto 18px; background: var(--bg); border: 2px solid var(--green); display: grid; place-items: center; }
+.rm-card.locked .rm-node { border-color: var(--locked); }
+.rm-card.locked .rm-node svg { width: 8px; height: 8px; color: var(--locked); }
+.rm-card.current .rm-node { border-color: var(--amber); background: var(--amber); box-shadow: 0 0 0 4px rgba(212,160,70,0.16); }
+.rm-box { flex: 1; border: 1px solid var(--line); border-radius: 5px; background: rgba(10,12,10,0.5); padding: 18px 16px 16px; display: flex; flex-direction: column; gap: 9px; }
+.rm-card.locked .rm-box { opacity: .72; }
+.rm-card.current .rm-box { border-color: var(--amber); background: rgba(30,24,10,0.55); box-shadow: 0 16px 50px rgba(0,0,0,.5); }
+.rm-cnum { font-family: 'Bebas Neue', sans-serif; font-size: 34px; line-height: 1; letter-spacing: 1px; color: var(--green-bright); }
+.rm-card.locked .rm-cnum { color: var(--locked); }
+.rm-card.current .rm-cnum { color: var(--amber-bright); }
+.rm-cname { font-family: 'Bebas Neue', sans-serif; font-size: 16px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--bone); }
+.rm-ico { width: 28px; height: 28px; color: var(--green); stroke-width: 1.4; margin: 2px 0; }
+.rm-card.locked .rm-ico { color: var(--locked); }
+.rm-card.current .rm-ico { color: var(--amber-bright); }
+.rm-cdesc { font-size: 12.5px; color: var(--bone-dim); line-height: 1.5; }
+.rm-bullets { list-style: none; display: flex; flex-direction: column; gap: 5px; margin: 2px 0; }
+.rm-bullets li { font-size: 12px; color: var(--bone-dim); padding-left: 16px; position: relative; line-height: 1.35; }
+.rm-bullets li::before { content: '\203A'; position: absolute; left: 2px; color: var(--green-bright); font-weight: 700; }
+.rm-pill { margin-top: auto; align-self: flex-start; font-family: 'Bebas Neue', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; padding: 6px 12px; border-radius: 3px; border: 1px solid var(--green); color: var(--green-bright); }
+.rm-card.current .rm-pill { background: var(--amber); border-color: var(--amber); color: #1a1205; width: 100%; text-align: center; }
+.rm-card.locked .rm-pill { border-color: var(--locked); color: var(--locked); }
+/* Build-in-the-open band */
+.rm-open { display: grid; grid-template-columns: 210px 1fr auto; gap: 28px; align-items: center; margin-top: 44px; padding: 22px; border: 1px solid var(--line); border-radius: 6px; background: rgba(10,12,10,0.4); }
+.rm-open-thumb { width: 100%; aspect-ratio: 16/10; object-fit: cover; border-radius: 4px; border: 1px solid var(--line); }
+.rm-open-h { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 1.5px; color: var(--green-bright); display: flex; align-items: center; gap: 10px; }
+.rm-open-h svg { width: 22px; height: 22px; color: var(--green); flex-shrink: 0; }
+.rm-open-body p { font-size: 14px; color: var(--bone-dim); margin-top: 6px; max-width: 640px; line-height: 1.6; }
+.rm-dossier-link { display: flex; align-items: center; gap: 14px; border: 1px solid var(--amber); border-radius: 5px; padding: 16px 20px; transition: all .15s; max-width: 340px; }
+.rm-dossier-link:hover { background: rgba(212,160,70,0.1); }
+.rm-dossier-link svg { width: 30px; height: 30px; color: var(--amber-bright); flex-shrink: 0; }
+.rm-dossier-link b { font-family: 'Bebas Neue', sans-serif; font-size: 16px; letter-spacing: 1.5px; color: var(--amber-bright); display: block; }
+.rm-dossier-link span { font-size: 12.5px; color: var(--bone-dim); line-height: 1.4; }
+@media (max-width: 1200px) { .rm-cards { grid-template-columns: repeat(4, 1fr); } .rm-track::before { display: none; } }
+@media (max-width: 1000px) { .rm-head { grid-template-columns: 1fr; } .dossier { width: 100%; } .rm-open { grid-template-columns: 1fr; } }
+@media (max-width: 720px) { .rm-cards { grid-template-columns: repeat(2, 1fr); } }
+
+/* ===== DEV BAND ===== */
+.devband { position: relative; padding: 60px 0; border-top: 1px solid var(--line); overflow: hidden; }
+.devband-bg { position: absolute; inset: 0; z-index: 0; }
+.devband-bg img { width: 100%; height: 100%; object-fit: cover; opacity: .25; }
+.devband-bg::after { content:''; position:absolute; inset:0; background: linear-gradient(180deg, var(--black), rgba(5,5,5,.7)); }
+.devband-inner { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 30px; flex-wrap: wrap; }
+.devband h2 { font-family: 'Bebas Neue', sans-serif; font-size: 30px; letter-spacing: 1.5px; }
+.devband p { color: var(--bone-dim); font-size: 15px; margin-top: 4px; }
+.socials { display: flex; gap: 16px; align-items: center; margin-top: 14px; }
+.socials a { color: var(--bone-dim); transition: color .15s; }
+.socials a:hover { color: var(--green-bright); }
+.socials svg { width: 22px; height: 22px; }
+
+/* shared section heading helpers */
+.sec-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(30px, 4vw, 50px); letter-spacing: 1.5px; color: var(--bone); }
+.sec-sub { color: var(--bone-dim); font-size: 15px; margin: 8px 0 0; max-width: 660px; }
+
+/* ===== CHAPTERS (cinematic lore) ===== */
+.chapters { position: relative; }
+.chapter { position: relative; min-height: 82vh; display: flex; align-items: center; overflow: hidden; border-top: 1px solid var(--line); }
+.chapter-bg { position: absolute; inset: 0; z-index: 0; }
+.chapter-bg img { width: 100%; height: 100%; object-fit: cover; filter: brightness(.55) saturate(.95); }
+.chapter-bg::after { content:''; position:absolute; inset:0;
+    background: radial-gradient(ellipse 80% 70% at 50% 50%, transparent 18%, rgba(5,5,5,.72) 100%), linear-gradient(90deg, rgba(5,5,5,.86) 0%, transparent 56%); }
+.chapter.right .chapter-bg::after { background: radial-gradient(ellipse 80% 70% at 50% 50%, transparent 18%, rgba(5,5,5,.72) 100%), linear-gradient(270deg, rgba(5,5,5,.86) 0%, transparent 56%); }
+.chapter .container { position: relative; z-index: 2; }
+.chapter-inner { max-width: 620px; }
+.chapter.right .chapter-inner { margin-left: auto; text-align: right; }
+.chapter-meta { font-family:'Bebas Neue',sans-serif; font-size: 14px; letter-spacing: 4px; text-transform: uppercase; color: var(--green-bright); margin-bottom: 14px; }
+.chapter-meta span { color: var(--bone-faint); }
+.chapter-title { font-family:'Bebas Neue',sans-serif; font-size: clamp(40px, 6vw, 84px); line-height: .9; letter-spacing: 1px; color: var(--bone); text-shadow: 0 6px 30px rgba(0,0,0,.7); }
+.chapter-body { font-family:'Crimson Pro', Georgia, serif; font-style: italic; font-size: clamp(17px,1.5vw,21px); color: var(--bone); line-height: 1.55; margin-top: 20px; text-shadow: 0 2px 14px rgba(0,0,0,.85); }
+@media (max-width: 760px) { .chapter { min-height: 66vh; } .chapter.right .chapter-inner { text-align: left; } }
+
+/* ===== DEV LOG TEASER ===== */
+.devlog { background: linear-gradient(180deg, var(--bg-2), var(--bg)); border-top: 1px solid var(--line); }
+.devlog-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-bottom: 32px; }
+.devlog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.log-card { display: block; border: 1px solid var(--line); border-left: 2px solid var(--green); border-radius: 4px; background: rgba(10,12,10,.5); padding: 22px; transition: all .15s; }
+.log-card:hover { border-left-color: var(--green-bright); background: rgba(10,12,10,.82); transform: translateY(-3px); }
+.log-date { font-size: 11.5px; letter-spacing: 2px; text-transform: uppercase; color: var(--green-bright); margin-bottom: 10px; }
+.log-card h3 { font-family:'Bebas Neue',sans-serif; font-size: 22px; letter-spacing: 1px; color: var(--bone); line-height: 1.1; }
+.log-card p { font-size: 13.5px; color: var(--bone-dim); margin-top: 8px; line-height: 1.55; }
+@media (max-width: 900px) { .devlog-grid { grid-template-columns: 1fr; } }
+
+/* ===== NEWSLETTER / FOLLOW ===== */
+.newsletter { text-align: center; border-top: 1px solid var(--line); }
+.newsletter h2 { font-family:'Bebas Neue',sans-serif; font-size: clamp(32px,5vw,56px); letter-spacing: 1.5px; color: var(--bone); }
+.newsletter p { color: var(--bone-dim); font-size: 15px; max-width: 560px; margin: 12px auto 30px; line-height: 1.6; }
+.nl-ctas { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--line); padding: 56px 0 28px; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+.footer-brand img { height: 44px; margin-bottom: 14px; }
+.footer-brand p { color: var(--bone-dim); font-size: 14px; line-height: 1.6; max-width: 320px; }
+.footer-col h5 { font-family:'Bebas Neue',sans-serif; font-size: 15px; letter-spacing: 2px; text-transform: uppercase; color: var(--green-bright); margin-bottom: 14px; }
+.footer-col ul { list-style: none; }
+.footer-col li { margin-bottom: 8px; }
+.footer-col a { color: var(--bone-dim); font-size: 14px; transition: color .15s; }
+.footer-col a:hover { color: var(--bone); }
+.footer-bottom { text-align: center; border-top: 1px solid var(--line); padding-top: 24px; font-size: 12.5px; color: var(--bone-faint); letter-spacing: .5px; }
+.footer-bottom a { color: var(--bone-dim); margin: 0 8px; }
+@media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .footer-grid { grid-template-columns: 1fr; } }
+
+@media (max-width: 1200px) { .cards { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 1000px) {
+    .story-grid { grid-template-columns: 1fr; }
+    .dh { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+}
+@media (max-width: 640px) { .cards { grid-template-columns: repeat(2, 1fr); } .pillars { grid-template-columns: 1fr 1fr; gap: 24px; } }
+
+/* trailer lightbox */
+#trailerModal { display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,.92); align-items:center; justify-content:center; padding:24px; }
+#trailerModal .box { position:relative; width:100%; max-width:1100px; aspect-ratio:16/9; }
+#trailerModal iframe { width:100%; height:100%; border:0; border-radius:6px; }
+#trailerClose { position:absolute; top:-44px; right:0; background:none; border:0; color:#fff; font-size:32px; cursor:pointer; }
+</style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav class="nav">
+    <div class="container nav-inner">
+        <a class="brand-logo" href="index.html"><img src="airlock_menulogo.png" alt="AIRLOCK"></a>
+        <ul class="nav-links">
+            <li><a href="#game">The Game</a></li>
+            <li><a href="#chapters">Chapters</a></li>
+            <li><a href="#roadmap">Roadmap</a></li>
+            <li><a href="diary.html">Dev Log</a></li>
+            <li><a href="media.html">Media</a></li>
+            <li><a href="#story">About</a></li>
+        </ul>
+        <div class="nav-right">
+            <!-- SWAP hrefs: Discord = your Ironbridge invite; YouTube = your main channel -->
+            <a class="nav-soc" href="https://discord.gg/VpwRvjsd2Y" target="_blank" rel="noopener" title="Discord"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.3 4.4A19.8 19.8 0 0015.4 3l-.2.5c1.6.4 2.9 1 4.2 1.8a13.5 13.5 0 00-11 0c1.3-.8 2.6-1.4 4.2-1.8L12.6 3a19.8 19.8 0 00-4.9 1.4C4.6 9 3.8 13.5 4.2 18a20 20 0 006 3l.8-1.2c-.8-.3-1.5-.7-2.2-1.2l.5-.4a14.3 14.3 0 0013.4 0l.5.4c-.7.5-1.4.9-2.2 1.2l.8 1.2a20 20 0 006-3c.5-5.2-.8-9.6-3.8-13.6zM9.7 15.3c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2zm4.6 0c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2z"/></svg></a>
+            <a class="nav-soc" href="https://www.youtube.com/playlist?list=PLhoasRCxOlRP3OM8u7_KstvISsC55Sjyj" target="_blank" rel="noopener" title="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.5a3 3 0 00-2.1-2.1C19 5 12 5 12 5s-7 0-8.9.4A3 3 0 001 7.5 31 31 0 001 12a31 31 0 00.1 4.5 3 3 0 002.1 2.1C5 19 12 19 12 19s7 0 8.9-.4a3 3 0 002.1-2.1A31 31 0 0023 12a31 31 0 00-.1-4.5zM10 15V9l5 3z"/></svg></a>
+            <a class="steam-btn" href="https://store.steampowered.com/app/4652950/Airlock/?utm_source=officialsite" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-9.9 8.6l5.3 2.2a2.8 2.8 0 011.6-.5l2.4-3.4v-.1a3.8 3.8 0 113.8 3.8h-.1l-3.4 2.4a2.8 2.8 0 01-5.5.8L2.3 14A10 10 0 1012 2zm-3.4 14.6l-1.2-.5a2.1 2.1 0 003.9-1.1 2.1 2.1 0 00-2.9-1.9l1.2.5a1.5 1.5 0 11-1 2.5zm8-7.2a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"/></svg>
+                Wishlist on Steam
+            </a>
+        </div>
+    </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<header class="hero" id="game">
+    <div class="hero-bg"><img src="Airlock_Environment_Background.jpg" alt=""></div>
+    <div class="hero-chars">
+        <img class="hero-kore" src="AIR_Kore_FacingAway.png" alt="">
+        <img class="hero-marv" src="AIR_Marv_FacingAway.png" alt="">
+    </div>
+    <img class="hero-logo-top" src="airlock_menulogo.png" alt="AIRLOCK">
+    <div class="hero-copy">
+        <div class="eyebrow">300 years after the world fell silent.</div>
+        <h1>Build your shelter.<br>Rescue who's left.<br>Survive the night.</h1>
+        <p class="desc">Airlock is a single-player survival base-builder. Every choice shapes your bunker, your survivors, and the story they leave behind.</p>
+        <div class="sub">Every shelter tells a story. What will yours become?</div>
+        <div class="hero-btns">
+            <a class="steam-btn" href="https://store.steampowered.com/app/4652950/Airlock/?utm_source=officialsite" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-9.9 8.6l5.3 2.2a2.8 2.8 0 011.6-.5l2.4-3.4v-.1a3.8 3.8 0 113.8 3.8h-.1l-3.4 2.4a2.8 2.8 0 01-5.5.8L2.3 14A10 10 0 1012 2zm-3.4 14.6l-1.2-.5a2.1 2.1 0 003.9-1.1 2.1 2.1 0 00-2.9-1.9l1.2.5a1.5 1.5 0 11-1 2.5zm8-7.2a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"/></svg>
+                Wishlist on Steam
+            </a>
+            <button type="button" class="btn-ghost" id="trailerBtn">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                Watch Trailer
+            </button>
+        </div>
+        <div class="meta">Solo game · PC · Single player · Offline</div>
+    </div>
+    <!-- Pillar bar overlaid on the hero bottom (over Kore + Marv). -->
+    <div class="hero-pillars">
+        <div class="pbar-grid">
+        <div class="pbar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polygon points="16 8 13 13 8 16 11 11 16 8" fill="currentColor" stroke="none"/></svg>
+            <h3>Explore</h3>
+            <p>Head out across an overgrown world reclaimed by nature. Scavenge the ruins for supplies, piece together what happened, and weigh every risk. Daylight keeps you safe, but it never lasts.</p>
+        </div>
+        <div class="pbar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0112 0"/><circle cx="17" cy="9" r="2.2"/><path d="M15 20a5 5 0 016-4"/></svg>
+            <h3>Rescue</h3>
+            <p>Survivors are scattered and scared. Track them down, earn their trust, and bring them home. Each one arrives with their own skills, history, and reasons to stay.</p>
+        </div>
+        <div class="pbar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 7l3 3"/><path d="M5 21l9-9"/><path d="M13 6l5 5 3-3-5-5z"/></svg>
+            <h3>Build</h3>
+            <p>Dig in and design your shelter room by room, planned from above like a dollhouse. Power, water, food, defences and morale all hang on how well you build and expand.</p>
+        </div>
+        <div class="pbar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg>
+            <h3>Survive</h3>
+            <p>When the sun goes down, the Altered come. Hold the line, ration what little you have, and make the hard calls. Every night you survive is another story your shelter carries.</p>
+        </div>
+        </div>
+    </div>
+</header>
+
+<!-- ===== PILLAR CARDS ===== -->
+<section class="section">
+    <div class="container cards">
+        <!-- GIF cards animate on their own. Swap any src for a better shot. -->
+        <article class="card">
+            <div class="card-media"><img src="airlock_screenshot_01.jpg" alt="Rescue survivors"></div>
+            <div class="card-body"><h3>Rescue Survivors</h3><p>They're out there. Find them. Bring them home.</p></div>
+        </article>
+        <article class="card">
+            <div class="card-media"><img src="Airlock_UnderWorld_DollhouseView.jpeg" alt="Build your shelter"></div>
+            <div class="card-body"><h3>Build Your Shelter</h3><p>Create a safe place beneath the ruins.</p></div>
+        </article>
+        <article class="card">
+            <div class="card-media"><img src="airlock_screenshot_02.jpg" alt="Care for your people"></div>
+            <div class="card-body"><h3>Care For Your People</h3><p>Keep them fed. Keep them hopeful.</p></div>
+        </article>
+        <article class="card">
+            <div class="card-media"><img src="airlock_screenshot_04.jpg" alt="Survive the night"></div>
+            <div class="card-body"><h3>Survive The Night</h3><p>The Altered come out when the sun goes down.</p></div>
+        </article>
+        <article class="card">
+            <div class="card-media"><img src="airlock_screenshot_05.jpg" alt="Power"></div>
+            <div class="card-body"><h3>Keep The Power On</h3><p>Wire up generators and salvage fuel. Lose power and the lights, doors and pumps die with it.</p></div>
+        </article>
+        <article class="card">
+            <!-- SWAP: a water / plumbing shot if you have one -->
+            <div class="card-media"><img src="airlock_screenshot_03.jpg" alt="Water"></div>
+            <div class="card-body"><h3>Find Clean Water</h3><p>Pump, filter and ration clean water. Thirst kills as quietly as the Altered.</p></div>
+        </article>
+    </div>
+</section>
+
+<!-- ===== YOUR STORY ===== -->
+<section class="section story" id="story">
+    <div class="container story-grid">
+        <div>
+            <h2>Your Story</h2>
+            <p>Every decision you make shapes the future of your shelter and the people in it.</p>
+        </div>
+        <div class="pillars">
+            <div class="pillar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>
+                <div>Your Shelter</div>
+            </div>
+            <div class="pillar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="3"/><path d="M4 21a8 8 0 0116 0"/></svg>
+                <div>Your Survivors</div>
+            </div>
+            <div class="pillar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v6a6 6 0 006 6 6 6 0 006-6V3"/><path d="M12 15v6"/><path d="M8 21h8"/></svg>
+                <div>Your Choices</div>
+            </div>
+            <div class="pillar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V7z"/></svg>
+                <div>Your Legacy</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== DOLLHOUSE TO LIFE ===== -->
+<section class="section">
+    <div class="container">
+        <div class="dh">
+            <div>
+                <h2>Dollhouse to Life</h2>
+                <p>Design from above.<br>Live below.<br>One seamless experience.</p>
+                <button type="button" class="btn-ghost" id="dhSee">See it in action <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+            </div>
+            <div class="dh-views" id="dhViews">
+                <img class="above" src="Airlock_UnderWorld_DollhouseView.jpeg" alt="Dollhouse cutaway view">
+                <!-- SWAP: best 'living below' first-person/interior shot -->
+                <img class="live" src="Airlock_ExploreYourBase.gif" alt="Living inside the shelter">
+                <button type="button" class="dh-toggle" id="dhToggle" title="Toggle view" aria-label="Toggle between dollhouse and live view">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-4 4 4 4"/><path d="M16 7l4 4-4 4"/><path d="M4 11h16"/></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CHAPTERS (cinematic lore) ===== -->
+<div class="chapters" id="chapters">
+    <section class="chapter">
+        <div class="chapter-bg"><img src="screenshots/airlock_world_02.jpg" alt=""></div>
+        <div class="container"><div class="chapter-inner">
+            <div class="chapter-meta">Chapter 01 <span>·</span> The World</div>
+            <h2 class="chapter-title">The Last Place<br>Standing</h2>
+            <p class="chapter-body">300 years after the Sonic War, the surface is silent. The Altered hunt by night. The Settlers hide by day. You wake up alone in a concrete room with a word scratched on the wall: KORE. You don't remember why.</p>
+        </div></div>
+    </section>
+    <section class="chapter right">
+        <div class="chapter-bg"><img src="screenshots/airlock_world_03.jpg" alt=""></div>
+        <div class="container"><div class="chapter-inner">
+            <div class="chapter-meta">Chapter 02 <span>·</span> The Rescue</div>
+            <h2 class="chapter-title">Track<br>The Signal</h2>
+            <p class="chapter-body">Survivors broadcast for help across Ashgate. Race them to the surface before nightfall. Bring them home. Watch them become Settlers. Every rescue grows the family.</p>
+        </div></div>
+    </section>
+    <section class="chapter">
+        <div class="chapter-bg"><img src="screenshots/airlock_underworld_04.jpg" alt=""></div>
+        <div class="container"><div class="chapter-inner">
+            <div class="chapter-meta">Chapter 03 <span>·</span> The Night</div>
+            <h2 class="chapter-title">Hold<br>The Line</h2>
+            <p class="chapter-body">When the lights flicker, you'll know. Power the generator. Lock the doors. Trust your Settlers. The night doesn't last forever, but morning comes at a cost.</p>
+        </div></div>
+    </section>
+</div>
+
+<!-- ===== ROADMAP (Where We Are) ===== -->
+<section class="section roadmap" id="roadmap">
+    <div class="container">
+        <div class="rm-head">
+            <div>
+                <div class="rm-eyebrow">Development Roadmap</div>
+                <h2 class="rm-h2">Where We Are</h2>
+                <p class="rm-sub">The Airlock is being built in the open. Follow the signal. Track our progress.</p>
+            </div>
+            <!-- Classified development dossier (live status panel) -->
+            <aside class="dossier">
+                <div class="dossier-top">
+                    <span class="lhs">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 16H3z"/><path d="M12 10v4"/><circle cx="12" cy="17" r=".6" fill="currentColor" stroke="none"/></svg>
+                        Classified Development Dossier
+                    </span>
+                    <span class="dossier-code">A-19</span>
+                </div>
+                <div class="dossier-row">
+                    <div class="dossier-label">Current Phase</div>
+                    <div class="dossier-val">03 / The Airlock Opens</div>
+                </div>
+                <div class="dossier-row">
+                    <div class="dossier-label">Status</div>
+                    <div class="dossier-val ok">In Progress</div>
+                </div>
+                <div class="dossier-foot">
+                    <div class="dossier-label">Last Update</div>
+                    <div class="date">Jun 3 2026</div>
+                </div>
+            </aside>
+        </div>
+
+        <!-- Horizontal stage timeline -->
+        <div class="rm-track">
+            <div class="rm-cards">
+                <!-- 01 -->
+                <div class="rm-card">
+                    <div class="rm-node"></div>
+                    <div class="rm-box">
+                        <div class="rm-cnum">01</div>
+                        <svg class="rm-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12a7 7 0 0114 0"/><path d="M8.5 12a3.5 3.5 0 017 0"/><circle cx="12" cy="12" r="1.1" fill="currentColor" stroke="none"/><path d="M4 4l16 16"/></svg>
+                        <div class="rm-cname">Contact Lost</div>
+                        <p class="rm-cdesc">Concept proven. The idea that worked.</p>
+                        <span class="rm-pill">Complete</span>
+                    </div>
+                </div>
+                <!-- 02 -->
+                <div class="rm-card">
+                    <div class="rm-node"></div>
+                    <div class="rm-box">
+                        <div class="rm-cnum">02</div>
+                        <svg class="rm-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>
+                        <div class="rm-cname">Foundation</div>
+                        <p class="rm-cdesc">Core systems online. Lore, audio, art locked.</p>
+                        <span class="rm-pill">Complete</span>
+                    </div>
+                </div>
+                <!-- 03 (current) -->
+                <div class="rm-card current">
+                    <div class="rm-node"></div>
+                    <div class="rm-box">
+                        <div class="rm-cnum">03</div>
+                        <svg class="rm-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 13v8M9 21h6"/><circle cx="12" cy="10" r="2"/><path d="M6.5 15.5a7 7 0 010-9.9M17.5 5.6a7 7 0 010 9.9M8.6 13.4a4 4 0 010-5.7M15.4 7.7a4 4 0 010 5.7"/></svg>
+                        <div class="rm-cname">The Airlock Opens</div>
+                        <p class="rm-cdesc">Prototype / vertical slice.</p>
+                        <ul class="rm-bullets">
+                            <li>Shelter building</li>
+                            <li>Power grid</li>
+                            <li>Survivor AI</li>
+                            <li>Surface threat loop</li>
+                            <li>Steam page live</li>
+                        </ul>
+                        <span class="rm-pill">Status: In Progress</span>
+                    </div>
+                </div>
+                <!-- 04 -->
+                <div class="rm-card locked">
+                    <div class="rm-node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V8a4 4 0 018 0v3"/></svg></div>
+                    <div class="rm-box">
+                        <div class="rm-cnum">04</div>
+                        <svg class="rm-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 13v8M9 21h6"/><circle cx="12" cy="10" r="2"/><path d="M6.5 15.5a7 7 0 010-9.9M17.5 5.6a7 7 0 010 9.9"/></svg>
+                        <div class="rm-cname">Signals In The Dark</div>
+                        <p class="rm-cdesc">Funding / publisher outreach.</p>
+                        <span class="rm-pill">Next</span>
+                    </div>
+                </div>
+                <!-- 05 -->
+                <div class="rm-card locked">
+                    <div class="rm-node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V8a4 4 0 018 0v3"/></svg></div>
+                    <div class="rm-box">
+                        <div class="rm-cnum">05</div>
+                        <svg class="rm-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>
+                        <div class="rm-cname">Shelter Expansion</div>
+                        <p class="rm-cdesc">Full production. The studio scales.</p>
+                        <span class="rm-pill">Planned</span>
+                    </div>
+                </div>
+                <!-- 06 -->
+                <div class="rm-card locked">
+                    <div class="rm-node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V8a4 4 0 018 0v3"/></svg></div>
+                    <div class="rm-box">
+                        <div class="rm-cnum">06</div>
+                        <svg class="rm-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0112 0"/><circle cx="17" cy="9" r="2.2"/><path d="M15 20a5 5 0 016-4"/></svg>
+                        <div class="rm-cname">First Survivors</div>
+                        <p class="rm-cdesc">Early access. The community is in.</p>
+                        <span class="rm-pill">Planned</span>
+                    </div>
+                </div>
+                <!-- 07 -->
+                <div class="rm-card locked">
+                    <div class="rm-node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V8a4 4 0 018 0v3"/></svg></div>
+                    <div class="rm-box">
+                        <div class="rm-cnum">07</div>
+                        <svg class="rm-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 13v8M9 21h6"/><circle cx="12" cy="10" r="2"/><path d="M6.5 15.5a7 7 0 010-9.9M17.5 5.6a7 7 0 010 9.9M8.6 13.4a4 4 0 010-5.7M15.4 7.7a4 4 0 010 5.7"/></svg>
+                        <div class="rm-cname">Reclaim The Surface</div>
+                        <p class="rm-cdesc">Full release. The vision realised.</p>
+                        <span class="rm-pill">Planned</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Build in the open band -->
+        <div class="rm-open">
+            <img class="rm-open-thumb" src="city_bg_airlockPressAnyKey.jpg" alt="Ashgate, overgrown and silent">
+            <div class="rm-open-body">
+                <div class="rm-open-h">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 13v8M9 21h6"/><circle cx="12" cy="10" r="2"/><path d="M6.5 15.5a7 7 0 010-9.9M17.5 5.6a7 7 0 010 9.9"/></svg>
+                    We Build In The Open.
+                </div>
+                <p>Airlock is a small team with big ambitions. Every system, every asset, every line of code brings us closer to delivering a world worth surviving in.</p>
+            </div>
+            <a class="rm-dossier-link" href="roadmap.html">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v4h4"/><path d="M9 12h6M9 16h6M9 8h2"/></svg>
+                <span><b>Read Development Dossier</b><span>Detailed reports, screenshots, and behind-the-scenes updates.</span></span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ===== DEV LOG TEASER ===== -->
+<section class="section devlog" id="logs">
+    <div class="container">
+        <div class="devlog-head">
+            <div>
+                <h2 class="sec-title">From The Bunker</h2>
+                <p class="sec-sub">Honest, frequent, unfiltered. Every win and every setback documented as it happens.</p>
+            </div>
+            <a class="btn-ghost" href="diary.html">All Dev Logs
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+            </a>
+        </div>
+        <div class="devlog-grid">
+            <a class="log-card" href="diary.html">
+                <div class="log-date">May 2026 · Video Log</div>
+                <h3>Dev Diary #13, Fighting The Altered</h3>
+                <p>Fifty-plus Altered crashing the airlock. Muzzle flash, painted HUD V2, weapon degradation and ammo pressure all colliding in one chaotic horde fight. The combat loop has bite.</p>
+            </a>
+            <a class="log-card" href="diary.html">
+                <div class="log-date">7 May 2026 · Field Log</div>
+                <h3>Procedural Pipeline V1 Shipped</h3>
+                <p>City Block Breaker. Foliage Cascade. PCG Foliage Baker. Marketplace-ready end to end. Ashgate finally has its overgrowth.</p>
+            </a>
+            <a class="log-card" href="diary.html">
+                <div class="log-date">1 May 2026 · Field Log</div>
+                <h3>Three Flagship Systems Landed</h3>
+                <p>HUD V2 painted UI live in engine. Power System V1 with multi-generator networks. Voice and subtitle pipeline running with zero first-play hitch. The airlock has a heartbeat now.</p>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ===== DEV BAND ===== -->
+<section class="devband">
+    <div class="devband-bg"><img src="city_bg_airlockPressAnyKey.jpg" alt=""></div>
+    <div class="container devband-inner">
+        <div>
+            <h2>The Airlock is still in development</h2>
+            <p>Wishlist on Steam and be the first to know when we go live.</p>
+            <div class="socials">
+                <span style="font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--bone-faint)">Follow the development</span>
+                <!-- SWAP hrefs: real Discord / X / YouTube / Reddit URLs -->
+                <a href="https://discord.gg/VpwRvjsd2Y" target="_blank" rel="noopener" title="Discord"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.3 4.4A19.8 19.8 0 0015.4 3l-.2.5c1.6.4 2.9 1 4.2 1.8a13.5 13.5 0 00-11 0c1.3-.8 2.6-1.4 4.2-1.8L12.6 3a19.8 19.8 0 00-4.9 1.4C4.6 9 3.8 13.5 4.2 18a20 20 0 006 3l.8-1.2c-.8-.3-1.5-.7-2.2-1.2l.5-.4a14.3 14.3 0 0013.4 0l.5.4c-.7.5-1.4.9-2.2 1.2l.8 1.2a20 20 0 006-3c.5-5.2-.8-9.6-3.8-13.6zM9.7 15.3c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2zm4.6 0c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2z"/></svg></a>
+                <a href="https://www.youtube.com/playlist?list=PLhoasRCxOlRP3OM8u7_KstvISsC55Sjyj" target="_blank" rel="noopener" title="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.5a3 3 0 00-2.1-2.1C19 5 12 5 12 5s-7 0-8.9.4A3 3 0 001 7.5 31 31 0 001 12a31 31 0 00.1 4.5 3 3 0 002.1 2.1C5 19 12 19 12 19s7 0 8.9-.4a3 3 0 002.1-2.1A31 31 0 0023 12a31 31 0 00-.1-4.5zM10 15V9l5 3z"/></svg></a>
+            </div>
+        </div>
+        <a class="steam-btn" href="https://store.steampowered.com/app/4652950/Airlock/?utm_source=officialsite" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-9.9 8.6l5.3 2.2a2.8 2.8 0 011.6-.5l2.4-3.4v-.1a3.8 3.8 0 113.8 3.8h-.1l-3.4 2.4a2.8 2.8 0 01-5.5.8L2.3 14A10 10 0 1012 2zm-3.4 14.6l-1.2-.5a2.1 2.1 0 003.9-1.1 2.1 2.1 0 00-2.9-1.9l1.2.5a1.5 1.5 0 11-1 2.5zm8-7.2a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"/></svg>
+            Wishlist on Steam
+        </a>
+    </div>
+</section>
+
+<!-- ===== STAY IN THE LOOP ===== -->
+<section class="section newsletter" id="newsletter">
+    <div class="container">
+        <h2>Stay In The Loop</h2>
+        <p>Dev diaries, demo announcements, and the call when the airlock opens. Follow the signal on the channels below.</p>
+        <div class="nl-ctas">
+            <a class="steam-btn" href="https://store.steampowered.com/app/4652950/Airlock/?utm_source=officialsite" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-9.9 8.6l5.3 2.2a2.8 2.8 0 011.6-.5l2.4-3.4v-.1a3.8 3.8 0 113.8 3.8h-.1l-3.4 2.4a2.8 2.8 0 01-5.5.8L2.3 14A10 10 0 1012 2zm-3.4 14.6l-1.2-.5a2.1 2.1 0 003.9-1.1 2.1 2.1 0 00-2.9-1.9l1.2.5a1.5 1.5 0 11-1 2.5zm8-7.2a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"/></svg>
+                Wishlist on Steam
+            </a>
+            <a class="btn-ghost" href="https://discord.gg/VpwRvjsd2Y" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.3 4.4A19.8 19.8 0 0015.4 3l-.2.5c1.6.4 2.9 1 4.2 1.8a13.5 13.5 0 00-11 0c1.3-.8 2.6-1.4 4.2-1.8L12.6 3a19.8 19.8 0 00-4.9 1.4C4.6 9 3.8 13.5 4.2 18a20 20 0 006 3l.8-1.2c-.8-.3-1.5-.7-2.2-1.2l.5-.4a14.3 14.3 0 0013.4 0l.5.4c-.7.5-1.4.9-2.2 1.2l.8 1.2a20 20 0 006-3c.5-5.2-.8-9.6-3.8-13.6zM9.7 15.3c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2zm4.6 0c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2z"/></svg>
+                Join the Discord
+            </a>
+            <a class="btn-ghost" href="https://www.youtube.com/playlist?list=PLhoasRCxOlRP3OM8u7_KstvISsC55Sjyj" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.5a3 3 0 00-2.1-2.1C19 5 12 5 12 5s-7 0-8.9.4A3 3 0 001 7.5 31 31 0 001 12a31 31 0 00.1 4.5 3 3 0 002.1 2.1C5 19 12 19 12 19s7 0 8.9-.4a3 3 0 002.1-2.1A31 31 0 0023 12a31 31 0 00-.1-4.5zM10 15V9l5 3z"/></svg>
+                Watch Dev Diaries
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer" id="support">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <img src="airlock_menulogo.png" alt="AIRLOCK">
+                <p>An Ironbridge Games title. Built in the dark. Made for the surface.</p>
+            </div>
+            <div class="footer-col">
+                <h5>The Game</h5>
+                <ul>
+                    <li><a href="#chapters">Story</a></li>
+                    <li><a href="#roadmap">Roadmap</a></li>
+                    <li><a href="media.html">Media</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Channel</h5>
+                <ul>
+                    <li><a href="diary.html">Dev Diary</a></li>
+                    <li><a href="https://discord.gg/VpwRvjsd2Y" target="_blank" rel="noopener">Discord</a></li>
+                    <li><a href="https://www.youtube.com/playlist?list=PLhoasRCxOlRP3OM8u7_KstvISsC55Sjyj" target="_blank" rel="noopener">YouTube</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Studio</h5>
+                <ul>
+                    <li><a href="https://store.steampowered.com/app/4652950/Airlock/?utm_source=officialsite" target="_blank" rel="noopener">Steam Page</a></li>
+                    <li><a href="media.html">Press Kit</a></li>
+                    <li><a href="roadmap.html">Full Dossier</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2026 Ironbridge Games Ltd · Company No. 16882669
+        </div>
+    </div>
+</footer>
+
+<!-- trailer lightbox -->
+<div id="trailerModal"><div class="box"><button type="button" id="trailerClose" aria-label="Close">×</button><iframe id="trailerFrame" src="" title="AIRLOCK trailer" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe></div></div>
+
+<script>
+(function () {
+    // Trailer lightbox
+    var TRAILER_ID = "GlqZ265r_hA";
+    var modal = document.getElementById("trailerModal"), frame = document.getElementById("trailerFrame");
+    function openT(){ frame.src = "https://www.youtube.com/embed/" + TRAILER_ID + "?autoplay=1&rel=0"; modal.style.display = "flex"; document.body.style.overflow = "hidden"; }
+    function closeT(){ frame.src = ""; modal.style.display = "none"; document.body.style.overflow = ""; }
+    var tb = document.getElementById("trailerBtn"); if (tb) tb.addEventListener("click", openT);
+    document.getElementById("trailerClose").addEventListener("click", closeT);
+    modal.addEventListener("click", function(e){ if (e.target === modal) closeT(); });
+    document.addEventListener("keydown", function(e){ if (e.key === "Escape" && modal.style.display === "flex") closeT(); });
+
+    // Dollhouse toggle (above <-> live)
+    var views = document.getElementById("dhViews");
+    function toggleDH(){ if (views) views.classList.toggle("show-live"); }
+    var dt = document.getElementById("dhToggle"), ds = document.getElementById("dhSee");
+    if (dt) dt.addEventListener("click", toggleDH);
+    if (ds) ds.addEventListener("click", toggleDH);
+})();
+</script>
+
+</body>
+</html>
