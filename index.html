@@ -744,7 +744,7 @@
             <p class="hero-tagline">300 years after the world fell silent.<br>Build your shelter. Rescue who's left. Survive the night.</p>
             <div class="hero-ctas">
                 <a href="https://store.steampowered.com/app/4652950/Airlock/?utm_source=officialsite" target="_blank" rel="noopener" class="btn btn-primary">Wishlist on Steam</a>
-                <a href="#" class="btn btn-ghost">▶ Watch Trailer</a>
+                <button type="button" class="btn btn-ghost" id="trailerBtn">▶ Watch Trailer</button>
             </div>
         </div>
         <div class="scroll-cue">Scroll ↓</div>
@@ -935,6 +935,40 @@
             p.style.animationDuration = (14 + Math.random() * 10) + 's';
             dust.appendChild(p);
         }
+    </script>
+
+    <!-- Trailer lightbox (YouTube gameplay showcase). Henry 2026-06-02:
+         the hero "Watch Trailer" button was a dead href="#"; 80lvl couldn't
+         view it. Plays in-page; src is set on open and cleared on close so
+         it never preloads or keeps playing in the background. -->
+    <div id="trailerModal" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.9); align-items:center; justify-content:center; padding:24px;">
+        <div style="position:relative; width:100%; max-width:1100px; aspect-ratio:16/9;">
+            <button type="button" id="trailerClose" aria-label="Close trailer" style="position:absolute; top:-44px; right:0; background:none; border:0; color:#fff; font-size:32px; line-height:1; cursor:pointer;">×</button>
+            <iframe id="trailerFrame" src="" title="AIRLOCK gameplay showcase" style="width:100%; height:100%; border:0; border-radius:8px;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
+    <script>
+    (function () {
+        var TRAILER_ID = "GlqZ265r_hA";
+        var modal = document.getElementById("trailerModal");
+        var frame = document.getElementById("trailerFrame");
+        var btn = document.getElementById("trailerBtn");
+        var closeBtn = document.getElementById("trailerClose");
+        function open() {
+            frame.src = "https://www.youtube.com/embed/" + TRAILER_ID + "?autoplay=1&rel=0";
+            modal.style.display = "flex";
+            document.body.style.overflow = "hidden";
+        }
+        function close() {
+            frame.src = "";
+            modal.style.display = "none";
+            document.body.style.overflow = "";
+        }
+        if (btn) btn.addEventListener("click", open);
+        if (closeBtn) closeBtn.addEventListener("click", close);
+        if (modal) modal.addEventListener("click", function (e) { if (e.target === modal) close(); });
+        document.addEventListener("keydown", function (e) { if (e.key === "Escape" && modal.style.display === "flex") close(); });
+    })();
     </script>
 
 </body>
