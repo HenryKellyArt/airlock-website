@@ -50,6 +50,10 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity
 .steam-btn { display: inline-flex; align-items: center; gap: 9px; background: var(--green-deep); color: var(--bone); border: 1px solid var(--green); padding: 11px 20px; font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; border-radius: 3px; transition: all .15s; }
 .steam-btn:hover { background: var(--green); color: #04210a; }
 .steam-btn svg { width: 18px; height: 18px; }
+/* Kickstarter CTA - amber ("happening now"). Campaign live 2026-06. */
+.ks-btn { display: inline-flex; align-items: center; gap: 9px; background: var(--amber); color: #1a1205; border: 1px solid var(--amber); padding: 11px 20px; font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; border-radius: 3px; transition: all .15s; }
+.ks-btn:hover { background: var(--amber-bright); border-color: var(--amber-bright); }
+.ks-btn svg { width: 18px; height: 18px; }
 .nav-soc { display: inline-flex; color: var(--bone-dim); transition: color .15s; }
 .nav-soc:hover { color: var(--green-bright); }
 .nav-soc svg { width: 21px; height: 21px; }
@@ -198,6 +202,7 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity
 .devband-bg img { width: 100%; height: 100%; object-fit: cover; opacity: .25; }
 .devband-bg::after { content:''; position:absolute; inset:0; background: linear-gradient(180deg, var(--black), rgba(5,5,5,.7)); }
 .devband-inner { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 30px; flex-wrap: wrap; }
+.devband-ctas { display: flex; flex-direction: column; gap: 12px; }
 .devband h2 { font-family: 'Bebas Neue', sans-serif; font-size: 30px; letter-spacing: 1.5px; }
 .devband p { color: var(--bone-dim); font-size: 15px; margin-top: 4px; }
 .socials { display: flex; gap: 16px; align-items: center; margin-top: 14px; }
@@ -288,9 +293,10 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity
             <li><a href="#story">About</a></li>
         </ul>
         <div class="nav-right">
-            <!-- SWAP hrefs: Discord = your Ironbridge invite; YouTube = your main channel -->
-            <a class="nav-soc" href="https://discord.gg/VpwRvjsd2Y" target="_blank" rel="noopener" title="Discord"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.3 4.4A19.8 19.8 0 0015.4 3l-.2.5c1.6.4 2.9 1 4.2 1.8a13.5 13.5 0 00-11 0c1.3-.8 2.6-1.4 4.2-1.8L12.6 3a19.8 19.8 0 00-4.9 1.4C4.6 9 3.8 13.5 4.2 18a20 20 0 006 3l.8-1.2c-.8-.3-1.5-.7-2.2-1.2l.5-.4a14.3 14.3 0 0013.4 0l.5.4c-.7.5-1.4.9-2.2 1.2l.8 1.2a20 20 0 006-3c.5-5.2-.8-9.6-3.8-13.6zM9.7 15.3c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2zm4.6 0c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2z"/></svg></a>
-            <a class="nav-soc" href="https://www.youtube.com/playlist?list=PLhoasRCxOlRP3OM8u7_KstvISsC55Sjyj" target="_blank" rel="noopener" title="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.5a3 3 0 00-2.1-2.1C19 5 12 5 12 5s-7 0-8.9.4A3 3 0 001 7.5 31 31 0 001 12a31 31 0 00.1 4.5 3 3 0 002.1 2.1C5 19 12 19 12 19s7 0 8.9-.4a3 3 0 002.1-2.1A31 31 0 0023 12a31 31 0 00-.1-4.5zM10 15V9l5 3z"/></svg></a>
+            <a class="ks-btn" href="https://www.kickstarter.com/projects/602729946/airlock" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.3l2.9 6 6.6.9-4.8 4.6 1.2 6.5-5.9-3.1-5.9 3.1 1.2-6.5L2.5 9.2l6.6-.9z"/></svg>
+                Kickstarter
+            </a>
             <a class="steam-btn" href="https://store.steampowered.com/app/4652950/Airlock/?utm_source=officialsite" target="_blank" rel="noopener">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-9.9 8.6l5.3 2.2a2.8 2.8 0 011.6-.5l2.4-3.4v-.1a3.8 3.8 0 113.8 3.8h-.1l-3.4 2.4a2.8 2.8 0 01-5.5.8L2.3 14A10 10 0 1012 2zm-3.4 14.6l-1.2-.5a2.1 2.1 0 003.9-1.1 2.1 2.1 0 00-2.9-1.9l1.2.5a1.5 1.5 0 11-1 2.5zm8-7.2a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"/></svg>
                 Wishlist on Steam
@@ -313,6 +319,10 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity
         <p class="desc">Airlock is a single-player survival base-builder. Every choice shapes your bunker, your survivors, and the story they leave behind.</p>
         <div class="sub">Every shelter tells a story. What will yours become?</div>
         <div class="hero-btns">
+            <a class="ks-btn" href="https://www.kickstarter.com/projects/602729946/airlock" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.3l2.9 6 6.6.9-4.8 4.6 1.2 6.5-5.9-3.1-5.9 3.1 1.2-6.5L2.5 9.2l6.6-.9z"/></svg>
+                Back Us on Kickstarter
+            </a>
             <a class="steam-btn" href="https://store.steampowered.com/app/4652950/Airlock/?utm_source=officialsite" target="_blank" rel="noopener">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-9.9 8.6l5.3 2.2a2.8 2.8 0 011.6-.5l2.4-3.4v-.1a3.8 3.8 0 113.8 3.8h-.1l-3.4 2.4a2.8 2.8 0 01-5.5.8L2.3 14A10 10 0 1012 2zm-3.4 14.6l-1.2-.5a2.1 2.1 0 003.9-1.1 2.1 2.1 0 00-2.9-1.9l1.2.5a1.5 1.5 0 11-1 2.5zm8-7.2a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"/></svg>
                 Wishlist on Steam
@@ -638,8 +648,8 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity
     <div class="devband-bg"><img src="city_bg_airlockPressAnyKey.jpg" alt=""></div>
     <div class="container devband-inner">
         <div>
-            <h2>The Airlock is still in development</h2>
-            <p>Wishlist on Steam and be the first to know when we go live.</p>
+            <h2>The Kickstarter is live</h2>
+            <p>Back AIRLOCK now and help fund full-time development. Every pledge brings the airlock closer.</p>
             <div class="socials">
                 <span style="font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--bone-faint)">Follow the development</span>
                 <!-- SWAP hrefs: real Discord / X / YouTube / Reddit URLs -->
@@ -647,10 +657,16 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity
                 <a href="https://www.youtube.com/playlist?list=PLhoasRCxOlRP3OM8u7_KstvISsC55Sjyj" target="_blank" rel="noopener" title="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.5a3 3 0 00-2.1-2.1C19 5 12 5 12 5s-7 0-8.9.4A3 3 0 001 7.5 31 31 0 001 12a31 31 0 00.1 4.5 3 3 0 002.1 2.1C5 19 12 19 12 19s7 0 8.9-.4a3 3 0 002.1-2.1A31 31 0 0023 12a31 31 0 00-.1-4.5zM10 15V9l5 3z"/></svg></a>
             </div>
         </div>
-        <a class="steam-btn" href="https://store.steampowered.com/app/4652950/Airlock/?utm_source=officialsite" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-9.9 8.6l5.3 2.2a2.8 2.8 0 011.6-.5l2.4-3.4v-.1a3.8 3.8 0 113.8 3.8h-.1l-3.4 2.4a2.8 2.8 0 01-5.5.8L2.3 14A10 10 0 1012 2zm-3.4 14.6l-1.2-.5a2.1 2.1 0 003.9-1.1 2.1 2.1 0 00-2.9-1.9l1.2.5a1.5 1.5 0 11-1 2.5zm8-7.2a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"/></svg>
-            Wishlist on Steam
-        </a>
+        <div class="devband-ctas">
+            <a class="ks-btn" href="https://www.kickstarter.com/projects/602729946/airlock" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.3l2.9 6 6.6.9-4.8 4.6 1.2 6.5-5.9-3.1-5.9 3.1 1.2-6.5L2.5 9.2l6.6-.9z"/></svg>
+                Back Us on Kickstarter
+            </a>
+            <a class="steam-btn" href="https://store.steampowered.com/app/4652950/Airlock/?utm_source=officialsite" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-9.9 8.6l5.3 2.2a2.8 2.8 0 011.6-.5l2.4-3.4v-.1a3.8 3.8 0 113.8 3.8h-.1l-3.4 2.4a2.8 2.8 0 01-5.5.8L2.3 14A10 10 0 1012 2zm-3.4 14.6l-1.2-.5a2.1 2.1 0 003.9-1.1 2.1 2.1 0 00-2.9-1.9l1.2.5a1.5 1.5 0 11-1 2.5zm8-7.2a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"/></svg>
+                Wishlist on Steam
+            </a>
+        </div>
     </div>
 </section>
 
@@ -660,6 +676,10 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity
         <h2>Stay In The Loop</h2>
         <p>Dev diaries, demo announcements, and the call when the airlock opens. Follow the signal on the channels below.</p>
         <div class="nl-ctas">
+            <a class="ks-btn" href="https://www.kickstarter.com/projects/602729946/airlock" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.3l2.9 6 6.6.9-4.8 4.6 1.2 6.5-5.9-3.1-5.9 3.1 1.2-6.5L2.5 9.2l6.6-.9z"/></svg>
+                Back Us on Kickstarter
+            </a>
             <a class="steam-btn" href="https://store.steampowered.com/app/4652950/Airlock/?utm_source=officialsite" target="_blank" rel="noopener">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-9.9 8.6l5.3 2.2a2.8 2.8 0 011.6-.5l2.4-3.4v-.1a3.8 3.8 0 113.8 3.8h-.1l-3.4 2.4a2.8 2.8 0 01-5.5.8L2.3 14A10 10 0 1012 2zm-3.4 14.6l-1.2-.5a2.1 2.1 0 003.9-1.1 2.1 2.1 0 00-2.9-1.9l1.2.5a1.5 1.5 0 11-1 2.5zm8-7.2a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"/></svg>
                 Wishlist on Steam
@@ -703,6 +723,7 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity
             <div class="footer-col">
                 <h5>Studio</h5>
                 <ul>
+                    <li><a href="https://www.kickstarter.com/projects/602729946/airlock" target="_blank" rel="noopener">Kickstarter</a></li>
                     <li><a href="https://store.steampowered.com/app/4652950/Airlock/?utm_source=officialsite" target="_blank" rel="noopener">Steam Page</a></li>
                     <li><a href="media.html">Press Kit</a></li>
                     <li><a href="roadmap.html">Full Dossier</a></li>

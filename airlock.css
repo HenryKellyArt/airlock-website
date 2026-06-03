@@ -57,6 +57,16 @@ nav.nav.scrolled, nav#nav.scrolled { padding: 0; background: rgba(5,5,5,0.92); }
 .steam-btn svg { width: 18px; height: 18px; }
 .nav-toggle { display: none !important; }
 
+/* Kickstarter CTA - amber (our "live / happening now" accent). Campaign live 2026-06. */
+.ks-btn {
+    display: inline-flex; align-items: center; gap: 9px; background: var(--amber);
+    color: #1a1205; border: 1px solid var(--amber); padding: 11px 20px;
+    font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; border-radius: 3px; transition: all .15s;
+}
+.ks-btn:hover { background: var(--amber-bright); border-color: var(--amber-bright); color: #1a1205; }
+.ks-btn svg { width: 18px; height: 18px; }
+
 /* ===== STATUS COLOURS: in-progress = amber, declassified = green, classified = muted ===== */
 .stamp.in-progress, .substage-stamp.in-progress, .stage-stamp.in-progress,
 .stage-substage-stamp.in-progress {
