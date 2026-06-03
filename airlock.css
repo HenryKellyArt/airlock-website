@@ -1,0 +1,76 @@
+/* ============================================================
+   AIRLOCK shared design system - new look (sage green primary,
+   amber for in-progress, muted for classified/locked).
+   Linked AFTER each page's inline <style> so it wins the cascade
+   and reskins the legacy sub-pages to match index.html.
+   Henry 2026-06-03.
+   ============================================================ */
+
+:root {
+    --black: #050505; --bg: #0A0A0A; --bg-2: #121512; --bg-3: #181b17;
+    --bone: #ECE6D6; --bone-dim: rgba(236,230,214,0.72); --bone-faint: rgba(236,230,214,0.16);
+    --green: #9CAF88; --green-bright: #B7C7A3; --green-deep: #54603c;
+    --amber: #D4A046; --amber-bright: #E8B86C;
+    --accent: #9CAF88; --accent-bright: #B7C7A3;   /* legacy alias -> sage green */
+    --classified: rgba(236,230,214,0.34);
+    --locked: rgba(236,230,214,0.34);
+    --line: rgba(236,230,214,0.12);
+    --container: 1760px;
+}
+
+.container { width: 100%; max-width: var(--container); margin: 0 auto; padding: 0 clamp(28px, 5vw, 110px); }
+
+/* ===== NAV (matches index.html) ===== */
+nav.nav, nav#nav {
+    position: sticky; top: 0; left: auto; right: auto; z-index: 100;
+    display: block; padding: 0; margin: 0;
+    background: rgba(5,5,5,0.82);
+    -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line); transition: none;
+}
+nav.nav.scrolled, nav#nav.scrolled { padding: 0; background: rgba(5,5,5,0.92); }
+.nav-inner { display: flex; align-items: center; gap: 30px; height: 72px; }
+.brand-logo img, .nav-logo img { height: 40px; width: auto; display: block; filter: none; }
+.nav-links { display: flex; gap: 26px; margin-left: 18px; list-style: none; }
+.nav-links a {
+    position: relative; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
+    letter-spacing: 1.5px; text-transform: uppercase; color: var(--bone-dim);
+    transition: color .15s; padding-bottom: 4px;
+}
+.nav-links a:hover, .nav-links a.active, .nav-links a.is-active { color: var(--green-bright); }
+.nav-links a::after { content: none; }   /* drop legacy centered underline */
+.nav-links a.active::after, .nav-links a.is-active::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: -6px;
+    height: 2px; background: var(--green-bright); transition: none;
+}
+.nav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; }
+.nav-soc { display: inline-flex; color: var(--bone-dim); transition: color .15s; }
+.nav-soc:hover { color: var(--green-bright); }
+.nav-soc svg { width: 21px; height: 21px; }
+.steam-btn, .nav-cta {
+    display: inline-flex; align-items: center; gap: 9px; background: var(--green-deep);
+    color: var(--bone); border: 1px solid var(--green); padding: 11px 20px;
+    font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; border-radius: 3px; transition: all .15s;
+}
+.steam-btn:hover, .nav-cta:hover { background: var(--green); color: #04210a; transform: none; }
+.steam-btn svg { width: 18px; height: 18px; }
+.nav-toggle { display: none !important; }
+
+/* ===== STATUS COLOURS: in-progress = amber, declassified = green, classified = muted ===== */
+.stamp.in-progress, .substage-stamp.in-progress, .stage-stamp.in-progress,
+.stage-substage-stamp.in-progress {
+    color: var(--amber); border-color: var(--amber);
+}
+.stamp.in-progress { background: rgba(212,160,70,0.10); }
+.substage.in-progress { border-left-color: var(--amber); background: rgba(212,160,70,0.06); }
+.stamp.partial { color: var(--amber); border-color: var(--amber); }
+
+/* ===== SUB-NAV (roadmap / diary) active -> green (was hardcoded amber) ===== */
+.subnav-item.active { color: var(--green-bright); background: rgba(156,175,136,0.08); }
+.subnav-item.active::after { background: var(--green-bright); }
+.subnav-item:hover { background: rgba(156,175,136,0.06); }
+
+/* ===== DIARY video accents -> keep amber as the secondary pop (intentional) ===== */
+/* (video-play / video-tag stay amber via their literal values; they read as the
+   secondary accent the new design already uses.) */
