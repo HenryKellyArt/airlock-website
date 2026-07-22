@@ -57,6 +57,35 @@ nav.nav.scrolled, nav#nav.scrolled { padding: 0; background: rgba(5,5,5,0.92); }
 .steam-btn svg { width: 18px; height: 18px; }
 .nav-toggle { display: none !important; }
 
+/* ===== Mobile nav: hamburger + slide-in drawer (added 2026-07-22) ===== */
+.mnav-toggle { display:none; position:relative; z-index:200; background:none; border:0; cursor:pointer; width:42px; height:42px; padding:9px; margin-left:14px; }
+.mnav-toggle span { display:block; height:2px; background:var(--bone); margin:5px 0; border-radius:2px; transition:transform .25s, opacity .2s; }
+body.menu-open .mnav-toggle span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+body.menu-open .mnav-toggle span:nth-child(2) { opacity:0; }
+body.menu-open .mnav-toggle span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+.mnav { display:none; }
+.mnav-backdrop { display:none; }
+@media (max-width: 1000px) {
+  .nav-links { display:none !important; }
+  .nav-right { display:none !important; }
+  .mnav-toggle { display:block !important; margin-left:auto; }
+  .mnav {
+    display:flex; flex-direction:column; gap:2px;
+    position:fixed; top:0; right:0; height:100vh; width:min(330px,86vw);
+    background:rgba(8,9,8,0.98); -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px);
+    border-left:1px solid var(--bone-faint); box-shadow:-20px 0 60px rgba(0,0,0,.6);
+    padding:92px 26px 28px; z-index:150;
+    transform:translateX(100%); transition:transform .28s ease; overflow-y:auto;
+  }
+  body.menu-open .mnav { transform:translateX(0); }
+  .mnav a { color:var(--bone-dim); font-family:'Inter',sans-serif; font-size:15px; font-weight:600; letter-spacing:1px; text-transform:uppercase; text-decoration:none; padding:15px 4px; border-bottom:1px solid var(--bone-faint); }
+  .mnav a:hover { color:var(--green-bright); }
+  .mnav .mnav-ks { margin-top:20px; padding:14px; background:var(--amber); color:#1a1205; border:0; border-radius:4px; text-align:center; }
+  .mnav .mnav-steam { margin-top:10px; padding:14px; background:var(--green-deep); color:var(--bone); border:1px solid var(--green); border-radius:4px; text-align:center; }
+  .mnav-backdrop { display:block; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:140; opacity:0; pointer-events:none; transition:opacity .28s; }
+  body.menu-open .mnav-backdrop { opacity:1; pointer-events:auto; }
+}
+
 /* Kickstarter CTA - amber (our "live / happening now" accent). Campaign live 2026-06. */
 .ks-btn {
     display: inline-flex; align-items: center; gap: 9px; background: var(--amber);

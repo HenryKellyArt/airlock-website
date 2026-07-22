@@ -323,8 +323,21 @@
                 Wishlist on Steam
             </a>
         </div>
-    </div>
+            <button class="mnav-toggle" id="mnavToggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+</div>
 </nav>
+<div class="mnav-backdrop" id="mnavBackdrop"></div>
+<nav class="mnav" id="mnav" aria-label="Mobile">
+    <a href="index.html#game">The Game</a>
+    <a href="index.html#chapters">Chapters</a>
+    <a href="roadmap.html">Roadmap</a>
+    <a href="diary.html">Dev Log</a>
+    <a href="media.html">Media</a>
+    <a href="index.html#story">About</a>
+    <a class="mnav-ks" href="https://www.kickstarter.com/projects/602729946/airlock" target="_blank" rel="noopener">Back on Kickstarter</a>
+    <a class="mnav-steam" href="https://store.steampowered.com/app/4652950/Airlock/?utm_source=officialsite" target="_blank" rel="noopener">Wishlist on Steam</a>
+</nav>
+
 
     <!-- PAGE HERO -->
     <section class="page-hero">
@@ -458,46 +471,61 @@
                 <div class="media-item-label">Search Anything</div>
             </div>
 
-            <!-- Older screenshots -->
-            <div class="media-item" data-type="screenshot" data-src="screenshots/airlock_screenshot_01.jpg" data-label="Military Compound">
-                <img src="screenshots/airlock_screenshot_01.jpg" alt="Military Compound" loading="lazy">
+            <!-- New in-engine screenshots -->
+            <div class="media-item" data-type="screenshot" data-src="steam_Airlock_ActionShot.jpg" data-label="Facing The Altered">
+                <img src="steam_Airlock_ActionShot.jpg" alt="Facing The Altered" loading="lazy">
                 <div class="media-item-type screenshot">Screenshot</div>
-                <div class="media-item-label">Military Compound</div>
+                <div class="media-item-label">Facing The Altered</div>
             </div>
-            <div class="media-item" data-type="screenshot" data-src="screenshots/airlock_screenshot_02.jpg" data-label="Character">
-                <img src="screenshots/airlock_screenshot_02.jpg" alt="Character" loading="lazy">
+            <div class="media-item" data-type="screenshot" data-src="steam_Airlock_CompanionShot.jpg" data-label="Out With Marv">
+                <img src="steam_Airlock_CompanionShot.jpg" alt="Out With Marv" loading="lazy">
                 <div class="media-item-type screenshot">Screenshot</div>
-                <div class="media-item-label">Character</div>
+                <div class="media-item-label">Out With Marv</div>
             </div>
-            <div class="media-item" data-type="screenshot" data-src="screenshots/airlock_screenshot_03.jpg" data-label="Grid System">
-                <img src="screenshots/airlock_screenshot_03.jpg" alt="Grid System" loading="lazy">
+            <div class="media-item" data-type="screenshot" data-src="steam_Airlock_OverworldShot.jpg" data-label="The Overgrown World">
+                <img src="steam_Airlock_OverworldShot.jpg" alt="The Overgrown World" loading="lazy">
                 <div class="media-item-type screenshot">Screenshot</div>
-                <div class="media-item-label">Grid System</div>
+                <div class="media-item-label">The Overgrown World</div>
             </div>
-            <div class="media-item" data-type="screenshot" data-src="screenshots/airlock_screenshot_04.jpg" data-label="HUD">
-                <img src="screenshots/airlock_screenshot_04.jpg" alt="HUD" loading="lazy">
+            <div class="media-item" data-type="screenshot" data-src="SP_AIR_Surface_new.jpg" data-label="Ashgate Surface">
+                <img src="SP_AIR_Surface_new.jpg" alt="Ashgate Surface" loading="lazy">
                 <div class="media-item-type screenshot">Screenshot</div>
-                <div class="media-item-label">HUD</div>
+                <div class="media-item-label">Ashgate Surface</div>
             </div>
-            <div class="media-item" data-type="screenshot" data-src="screenshots/airlock_screenshot_05.jpg" data-label="Combat">
-                <img src="screenshots/airlock_screenshot_05.jpg" alt="Combat" loading="lazy">
+            <div class="media-item" data-type="screenshot" data-src="SP_AIR_GreenHouse_02_A.jpg" data-label="The Greenhouse">
+                <img src="SP_AIR_GreenHouse_02_A.jpg" alt="The Greenhouse" loading="lazy">
                 <div class="media-item-type screenshot">Screenshot</div>
-                <div class="media-item-label">Combat</div>
+                <div class="media-item-label">The Greenhouse</div>
             </div>
-            <div class="media-item" data-type="screenshot" data-src="screenshots/airlock_screenshot_6.jpg" data-label="Module System">
-                <img src="screenshots/airlock_screenshot_6.jpg" alt="Module System" loading="lazy">
+            <div class="media-item" data-type="screenshot" data-src="steam_Airlock_PowerGenerator.jpg" data-label="Generator Running">
+                <img src="steam_Airlock_PowerGenerator.jpg" alt="Generator Running" loading="lazy">
                 <div class="media-item-type screenshot">Screenshot</div>
-                <div class="media-item-label">Module System</div>
+                <div class="media-item-label">Generator Running</div>
             </div>
-            <div class="media-item" data-type="screenshot" data-src="screenshots/airlock_screenshot_07.jpg" data-label="Horde">
-                <img src="screenshots/airlock_screenshot_07.jpg" alt="Horde" loading="lazy">
+            <div class="media-item" data-type="screenshot" data-src="steam_SP_AIR_PowerRoom_01.jpg" data-label="Power Room">
+                <img src="steam_SP_AIR_PowerRoom_01.jpg" alt="Power Room" loading="lazy">
                 <div class="media-item-type screenshot">Screenshot</div>
-                <div class="media-item-label">Horde</div>
+                <div class="media-item-label">Power Room</div>
             </div>
-            <div class="media-item" data-type="screenshot" data-src="screenshots/airlock_screenshot_08.jpg" data-label="Loot">
-                <img src="screenshots/airlock_screenshot_08.jpg" alt="Loot" loading="lazy">
+            <div class="media-item" data-type="screenshot" data-src="steam_SP_AIR_WaterRoom_01.jpg" data-label="Water Room">
+                <img src="steam_SP_AIR_WaterRoom_01.jpg" alt="Water Room" loading="lazy">
                 <div class="media-item-type screenshot">Screenshot</div>
-                <div class="media-item-label">Loot</div>
+                <div class="media-item-label">Water Room</div>
+            </div>
+            <div class="media-item" data-type="screenshot" data-src="steam_SP_AIR_WorkshopRoom_01.jpg" data-label="The Workhouse">
+                <img src="steam_SP_AIR_WorkshopRoom_01.jpg" alt="The Workhouse" loading="lazy">
+                <div class="media-item-type screenshot">Screenshot</div>
+                <div class="media-item-label">The Workhouse</div>
+            </div>
+            <div class="media-item" data-type="screenshot" data-src="steam_SP_AIR_Building_01_A.jpg" data-label="Build Mode">
+                <img src="steam_SP_AIR_Building_01_A.jpg" alt="Build Mode" loading="lazy">
+                <div class="media-item-type screenshot">Screenshot</div>
+                <div class="media-item-label">Build Mode</div>
+            </div>
+            <div class="media-item" data-type="screenshot" data-src="steam_Airlock_AntFarmView.jpg" data-label="Dollhouse View">
+                <img src="steam_Airlock_AntFarmView.jpg" alt="Dollhouse View" loading="lazy">
+                <div class="media-item-type screenshot">Screenshot</div>
+                <div class="media-item-label">Dollhouse View</div>
             </div>
             <div class="media-item" data-type="screenshot" data-src="screenshots/4_mainmenu.png" data-label="Main Menu UI">
                 <img src="screenshots/4_mainmenu.png" alt="Main Menu UI" loading="lazy">
@@ -508,11 +536,6 @@
                 <img src="screenshots/Marv.jpg" alt="Marv" loading="lazy">
                 <div class="media-item-type screenshot">Screenshot</div>
                 <div class="media-item-label">Marv · Companion</div>
-            </div>
-            <div class="media-item" data-type="screenshot" data-src="screenshots/airlock_screenshot_marv.jpg" data-label="Companion V1">
-                <img src="screenshots/airlock_screenshot_marv.jpg" alt="Companion V1" loading="lazy">
-                <div class="media-item-type screenshot">Screenshot</div>
-                <div class="media-item-label">Companion V1</div>
             </div>
         </div>
     </section>
@@ -657,5 +680,8 @@
         });
     </script>
 
+<script>
+(function(){var b=document.body,t=document.getElementById("mnavToggle"),bd=document.getElementById("mnavBackdrop"),m=document.getElementById("mnav");function set(o){b.classList.toggle("menu-open",o);if(t)t.setAttribute("aria-expanded",o?"true":"false");}if(t)t.addEventListener("click",function(){set(!b.classList.contains("menu-open"));});if(bd)bd.addEventListener("click",function(){set(false);});if(m)m.addEventListener("click",function(e){if(e.target.closest("a"))set(false);});window.addEventListener("keydown",function(e){if(e.key==="Escape")set(false);});window.addEventListener("resize",function(){if(window.innerWidth>1000)set(false);});})();
+</script>
 </body>
 </html>

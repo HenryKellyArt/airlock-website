@@ -65,6 +65,34 @@ const devDiaryVideos = [
         title: "Dev Diary #13 - Fighting The Altered (50+ Horde)",
         id: "Uwpn6RpTn3U"
     },
+    {
+        title: "First Playthrough Test",
+        id: "NOKUnw6n5mg"
+    },
+    {
+        title: "Generator Task Test",
+        id: "5OqkQD6iClY"
+    },
+    {
+        title: "Airlock Module First Pass",
+        id: "68uco0qadQM"
+    },
+    {
+        title: "Maxing Out the Generator",
+        id: "0wXGeIdbB-0"
+    },
+    {
+        title: "Creating Clothing for the NPCs",
+        id: "LanPI1Rg0ds"
+    },
+    {
+        title: "Marvel's Command Tool and Finding Loot",
+        id: "VpGBtNaKk-k"
+    },
+    {
+        title: "Airlock Showcase #1",
+        id: "GlqZ265r_hA"
+    },
     // ── Add new entries below this line ──────────────────────────────────────
     // {
     //     title: "Dev Diary #14 - Your Title Here",

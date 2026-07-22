@@ -276,6 +276,35 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity
 #trailerModal .box { position:relative; width:100%; max-width:1100px; aspect-ratio:16/9; }
 #trailerModal iframe { width:100%; height:100%; border:0; border-radius:6px; }
 #trailerClose { position:absolute; top:-44px; right:0; background:none; border:0; color:#fff; font-size:32px; cursor:pointer; }
+
+/* ===== Mobile nav (hamburger + slide-in drawer) ===== */
+.mnav-toggle{ display:none; position:relative; z-index:200; background:none; border:0; cursor:pointer; width:42px; height:42px; padding:9px; margin-left:14px; }
+.mnav-toggle span{ display:block; height:2px; background:var(--bone); margin:5px 0; border-radius:2px; transition:transform .25s, opacity .2s; }
+body.menu-open .mnav-toggle span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+body.menu-open .mnav-toggle span:nth-child(2){ opacity:0; }
+body.menu-open .mnav-toggle span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+.mnav{ display:none; }
+.mnav-backdrop{ display:none; }
+@media (max-width: 1000px){
+  .nav-links{ display:none !important; }
+  .nav-right{ display:none !important; }
+  .mnav-toggle{ display:block; margin-left:auto; }
+  .mnav{
+    display:flex; flex-direction:column; gap:2px;
+    position:fixed; top:0; right:0; height:100vh; width:min(330px,86vw);
+    background:rgba(8,9,8,0.98); -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px);
+    border-left:1px solid var(--bone-faint); box-shadow:-20px 0 60px rgba(0,0,0,.6);
+    padding:92px 26px 28px; z-index:150;
+    transform:translateX(100%); transition:transform .28s ease; overflow-y:auto;
+  }
+  body.menu-open .mnav{ transform:translateX(0); }
+  .mnav a{ color:var(--bone-dim); font-family:'Inter',sans-serif; font-size:15px; font-weight:600; letter-spacing:1px; text-transform:uppercase; text-decoration:none; padding:15px 4px; border-bottom:1px solid var(--bone-faint); }
+  .mnav a:hover{ color:var(--green-bright); }
+  .mnav .mnav-ks{ margin-top:20px; padding:14px; background:var(--amber); color:#1a1205; border:0; border-radius:4px; text-align:center; }
+  .mnav .mnav-steam{ margin-top:10px; padding:14px; background:var(--green-deep); color:var(--bone); border:1px solid var(--green); border-radius:4px; text-align:center; }
+  .mnav-backdrop{ display:block; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:140; opacity:0; pointer-events:none; transition:opacity .28s; }
+  body.menu-open .mnav-backdrop{ opacity:1; pointer-events:auto; }
+}
 </style>
 </head>
 <body>
@@ -302,7 +331,19 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity
                 Wishlist on Steam
             </a>
         </div>
+        <button class="mnav-toggle" id="mnavToggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
+</nav>
+<div class="mnav-backdrop" id="mnavBackdrop"></div>
+<nav class="mnav" id="mnav" aria-label="Mobile">
+    <a href="#game">The Game</a>
+    <a href="#chapters">Chapters</a>
+    <a href="#roadmap">Roadmap</a>
+    <a href="diary.html">Dev Log</a>
+    <a href="media.html">Media</a>
+    <a href="#story">About</a>
+    <a class="mnav-ks" href="https://www.kickstarter.com/projects/602729946/airlock" target="_blank" rel="noopener">Back on Kickstarter</a>
+    <a class="mnav-steam" href="https://store.steampowered.com/app/4652950/Airlock/?utm_source=officialsite" target="_blank" rel="noopener">Wishlist on Steam</a>
 </nav>
 
 <!-- ===== HERO ===== -->
@@ -366,28 +407,27 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity
     <div class="container cards">
         <!-- GIF cards animate on their own. Swap any src for a better shot. -->
         <article class="card">
-            <div class="card-media"><img src="airlock_screenshot_01.jpg" alt="Rescue survivors"></div>
+            <div class="card-media"><img src="steam_Airlock_CompanionShot.jpg" alt="Rescue survivors"></div>
             <div class="card-body"><h3>Rescue Survivors</h3><p>They're out there. Find them. Bring them home.</p></div>
         </article>
         <article class="card">
-            <div class="card-media"><img src="Airlock_UnderWorld_DollhouseView.jpeg" alt="Build your shelter"></div>
+            <div class="card-media"><img src="steam_Airlock_AntFarmView.jpg" alt="Build your shelter"></div>
             <div class="card-body"><h3>Build Your Shelter</h3><p>Create a safe place beneath the ruins.</p></div>
         </article>
         <article class="card">
-            <div class="card-media"><img src="airlock_screenshot_02.jpg" alt="Care for your people"></div>
+            <div class="card-media"><img src="SP_AIR_GreenHouse_02_A.jpg" alt="Care for your people"></div>
             <div class="card-body"><h3>Care For Your People</h3><p>Keep them fed. Keep them hopeful.</p></div>
         </article>
         <article class="card">
-            <div class="card-media"><img src="airlock_screenshot_04.jpg" alt="Survive the night"></div>
+            <div class="card-media"><img src="steam_Airlock_ActionShot.jpg" alt="Survive the night"></div>
             <div class="card-body"><h3>Survive The Night</h3><p>The Altered come out when the sun goes down.</p></div>
         </article>
         <article class="card">
-            <div class="card-media"><img src="airlock_screenshot_05.jpg" alt="Power"></div>
+            <div class="card-media"><img src="steam_Airlock_PowerGenerator.jpg" alt="Power"></div>
             <div class="card-body"><h3>Keep The Power On</h3><p>Wire up generators and salvage fuel. Lose power and the lights, doors and pumps die with it.</p></div>
         </article>
         <article class="card">
-            <!-- SWAP: a water / plumbing shot if you have one -->
-            <div class="card-media"><img src="airlock_screenshot_03.jpg" alt="Water"></div>
+            <div class="card-media"><img src="steam_SP_AIR_WaterRoom_01.jpg" alt="Water"></div>
             <div class="card-body"><h3>Find Clean Water</h3><p>Pump, filter and ration clean water. Thirst kills as quietly as the Altered.</p></div>
         </article>
     </div>
@@ -431,7 +471,7 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity
                 <button type="button" class="btn-ghost" id="dhSee">See it in action <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
             </div>
             <div class="dh-views" id="dhViews">
-                <img class="above" src="Airlock_UnderWorld_DollhouseView.jpeg" alt="Dollhouse cutaway view">
+                <img class="above" src="steam_SP_AIR_Building_01_A.jpg" alt="Dollhouse cutaway view">
                 <!-- SWAP: best 'living below' first-person/interior shot -->
                 <img class="live" src="Airlock_ExploreYourBase.gif" alt="Living inside the shelter">
                 <button type="button" class="dh-toggle" id="dhToggle" title="Toggle view" aria-label="Toggle between dollhouse and live view">
@@ -498,7 +538,7 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity
                 </div>
                 <div class="dossier-foot">
                     <div class="dossier-label">Last Update</div>
-                    <div class="date">Jun 3 2026</div>
+                    <div class="date">Jul 22 2026</div>
                 </div>
             </aside>
         </div>
@@ -541,6 +581,7 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity
                             <li>Power grid</li>
                             <li>Survivor AI</li>
                             <li>Surface threat loop</li>
+                            <li>Playable demo</li>
                             <li>Steam page live</li>
                         </ul>
                         <span class="rm-pill">Status: In Progress</span>
@@ -780,5 +821,16 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity
 })();
 </script>
 
+<script>
+(function(){
+  var b=document.body, t=document.getElementById('mnavToggle'), bd=document.getElementById('mnavBackdrop'), m=document.getElementById('mnav');
+  function set(o){ b.classList.toggle('menu-open',o); if(t) t.setAttribute('aria-expanded',o?'true':'false'); }
+  if(t) t.addEventListener('click',function(){ set(!b.classList.contains('menu-open')); });
+  if(bd) bd.addEventListener('click',function(){ set(false); });
+  if(m) m.addEventListener('click',function(e){ if(e.target.closest('a')) set(false); });
+  window.addEventListener('keydown',function(e){ if(e.key==='Escape') set(false); });
+  window.addEventListener('resize',function(){ if(window.innerWidth>1000) set(false); });
+})();
+</script>
 </body>
 </html>

@@ -559,8 +559,21 @@
                     Wishlist on Steam
                 </a>
             </div>
-        </div>
+                <button class="mnav-toggle" id="mnavToggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+</div>
     </nav>
+<div class="mnav-backdrop" id="mnavBackdrop"></div>
+<nav class="mnav" id="mnav" aria-label="Mobile">
+    <a href="index.html#game">The Game</a>
+    <a href="index.html#chapters">Chapters</a>
+    <a href="roadmap.html">Roadmap</a>
+    <a href="diary.html">Dev Log</a>
+    <a href="media.html">Media</a>
+    <a href="index.html#story">About</a>
+    <a class="mnav-ks" href="https://www.kickstarter.com/projects/602729946/airlock" target="_blank" rel="noopener">Back on Kickstarter</a>
+    <a class="mnav-steam" href="https://store.steampowered.com/app/4652950/Airlock/?utm_source=officialsite" target="_blank" rel="noopener">Wishlist on Steam</a>
+</nav>
+
 
     <!-- SUB-NAV (stage scrollspy) -->
     <div class="subnav" id="subnav">
@@ -581,7 +594,37 @@
         <div class="page-hero-content">
             <div class="page-hero-meta">// Development Dossier · Live Feed</div>
             <h1 class="page-title">The Roadmap</h1>
-            <p>From concept to release. Seven stages. Three deep. Demo's nearly here.</p>
+            <p>From concept to release. Seven stages. Three deep. The playable demo is live.</p>
+        </div>
+    </section>
+
+    <!-- THE SCALE OF IT (numbers band) -->
+    <section style="max-width:1120px;margin:0 auto;padding:0 24px 10px;">
+        <div style="border:1px solid rgba(212,160,70,0.35);background:linear-gradient(180deg,rgba(212,160,70,0.06),rgba(10,10,10,0.25));border-radius:4px;padding:28px 24px;">
+            <div style="font-family:monospace;font-size:12px;letter-spacing:2px;color:#D4A046;text-transform:uppercase;margin-bottom:20px;">// The Scale Of It</div>
+            <div style="display:flex;flex-wrap:wrap;gap:22px;justify-content:space-between;">
+                <div style="flex:1 1 150px;min-width:128px;">
+                    <div style="font-size:40px;font-weight:800;color:#E8B86C;line-height:1;">1</div>
+                    <div style="font-size:12px;letter-spacing:1px;color:#ECE6D6;opacity:.72;text-transform:uppercase;margin-top:8px;">Developer, solo</div>
+                </div>
+                <div style="flex:1 1 150px;min-width:128px;">
+                    <div style="font-size:40px;font-weight:800;color:#E8B86C;line-height:1;">1,000+</div>
+                    <div style="font-size:12px;letter-spacing:1px;color:#ECE6D6;opacity:.72;text-transform:uppercase;margin-top:8px;">Hours of work</div>
+                </div>
+                <div style="flex:1 1 150px;min-width:128px;">
+                    <div style="font-size:40px;font-weight:800;color:#E8B86C;line-height:1;">5</div>
+                    <div style="font-size:12px;letter-spacing:1px;color:#ECE6D6;opacity:.72;text-transform:uppercase;margin-top:8px;">Months to a playable demo</div>
+                </div>
+                <div style="flex:1 1 150px;min-width:128px;">
+                    <div style="font-size:40px;font-weight:800;color:#E8B86C;line-height:1;">414</div>
+                    <div style="font-size:12px;letter-spacing:1px;color:#ECE6D6;opacity:.72;text-transform:uppercase;margin-top:8px;">Source files, from zero</div>
+                </div>
+                <div style="flex:1 1 150px;min-width:128px;">
+                    <div style="font-size:40px;font-weight:800;color:#E8B86C;line-height:1;">23</div>
+                    <div style="font-size:12px;letter-spacing:1px;color:#ECE6D6;opacity:.72;text-transform:uppercase;margin-top:8px;">Full-screen UI screens</div>
+                </div>
+            </div>
+            <div style="margin-top:22px;padding-top:16px;border-top:1px solid rgba(212,160,70,0.2);font-size:14px;line-height:1.6;color:#ECE6D6;opacity:.85;">Self-taught C++ from zero in February 2026. Every system here was built by one person, on evenings and weekends around a full-time job, then full time from June. Roughly &pound;100k of professional time, and three disasters survived with nothing lost.</div>
         </div>
     </section>
 
@@ -595,7 +638,7 @@
                 </div>
                 <div class="stamp declassified">DECLASSIFIED</div>
             </div>
-            <p class="phase-summary">The proof of concept. Was it fun? Did it look good? Yes and yes, that was the green light to build everything else.</p>
+            <p class="phase-summary">February to March 2026. It began as a look, not a game. Through February the world was built and walked by hand in Unreal 5 with zero code, just to see if "nature reclaims the machine" held up on screen. It did. So Henry, a Lead Artist who could not write a line of C++, taught himself to code from scratch, and by 22 March the first GridManager was compiling and running. Proof it was fun, proof it looked right, and proof he could build it himself.</p>
             <div class="substage-grid">
                 <div class="substage declassified">
                     <div class="substage-stamp declassified">CLEAR</div>
@@ -619,7 +662,7 @@
                 </div>
                 <div class="stamp declassified">DECLASSIFIED</div>
             </div>
-            <p class="phase-summary">Documentation, lore, audio direction, visual identity. Locked before code touched it. Every system built since references this foundation.</p>
+            <p class="phase-summary">April 2026. Before scaling the code, the foundations were locked: the world and its names (Ashgate, The Altered, the Settlers), the Ironbridge brand and Forge Red identity, a cinematic survival audio direction, and 91 hand-painted icons. The module pipeline reached production quality with the first two rooms, and the whole project moved onto Perforce. Every system built since references this month.</p>
             <div class="substage-grid">
                 <div class="substage declassified">
                     <div class="substage-stamp declassified">CLEAR</div>
@@ -661,7 +704,7 @@
                 </div>
                 <div class="stamp declassified">DECLASSIFIED</div>
             </div>
-            <p class="phase-summary">The C++ backbone. Grid system, modules, AI, HUD, combat, mining, skills, MetaHumans, the Marv companion. Every system the game depends on.</p>
+            <p class="phase-summary">The C++ backbone, written from nothing across spring and early summer. Grid, modules, mining, the modular HUD, combat with weapons that degrade, the skill system, an optimised horde, 13 MetaHumans, and Marv the companion dog (feature complete on 19 June, the same week Henry left the day job to go full time). The layer everything else stands on: over 400 source files, one class near 6,500 lines.</p>
             <div class="substage-grid">
                 <div class="substage declassified">
                     <div class="substage-stamp declassified">CLEAR</div>
@@ -757,7 +800,7 @@
                 </div>
                 <div class="stamp in-progress">PARTIALLY DECLASSIFIED</div>
             </div>
-            <p class="phase-summary">The V2 polish + content build. Painted UI in engine. Power. Voice. NPCs. Procedural city. Currently dressing Ashgate. Then the demo ships.</p>
+            <p class="phase-summary">May to July 2026. The demo build: painted UI across all 23 screens, the power grid, the voice and dialogue pipeline, living NPCs with needs and routines, a procedural Ashgate, and the missions that tie it together. This is the stretch that survived three July disasters (an accidental revert, a Perforce meltdown that stripped 174,000 files and took 15 hours to recover, and a tooling fault), and the 2am the quest system finally ran after sitting dead for a month. Ashgate is dressed, the loop is wired, and as of 22 July the opening mission chain plays end to end. The playable demo is live.</p>
             <div class="substage-grid">
                 <div class="substage declassified">
                     <div class="substage-stamp declassified">CLEAR</div>
@@ -819,20 +862,20 @@
                     <div class="substage-name">Module Build-Out</div>
                     <p class="substage-body">Operations Room with the Planning Board, salvaged radio desk, lockers, fluorescent buzz, ivy creeping in. Workhouse, the multi-discipline crafting space. Bunkroom with the bunk migration mechanic.</p>
                 <div class="substage-details"><div class="substage-details-divider"></div><img class="substage-details-img" src="screenshots/airlock_underworld_04.jpg" alt="" loading="lazy"><p class="substage-details-detail">Operations Room: Planning Board, salvaged radio desk, lockers, fluorescent buzz, ivy through the cracks. Workhouse: multi-discipline crafting space. Bunkroom: where rescued Settlers sleep before they migrate to their specialist module.</p><div class="substage-details-meta">READ MORE</div></div></div>
-                <div class="substage in-progress">
-                    <div class="substage-stamp in-progress">IN PROGRESS</div>
+                <div class="substage declassified">
+                    <div class="substage-stamp declassified">CLEAR</div>
                     <div class="substage-number">04.11</div>
                     <div class="substage-name">City Build-Out</div>
                     <p class="substage-body">Ashgate streets traced + dressed. Hospital where Kore wakes. Gas station for fuel. Builders merchant. Abandoned airlock entrance. Mission scripting layered on top, survivor encounters, the first rescue, the night escort.</p>
                 <div class="substage-details"><div class="substage-details-divider"></div><img class="substage-details-img" src="screenshots/airlock_world_01.jpg" alt="" loading="lazy"><p class="substage-details-detail">Ashgate streets traced with the new procedural city tool. Hospital where Kore wakes. Gas station for fuel. Builders merchant. The abandoned airlock entrance, a boarded-up cellar door, not a sci-fi blast hatch. Grounded.</p><div class="substage-details-meta">READ MORE</div></div></div>
-                <div class="substage classified">
-                    <div class="substage-stamp classified">CLASSIFIED</div>
+                <div class="substage declassified">
+                    <div class="substage-stamp declassified">CLEAR</div>
                     <div class="substage-number">04.12</div>
                     <div class="substage-name">Settlers Live</div>
                     <p class="substage-body">14 Settler class Blueprints instantiated. Full ALS locomotion. Procedural names, traits, skill rolls. They walk into the airlock. They stand at their module. They react when Kore approaches.</p>
                 <div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">Procedural names. Procedural traits. Procedural skill rolls weighted by class. Fourteen Settler classes ready to instantiate. They walk in. They stand at their module. They greet Kore by name when he passes.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
-                <div class="substage classified">
-                    <div class="substage-stamp classified">CLASSIFIED</div>
+                <div class="substage declassified">
+                    <div class="substage-stamp declassified">CLEAR</div>
                     <div class="substage-number">04.13</div>
                     <div class="substage-name">Module Unlocks</div>
                     <p class="substage-body">Settlers unlock modules. No Engineer = no Tier 2+ upgrades. No Chemist = no explosives. Your rescue roster determines what your base can become. Rescue drives unlocks.</p>
@@ -843,8 +886,8 @@
                     <div class="substage-name">Construction State</div>
                     <p class="substage-body">Module upgrades stop being instant. Time passes. Scaffolding appears. If the upgrade digs deeper, ore nodes spawn, mine them before the timer ends. Settlers shove Kore out of the corridor during construction.</p>
                 <div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">Module upgrades stop being instant mesh swaps. A timer runs. Scaffolding visible. If the upgrade digs deeper, ore nodes spawn in the new cells, mine them before the timer ends or lose the haul. Settlers shove Kore back if he tries to walk in mid-build.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
-                <div class="substage classified">
-                    <div class="substage-stamp classified">CLASSIFIED</div>
+                <div class="substage in-progress">
+                    <div class="substage-stamp in-progress">IN PROGRESS</div>
                     <div class="substage-number">04.15</div>
                     <div class="substage-name">Demo Ready</div>
                     <p class="substage-body">A 60+ minute guided experience. Wake up alone. Discover the airlock. Build your first rooms. Rescue your first Survivors. Survive the night. The hook that makes you need to know what happens next.</p>
@@ -865,7 +908,7 @@
                 </div>
                 <div class="stamp classified">CLASSIFIED</div>
             </div>
-            <p class="phase-summary">Demo lands on Steam. Players play. The Kickstarter campaign. The push that funds full-time development.</p>
+            <p class="phase-summary">The public reveal, and the money. An 80 Level feature and a 16k-view Reddit wave in early June doubled the wishlists overnight. A Kickstarter launched on the buzz, then was pulled the same day a publisher called with an advance and terms that keep the IP with Ironbridge. Next: the demo lands on Steam, the Kickstarter relaunches (targeting late Aug to early Sept, gated on roughly 3,000+ wishlists), and the publisher deal closes.</p>
             <div class="substage-grid">
                 <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">05.01</div><div class="substage-name">Steam Coming Soon</div><p class="substage-body">The demo lands on Steam with a Coming Soon page. Header capsule, screenshots, trailer, descriptions. Wishlist collection from day one.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// Coming soon page locked. Header capsule, screenshots, trailer, descriptions. Wishlist collection from day one. The page lives quiet in Steamworks until the demo is footage-ready, then goes public.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
                 <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">05.02</div><div class="substage-name">Player Feedback</div><p class="substage-body">First weeks after demo lands are about listening. Steam reviews, Discord input, playtester surveys. Iterate based on what players actually do vs what we designed for.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// First weeks live are listening time. Discord, Steam reviews, recorded sessions, surveys. Iterate based on what players actually do, not what we designed for. Telemetry with respect.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
@@ -888,7 +931,7 @@
                 </div>
                 <div class="stamp classified">CLASSIFIED</div>
             </div>
-            <p class="phase-summary">The studio scales. Animator, character artist, AI programmer, level designer, narrative writer. The systems that ship in 1.0 land here.</p>
+            <p class="phase-summary">Once funded, the studio scales: animator, character artist, AI programmer, level designer, narrative writer. The systems that ship in 1.0 land here. Planned for 2027.</p>
             <div class="substage-grid">
                 <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">06.01</div><div class="substage-name">Hire Team</div><p class="substage-body">Animator. Character Artist. Concept Artist. AI Programmer. Level Designer. Possibly a senior writer. Ironbridge goes from solo to a real studio.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// Animator. Character Artist. Concept Artist. AI Programmer. Level Designer. Possibly a senior writer. Ironbridge goes from solo to a real studio.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
                 <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">06.02</div><div class="substage-name">Animation Pipeline</div><p class="substage-body">Custom Kore locomotion set. Real combat anims. Settler work anims per class, Cook, Engineer, Medic, Farmer, Gunsmith. Reaction anims. Mocap session OR senior hand-key animator.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// Custom Kore locomotion set. Real combat anims. Settler work anims per class. Reaction anims. Mocap session OR senior hand-key animator.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
@@ -919,7 +962,7 @@
                 </div>
                 <div class="stamp classified">CLASSIFIED</div>
             </div>
-            <p class="phase-summary">AIRLOCK goes live on Steam Early Access. The community is in the room. Players play, break, tell us what works. Updates ship every quarter.</p>
+            <p class="phase-summary">AIRLOCK goes live on Steam Early Access. The community is in the room, playing, breaking, and shaping it, with updates every quarter. A backer beta is targeted for December 2026 ahead of this.</p>
             <div class="substage-grid">
                 <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">07.01</div><div class="substage-name">Early Access Launch</div><p class="substage-body">AIRLOCK goes live on Steam Early Access. Core loop complete: build, explore, survive, expand. Not a closed-door project.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// AIRLOCK goes live on Steam Early Access. Core loop complete: build, explore, survive, expand. Not a closed-door project.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
                 <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">07.02</div><div class="substage-name">Community Building</div><p class="substage-body">Discord and Slack communities. Direct line between players and studio. Bug reports, feature requests, lore discussion, screenshot showcase.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// Discord and Slack communities. Direct line between players and studio. Bug reports, feature requests, lore discussion, screenshot showcase.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
@@ -941,7 +984,7 @@
                 </div>
                 <div class="stamp classified">CLASSIFIED</div>
             </div>
-            <p class="phase-summary">1.0 ships. Console builds follow. Trading economies, multi-airlock networks, the underground metro, global maps, eventually multiplayer.</p>
+            <p class="phase-summary">1.0 ships, target 1 December 2027, with console builds to follow. Then the deeper vision: trading economies, multi-airlock networks, the underground metro, global maps, and eventually multiplayer.</p>
             <div class="substage-grid">
                 <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">08.01</div><div class="substage-name">1.0 Launch</div><p class="substage-body">All systems. Full narrative. Complete economy. The game Henry has carried in his head for over a decade, fully realised.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// All systems. Full narrative. Complete economy. The game Henry has carried in his head for over a decade, fully realised.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
                 <div class="substage classified"><div class="substage-stamp classified">CLASSIFIED</div><div class="substage-number">08.02</div><div class="substage-name">Console Builds</div><p class="substage-body">PS5, Xbox Series X|S, Switch 2. Each platform requires certification. Console launches typically follow PC by 3-6 months.</p><div class="substage-details"><div class="substage-details-divider"></div><p class="substage-details-detail">// PS5, Xbox Series X|S, Switch 2. Each platform requires certification. Console launches typically follow PC by 3-6 months.</p><div class="substage-details-meta">// EXPANDED FILE</div></div></div>
@@ -1074,5 +1117,8 @@
         });
     </script>
 
+<script>
+(function(){var b=document.body,t=document.getElementById("mnavToggle"),bd=document.getElementById("mnavBackdrop"),m=document.getElementById("mnav");function set(o){b.classList.toggle("menu-open",o);if(t)t.setAttribute("aria-expanded",o?"true":"false");}if(t)t.addEventListener("click",function(){set(!b.classList.contains("menu-open"));});if(bd)bd.addEventListener("click",function(){set(false);});if(m)m.addEventListener("click",function(e){if(e.target.closest("a"))set(false);});window.addEventListener("keydown",function(e){if(e.key==="Escape")set(false);});window.addEventListener("resize",function(){if(window.innerWidth>1000)set(false);});})();
+</script>
 </body>
 </html>
