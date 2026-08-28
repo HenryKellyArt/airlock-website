@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIRLOCK · Every shelter tells a story</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Sans+Condensed:wght@500;600;700&family=Fira+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Fira+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   AIRLOCK — v2. Palette from the game build, shape language
+   machined rather than drawn: chamfers not radii, corner
+   brackets not frames, segmented rules not solid lines.
+   Restraint is the whole trick. Chamfer two panel types, use
+   brackets on one thing, keep the type dead straight.
+   ============================================================ */
+:root{
+  --void:#080703;
+  --bg:#0e0d07;
+  --bg-2:#15130c;
+  --bg-3:#1c1911;
+  --bone:#ECE6D6;
+  --bone-dim:rgba(236,230,214,.68);
+  --bone-faint:rgba(236,230,214,.34);
+  --line:rgba(236,230,214,.13);
+  --gold:#ffad00;
+  --gold-line:rgba(255,173,0,.40);
+  --ally:#6FB585;
+  --danger:#E0705C;
+  --max:1500px;
+  --c:15px;            /* chamfer depth */
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--bone);
+  font-family:'Fira Sans',system-ui,sans-serif;font-size:17px;line-height:1.62;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+/* grain */
+body::after{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.wrap{width:100%;max-width:var(--max);margin:0 auto;padding:0 clamp(22px,4vw,64px)}
+.display{font-family:'Fira Sans Condensed',sans-serif;font-weight:700;letter-spacing:.5px;text-wrap:balance}
+.label{font-family:'Fira Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--bone-faint)}
+
+/* ── SHAPE LANGUAGE ───────────────────────────────────────── */
+
+/* chamfer: two opposite corners sliced. Machined, not drawn. */
+.chamf,.chamf-in{
+  clip-path:polygon(var(--c) 0,100% 0,100% calc(100% - var(--c)),calc(100% - var(--c)) 100%,0 100%,0 var(--c));
+}
+.chamf{background:var(--line);padding:1px}          /* the 1px acts as the border */
+.chamf-in{background:var(--bg-2);height:100%}
+.chamf.gold{background:var(--gold-line)}
+
+/* corner brackets: a reticle, not a frame. Used ONCE, on the dossier. */
+.bracket{position:relative}
+.bracket::before,.bracket::after{
+  content:'';position:absolute;width:19px;height:19px;pointer-events:none;
+}
+.bracket::before{top:-1px;left:-1px;border-top:2px solid var(--gold);border-left:2px solid var(--gold)}
+.bracket::after{bottom:-1px;right:-1px;border-bottom:2px solid var(--gold);border-right:2px solid var(--gold)}
+
+/* segmented rule: discrete blocks, terminating in a cap tick */
+.rule{position:relative;height:1px;margin:0;
+  background:repeating-linear-gradient(90deg,var(--line) 0 7px,transparent 7px 13px)}
+.rule::after{content:'';position:absolute;right:0;top:-3px;width:2px;height:7px;background:var(--gold)}
+
+/* stepped underline: thick short stub, thin long tail. Never symmetrical. */
+.step{display:flex;align-items:flex-end;gap:5px;margin-top:20px}
+.step i{display:block;background:var(--gold)}
+.step i:nth-child(1){width:42px;height:4px}
+.step i:nth-child(2){width:15px;height:2px;opacity:.6}
+.step i:nth-child(3){width:74px;height:1px;opacity:.3}
+
+/* segmented data bar, under the readout numbers */
+.seg{height:3px;margin-top:9px;
+  background:repeating-linear-gradient(90deg,var(--gold) 0 8px,transparent 8px 12px);opacity:.75}
+.seg.dim{background:repeating-linear-gradient(90deg,var(--bone-faint) 0 8px,transparent 8px 12px);opacity:.4}
+.seg.ok{background:repeating-linear-gradient(90deg,var(--ally) 0 8px,transparent 8px 12px)}
+
+/* faint diagonal panelling, barely there */
+.panelled{position:relative}
+.panelled::before{
+  content:'';position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background:repeating-linear-gradient(115deg,transparent 0 62px,rgba(236,230,214,.022) 62px 63px);
+}
+
+.dia{display:inline-block;width:9px;height:9px;background:var(--gold);transform:rotate(45deg);flex:none}
+.dia.hollow{background:none;border:1.5px solid var(--gold)}
+
+/* ── NAV ──────────────────────────────────────────────────── */
+nav{position:sticky;top:0;z-index:100;background:rgba(8,7,3,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;gap:34px;height:70px}
+.logo{font-family:'Fira Sans Condensed',sans-serif;font-weight:700;font-size:25px;letter-spacing:5px;color:var(--bone)}
+.logo span{color:var(--gold)}
+.nav-links{display:flex;gap:26px;list-style:none;margin-left:8px}
+.nav-links a{position:relative;font-size:12.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--bone-dim);padding-bottom:5px;transition:color .15s}
+.nav-links a:hover,.nav-links a.on{color:var(--gold)}
+.nav-links a.on::after{content:'';position:absolute;left:0;bottom:0;width:16px;height:3px;background:var(--gold)}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:11px}
+
+/* chamfered buttons */
+.btn{--c:9px;display:inline-flex;align-items:center;gap:9px;font-size:12.5px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;padding:1px;transition:.15s;white-space:nowrap;
+  clip-path:polygon(var(--c) 0,100% 0,100% calc(100% - var(--c)),calc(100% - var(--c)) 100%,0 100%,0 var(--c));}
+.btn i{display:block;padding:10px 19px;font-style:normal;
+  clip-path:polygon(var(--c) 0,100% 0,100% calc(100% - var(--c)),calc(100% - var(--c)) 100%,0 100%,0 var(--c));}
+.btn-primary{background:var(--gold)}
+.btn-primary i{background:var(--gold);color:#241800}
+.btn-primary:hover{background:#ffc23f}.btn-primary:hover i{background:#ffc23f}
+.btn-ghost{background:var(--line)}
+.btn-ghost i{background:var(--bg);color:var(--bone-dim)}
+.btn-ghost:hover{background:var(--gold-line)}.btn-ghost:hover i{color:var(--gold)}
+
+/* ── HERO ─────────────────────────────────────────────────── */
+.hero{position:relative;min-height:88vh;display:flex;align-items:flex-end;overflow:hidden}
+.hero-img{position:absolute;inset:0}
+.hero-img img{width:100%;height:100%;object-fit:cover;object-position:center 42%}
+.hero-img::after{content:'';position:absolute;inset:0;background:
+  linear-gradient(180deg,rgba(14,13,7,.55) 0%,rgba(14,13,7,.08) 30%,rgba(14,13,7,.93) 80%,var(--bg) 100%),
+  radial-gradient(120% 80% at 50% 45%,transparent 28%,rgba(8,7,3,.75) 100%);}
+/* one long angled hairline across the hero: structure, not decoration */
+.hero::before{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(101deg,transparent calc(62% - 1px),rgba(255,173,0,.16) 62%,transparent calc(62% + 1px));}
+.hero-in{position:relative;z-index:2;padding:0 0 clamp(46px,7vw,92px)}
+.hero-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.hero h1{font-family:'Fira Sans Condensed',sans-serif;font-weight:700;font-size:clamp(58px,11vw,158px);line-height:.86;letter-spacing:1px;text-transform:uppercase}
+.hero h1 em{font-style:normal;color:var(--gold);text-shadow:0 0 48px rgba(255,173,0,.3)}
+.hero-sub{font-size:clamp(17px,1.6vw,21px);color:var(--bone-dim);max-width:58ch;margin-top:22px}
+.hero-cta{display:flex;flex-wrap:wrap;gap:11px;margin-top:32px}
+
+/* readout: chamfered, segmented bars, notched divider between cells */
+.readout{--c:17px;display:flex;flex-wrap:wrap;margin-top:42px;background:rgba(8,7,3,.62);backdrop-filter:blur(6px);
+  clip-path:polygon(var(--c) 0,100% 0,100% calc(100% - var(--c)),calc(100% - var(--c)) 100%,0 100%,0 var(--c));
+  border-top:1px solid var(--gold-line)}
+.readout>div{padding:16px 26px 18px;flex:1 1 148px;position:relative}
+.readout>div+div::before{content:'';position:absolute;left:0;top:22%;bottom:22%;width:1px;
+  background:repeating-linear-gradient(180deg,var(--line) 0 4px,transparent 4px 8px)}
+.readout b{display:block;font-family:'Fira Mono',monospace;font-size:23px;font-weight:500;color:var(--gold);font-variant-numeric:tabular-nums;line-height:1.2}
+.readout b.ok{color:var(--ally)}
+.readout span{display:block;font-family:'Fira Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--bone-faint);margin-top:5px}
+
+/* ── SECTIONS ─────────────────────────────────────────────── */
+section{padding:clamp(64px,9vw,132px) 0;position:relative}
+.sec-head{margin-bottom:52px;max-width:74ch}
+.sec-eyebrow{display:flex;align-items:center;gap:11px;margin-bottom:14px}
+h2{font-family:'Fira Sans Condensed',sans-serif;font-weight:700;font-size:clamp(36px,5.4vw,76px);line-height:.94;letter-spacing:.5px;text-transform:uppercase;text-wrap:balance}
+.sec-sub{color:var(--bone-dim);margin-top:18px;max-width:62ch}
+
+/* pillars: alternating chamfer direction so the row reads machined */
+.pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:14px}
+.pillar{padding:30px 28px 34px;background:var(--bg-2);position:relative;
+  clip-path:polygon(var(--c) 0,100% 0,100% 100%,0 100%,0 var(--c));transition:background .2s}
+.pillar:nth-child(even){clip-path:polygon(0 0,100% 0,100% calc(100% - var(--c)),calc(100% - var(--c)) 100%,0 100%)}
+.pillar:hover{background:var(--bg-3)}
+.pillar-top{display:flex;align-items:center;gap:11px;margin-bottom:14px}
+.pillar h3{font-family:'Fira Sans Condensed',sans-serif;font-weight:700;font-size:27px;letter-spacing:1.5px;text-transform:uppercase}
+.pillar p{font-size:15.5px;color:var(--bone-dim)}
+.pillar .num{font-family:'Fira Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:.16em;margin-left:auto}
+
+/* systems */
+.sys{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.card-b{padding:22px 24px 26px;display:flex;flex-direction:column;gap:9px;flex:1}
+.card-b h3{font-family:'Fira Sans Condensed',sans-serif;font-weight:700;font-size:22px;letter-spacing:1.2px;text-transform:uppercase;display:flex;align-items:center;gap:10px}
+.card-b p{font-size:15px;color:var(--bone-dim)}
+.chamf-in{display:flex;flex-direction:column}
+.card-img{width:100%;height:186px;object-fit:cover;filter:saturate(.9)}
+.tag{font-family:'Fira Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;color:var(--gold);align-self:flex-start;margin-top:auto;
+  background:rgba(255,173,0,.09);clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px)}
+.tag.new{color:var(--ally);background:rgba(111,181,133,.1)}
+
+/* dossier */
+.dossier-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:46px;align-items:start}
+.dossier{background:rgba(255,173,0,.05);padding:26px 28px;border:1px solid rgba(255,173,0,.18)}
+.dos-top{display:flex;align-items:center;justify-content:space-between;gap:14px;padding-bottom:14px;margin-bottom:18px;
+  background:repeating-linear-gradient(90deg,var(--gold-line) 0 7px,transparent 7px 13px) bottom/100% 1px no-repeat}
+.dos-top .l{display:flex;align-items:center;gap:10px;font-family:'Fira Sans Condensed',sans-serif;font-weight:700;letter-spacing:2.4px;font-size:14px;text-transform:uppercase;color:var(--gold)}
+.dos-row{margin-bottom:17px}
+.dos-val{font-family:'Fira Sans Condensed',sans-serif;font-weight:700;letter-spacing:1.2px;font-size:20px;color:var(--gold);text-transform:uppercase}
+.dos-val.ok{color:var(--ally)}
+.dos-val.live{color:var(--danger)}
+.pulse{display:inline-block;width:7px;height:7px;background:var(--danger);margin-right:9px;transform:rotate(45deg);animation:p 1.9s ease-in-out infinite}
+@keyframes p{0%,100%{opacity:1}50%{opacity:.2}}
+@media(prefers-reduced-motion:reduce){.pulse{animation:none}}
+
+/* phases as objective rows */
+.phase{display:flex;gap:15px;padding:16px 0;align-items:flex-start;
+  background:repeating-linear-gradient(90deg,var(--line) 0 7px,transparent 7px 13px) bottom/100% 1px no-repeat}
+.phase:last-child{background:none}
+.tick{font-family:'Fira Mono',monospace;font-size:14px;color:var(--bone-faint);flex:none;margin-top:2px;width:26px}
+.tick.done{color:var(--ally)}
+.tick.now{color:var(--gold)}
+.phase-b h4{font-family:'Fira Sans Condensed',sans-serif;font-weight:700;font-size:19px;letter-spacing:1.1px;text-transform:uppercase}
+.phase.is-done h4{color:var(--bone-faint)}
+.phase-b p{font-size:14.5px;color:var(--bone-dim);margin-top:3px}
+.phase .st{margin-left:auto;font-family:'Fira Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--bone-faint);flex:none;padding-top:4px}
+.phase .st.done{color:var(--ally)}
+.phase .st.now{color:var(--gold)}
+
+.close{text-align:center}
+.close h2{margin-bottom:18px}
+.close p{color:var(--bone-dim);max-width:52ch;margin:0 auto 30px}
+.close .hero-cta{justify-content:center}
+.close .step{justify-content:center;margin-bottom:26px}
+footer{padding:34px 0;background:var(--void);
+  background-image:repeating-linear-gradient(90deg,var(--line) 0 7px,transparent 7px 13px);background-size:100% 1px;background-repeat:no-repeat;background-position:top}
+.foot-in{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+
+@media(max-width:900px){
+  .dossier-grid{grid-template-columns:1fr;gap:34px}
+  .nav-links{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-in">
+    <div class="logo">AIR<span>LOCK</span></div>
+    <ul class="nav-links">
+      <li><a href="#" class="on">Home</a></li>
+      <li><a href="#systems">Systems</a></li>
+      <li><a href="#status">Roadmap</a></li>
+      <li><a href="diary.html">Diary</a></li>
+      <li><a href="media.html">Media</a></li>
+    </ul>
+    <div class="nav-right">
+      <a class="btn btn-ghost" href="AIRLOCK_Press_Kit.pdf"><i>Press Kit</i></a>
+      <a class="btn btn-primary" href="https://store.steampowered.com/app/4652950/"><i>Wishlist on Steam</i></a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-img"><img src="Airlock_UnderWorld_DollhouseView.jpeg" alt="Cutaway view of the airlock shelter, room by room"></div>
+  <div class="wrap hero-in">
+    <div class="hero-eyebrow"><span class="dia"></span><span class="label">Ashgate · 300 years after the sonic war</span></div>
+    <h1>Every shelter<br>tells a <em>story</em></h1>
+    <div class="step"><i></i><i></i><i></i></div>
+    <p class="hero-sub">A post-apocalyptic survival base-builder. Rescue survivors from the ruins, dig your shelter room by room beneath them, and keep the lights on when the Altered come.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="https://store.steampowered.com/app/4652950/"><i>Wishlist on Steam</i></a>
+      <a class="btn btn-ghost" href="AIRLOCK_Press_Kit.pdf"><i>Press Kit</i></a>
+      <a class="btn btn-ghost" href="AIRLOCK_Pitch_Deck.pdf"><i>Pitch Deck</i></a>
+    </div>
+    <div class="readout">
+      <div><b class="ok">PLAYABLE</b><span>Demo status</span><div class="seg ok"></div></div>
+      <div><b>20+</b><span>Missions</span><div class="seg"></div></div>
+      <div><b>11</b><span>Survivors</span><div class="seg"></div></div>
+      <div><b>14</b><span>Modules</span><div class="seg"></div></div>
+      <div><b>UE 5.7</b><span>Solo built</span><div class="seg dim"></div></div>
+    </div>
+  </div>
+</header>
+
+<section class="panelled">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow"><span class="dia"></span><span class="label">The loop</span></div>
+      <h2>Four things<br>keep you alive</h2>
+      <div class="step"><i></i><i></i><i></i></div>
+    </div>
+    <div class="pillars">
+      <article class="pillar">
+        <div class="pillar-top"><span class="dia hollow"></span><h3>Explore</h3><span class="num">01</span></div>
+        <p>Head out across an overgrown world reclaimed by nature. Scavenge the ruins, piece together what happened, and weigh every risk. Daylight keeps you safe, but it never lasts.</p>
+      </article>
+      <article class="pillar">
+        <div class="pillar-top"><span class="dia hollow"></span><h3>Rescue</h3><span class="num">02</span></div>
+        <p>Survivors are scattered and scared. Track them down, earn their trust, and bring them home. Each arrives with their own skills, history, and reasons to stay.</p>
+      </article>
+      <article class="pillar">
+        <div class="pillar-top"><span class="dia hollow"></span><h3>Build</h3><span class="num">03</span></div>
+        <p>Dig in and design your shelter room by room, planned from above like a dollhouse. Power, water, food, defences and morale all hang on how well you build.</p>
+      </article>
+      <article class="pillar">
+        <div class="pillar-top"><span class="dia hollow"></span><h3>Survive</h3><span class="num">04</span></div>
+        <p>When the sun goes down, the Altered come. Hold the line, ration what little you have, and make the hard calls. Every night you survive is another story your shelter carries.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="rule"></div></div>
+
+<section id="systems">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow"><span class="dia"></span><span class="label">Systems · live in the build</span></div>
+      <h2>It all runs</h2>
+      <div class="step"><i></i><i></i><i></i></div>
+      <p class="sec-sub">Not a feature list. Every system below is implemented and playable in the current build.</p>
+    </div>
+    <div class="sys">
+      <div class="chamf"><div class="chamf-in">
+        <img class="card-img" src="SP_AIR_PowerRoom_01.jpg" alt="The power room">
+        <div class="card-b"><h3><span class="dia"></span>Keep the power on</h3>
+          <p>Generators run on fuel you scavenge. Overload the grid and the lights start to go. Lose power and the doors, pumps and grow lights die with it.</p>
+          <span class="tag">Shipped</span></div>
+      </div></div>
+      <div class="chamf"><div class="chamf-in">
+        <img class="card-img" src="SP_AIR_WaterRoom_01.jpg" alt="The water room">
+        <div class="card-b"><h3><span class="dia"></span>Water and food</h3>
+          <p>Pump, filter and ration. Thirst kills as quietly as the Altered, and a settler who is not fed does not stay hopeful for long.</p>
+          <span class="tag new">New · August</span></div>
+      </div></div>
+      <div class="chamf"><div class="chamf-in">
+        <img class="card-img" src="SP_AIR_GreenHouse_01_A.jpg" alt="The greenhouse">
+        <div class="card-b"><h3><span class="dia"></span>Grow your own</h3>
+          <p>Seven crop stages on a real clock, grow lights on a twelve hour cycle, and a watering can you carry by hand. Cut the power and the plants know.</p>
+          <span class="tag new">New · August</span></div>
+      </div></div>
+      <div class="chamf"><div class="chamf-in">
+        <img class="card-img" src="SP_AIR_WorkshopRoom_01.jpg" alt="The workshop">
+        <div class="card-b"><h3><span class="dia"></span>Put them to work</h3>
+          <p>Assign survivors to the rooms that suit them. A mechanic repairs the generator himself. A herbalist tends the beds. Their skills change what your shelter can do.</p>
+          <span class="tag">Shipped</span></div>
+      </div></div>
+      <div class="chamf"><div class="chamf-in">
+        <img class="card-img" src="SP_AIR_Surface_new.jpg" alt="The surface">
+        <div class="card-b"><h3><span class="dia"></span>The surface</h3>
+          <p>An open, overgrown city with a working compass, distance markers and a map that fills in as you chart it. Everything out there is a risk you chose.</p>
+          <span class="tag new">New · August</span></div>
+      </div></div>
+      <div class="chamf"><div class="chamf-in">
+        <img class="card-img" src="SP_AIR_Building_01_A.jpg" alt="Building the shelter">
+        <div class="card-b"><h3><span class="dia"></span>Build it your way</h3>
+          <p>Fourteen modules across life support, storage, security, navigation and provisioning. Place, upgrade, move and remove, all from the cutaway view.</p>
+          <span class="tag">Shipped</span></div>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="rule"></div></div>
+
+<section id="status" class="panelled">
+  <div class="wrap">
+    <div class="dossier-grid">
+      <div>
+        <div class="sec-head" style="margin-bottom:30px">
+          <div class="sec-eyebrow"><span class="dia"></span><span class="label">Development roadmap</span></div>
+          <h2>Where we are</h2>
+          <div class="step"><i></i><i></i><i></i></div>
+          <p class="sec-sub">Airlock is being built in the open, by one person, at night. Follow the signal.</p>
+        </div>
+        <div class="phase is-done"><span class="tick done">[x]</span><div class="phase-b"><h4>01 · Contact Lost</h4><p>Concept proven. The idea that worked.</p></div><span class="st done">Complete</span></div>
+        <div class="phase is-done"><span class="tick done">[x]</span><div class="phase-b"><h4>02 · Foundation</h4><p>Core systems online. Lore, audio and art locked.</p></div><span class="st done">Complete</span></div>
+        <div class="phase is-done"><span class="tick done">[x]</span><div class="phase-b"><h4>03 · The Airlock Opens</h4><p>Playable demo, 20+ missions, start to finish. Power, water, food, farming, ammo and the compass all live.</p></div><span class="st done">Complete</span></div>
+        <div class="phase"><span class="tick now">[&gt;]</span><div class="phase-b"><h4>04 · Signals In The Dark</h4><p>Publisher conversations and funding. Talking to several now.</p></div><span class="st now">In progress</span></div>
+        <div class="phase"><span class="tick">[ ]</span><div class="phase-b"><h4>05 · Production</h4><p>Full content build. More survivors, more surface, deeper base.</p></div><span class="st">Next</span></div>
+      </div>
+      <aside class="dossier bracket">
+        <div class="dos-top"><span class="l"><span class="dia"></span>Development Dossier</span><span class="label">A-19</span></div>
+        <div class="dos-row"><div class="label">Current phase</div><div class="dos-val">04 / Signals In The Dark</div></div>
+        <div class="dos-row"><div class="label">Demo</div><div class="dos-val ok">Playable, end to end</div></div>
+        <div class="dos-row"><div class="label">Seeking</div><div class="dos-val live"><span class="pulse"></span>Publisher</div></div>
+        <div class="dos-row" style="margin-bottom:0"><div class="label">Last update</div><div class="dos-val" style="font-size:16px;color:var(--bone-dim)">27 Aug 2026</div></div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="rule"></div></div>
+
+<section class="close">
+  <div class="wrap">
+    <div class="sec-eyebrow" style="justify-content:center"><span class="dia"></span><span class="label">The last place</span></div>
+    <h2>Come and see it</h2>
+    <div class="step"><i></i><i></i><i></i></div>
+    <p>The demo runs start to finish. If you are a publisher, the press kit and pitch deck are below. If you are a player, the wishlist is the thing that helps most.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="https://store.steampowered.com/app/4652950/"><i>Wishlist on Steam</i></a>
+      <a class="btn btn-ghost" href="AIRLOCK_Press_Kit.pdf"><i>Press Kit</i></a>
+      <a class="btn btn-ghost" href="AIRLOCK_Pitch_Deck.pdf"><i>Pitch Deck</i></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-in">
+    <span class="label">Ironbridge Games Ltd · Company 16882669</span>
+    <span class="label">Built solo · Unreal Engine 5.7</span>
+  </div>
+</footer>
+
+</body>
+</html>

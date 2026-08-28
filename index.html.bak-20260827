@@ -14,12 +14,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-    --black: #080703; --bg: #0e0d07; --bg-2: #15130c;
-    --bone: #ECE6D6;
-    --ok: #6FB585; --danger: #E0705C;   /* meanings, not brand */
-    --bone-dim: rgba(236,230,214,0.72); --bone-faint: rgba(236,230,214,0.16);
-    --green: #ffad00; --green-bright: #ffc23f; --green-deep: #5c3f00;
-    --amber: #ffad00; --amber-bright: #ffc23f;
+    --black: #050505; --bg: #0A0A0A; --bg-2: #121512;
+    --bone: #ECE6D6; --bone-dim: rgba(236,230,214,0.72); --bone-faint: rgba(236,230,214,0.16);
+    --green: #9CAF88; --green-bright: #B7C7A3; --green-deep: #54603c;
+    --amber: #D4A046; --amber-bright: #E8B86C;
     --locked: rgba(236,230,214,0.34);
     --line: rgba(236,230,214,0.12);
     --container: 1760px;
@@ -40,7 +38,7 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity
     background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
 
 /* ===== NAV ===== */
-.nav { position: sticky; top: 0; z-index: 100; background: rgba(8,7,3,0.82); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+.nav { position: sticky; top: 0; z-index: 100; background: rgba(5,5,5,0.82); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
 .nav-inner { display: flex; align-items: center; gap: 30px; height: 72px; }
 /* Logo image only, never an "AIRLOCK" text wordmark (Henry 2026-06-02). */
 .brand-logo img { height: 40px; width: auto; display: block; }
@@ -50,9 +48,10 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity
 .nav-links a.is-active::after { content: ''; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px; background: var(--green-bright); }
 .nav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; }
 .steam-btn { display: inline-flex; align-items: center; gap: 9px; background: var(--green-deep); color: var(--bone); border: 1px solid var(--green); padding: 11px 20px; font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; border-radius: 3px; transition: all .15s; }
-.steam-btn:hover { background: var(--green); color: #241800; }
+.steam-btn:hover { background: var(--green); color: #04210a; }
 .steam-btn svg { width: 18px; height: 18px; }
-.ks-btn { display: inline-flex; align-items: center; gap: 9px; background: var(--amber); color: #241800; border: 1px solid var(--amber); padding: 11px 20px; font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; border-radius: 3px; transition: all .15s; }
+/* Kickstarter CTA - amber ("happening now"). Campaign live 2026-06. */
+.ks-btn { display: inline-flex; align-items: center; gap: 9px; background: var(--amber); color: #1a1205; border: 1px solid var(--amber); padding: 11px 20px; font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; border-radius: 3px; transition: all .15s; }
 .ks-btn:hover { background: var(--amber-bright); border-color: var(--amber-bright); }
 .ks-btn svg { width: 18px; height: 18px; }
 .nav-soc { display: inline-flex; color: var(--bone-dim); transition: color .15s; }
@@ -64,9 +63,9 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity
 .hero-bg { position: absolute; inset: 0; z-index: 0; }
 .hero-bg img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
 .hero-bg::after { content:''; position:absolute; inset:0; background:
-    radial-gradient(ellipse 75% 65% at 50% 42%, transparent 30%, rgba(8,7,3,0.5) 100%),
+    radial-gradient(ellipse 75% 65% at 50% 42%, transparent 30%, rgba(5,5,5,0.5) 100%),
     linear-gradient(0deg, var(--black) 4%, transparent 42%),
-    linear-gradient(90deg, rgba(8,7,3,0.72) 0%, transparent 40%); }
+    linear-gradient(90deg, rgba(5,5,5,0.72) 0%, transparent 40%); }
 /* Big AIRLOCK logo across the TOP; Kore's head pokes through the I-R gap
    (Steam-capsule key-art style). Henry 2026-06-02. */
 .hero-logo-top { position: absolute; top: clamp(84px, 11vh, 150px); left: 50%; transform: translateX(-50%); width: min(900px, 62vw); z-index: 1; pointer-events: none; filter: drop-shadow(0 8px 34px rgba(0,0,0,.78)); }
@@ -124,7 +123,7 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity
 .pillar div { font-family: 'Bebas Neue', sans-serif; font-size: 17px; letter-spacing: 1.5px; margin-top: 10px; color: var(--bone); }
 
 /* ===== DOLLHOUSE ===== */
-.dh { display: grid; grid-template-columns: 0.8fr 1.4fr; gap: 36px; align-items: center; border: 1px solid var(--line); border-radius: 6px; padding: 36px; background: linear-gradient(135deg, rgba(63,106,52,0.10), rgba(8,7,3,0.4)); }
+.dh { display: grid; grid-template-columns: 0.8fr 1.4fr; gap: 36px; align-items: center; border: 1px solid var(--line); border-radius: 6px; padding: 36px; background: linear-gradient(135deg, rgba(63,106,52,0.10), rgba(5,5,5,0.4)); }
 .dh h2 { font-family: 'Bebas Neue', sans-serif; font-size: 40px; letter-spacing: 1.5px; }
 .dh p { font-size: 16px; color: var(--bone-dim); margin: 14px 0 24px; line-height: 1.7; }
 .dh-views { position: relative; }
@@ -133,7 +132,7 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity
 .dh-views.show-live .above { display: none; }
 .dh-views.show-live .live { display: block; }
 .dh-toggle { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 56px; height: 56px; border-radius: 50%; background: var(--green-deep); border: 1px solid var(--green); color: var(--bone); display: grid; place-items: center; cursor: pointer; z-index: 2; transition: all .15s; }
-.dh-toggle:hover { background: var(--green); color: #241800; }
+.dh-toggle:hover { background: var(--green); color: #04210a; }
 .dh-toggle svg { width: 22px; height: 22px; }
 
 /* ===== ROADMAP (Where We Are - dossier timeline) ===== */
@@ -144,15 +143,15 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity
 .rm-sub { color: var(--bone-dim); font-size: 15px; margin-top: 16px; max-width: 420px; }
 /* Dossier status panel (top-right) */
 .dossier { width: min(440px, 42vw); border: 1px solid var(--amber); border-radius: 4px; background: rgba(20,18,10,0.6); padding: 20px 22px; }
-.dossier-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid rgba(255,173,0,0.3); padding-bottom: 12px; margin-bottom: 16px; }
+.dossier-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid rgba(212,160,70,0.3); padding-bottom: 12px; margin-bottom: 16px; }
 .dossier-top .lhs { display: flex; align-items: center; gap: 10px; font-family: 'Bebas Neue', sans-serif; letter-spacing: 2px; font-size: 14px; color: var(--amber-bright); }
 .dossier-top svg { width: 18px; height: 18px; color: var(--amber); flex-shrink: 0; }
 .dossier-code { font-size: 11px; letter-spacing: 2px; color: var(--bone-faint); white-space: nowrap; }
 .dossier-row { margin-bottom: 14px; }
 .dossier-label { font-size: 10.5px; letter-spacing: 2px; text-transform: uppercase; color: var(--bone-faint); margin-bottom: 4px; }
 .dossier-val { font-family: 'Bebas Neue', sans-serif; letter-spacing: 1.5px; font-size: 20px; color: var(--amber-bright); }
-.dossier-val.ok { color: var(--ok); }
-.dossier-foot { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-top: 1px solid rgba(255,173,0,0.3); padding-top: 14px; margin-top: 2px; }
+.dossier-val.ok { color: var(--green-bright); }
+.dossier-foot { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-top: 1px solid rgba(212,160,70,0.3); padding-top: 14px; margin-top: 2px; }
 .dossier-foot .dossier-label { margin: 0; }
 .dossier-foot .date { font-size: 12px; letter-spacing: 1.5px; color: var(--bone-dim); white-space: nowrap; }
 /* Horizontal track + stage cards */
@@ -164,7 +163,7 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity
 .rm-node { width: 16px; height: 16px; border-radius: 50%; margin: 14px auto 18px; background: var(--bg); border: 2px solid var(--green); display: grid; place-items: center; }
 .rm-card.locked .rm-node { border-color: var(--locked); }
 .rm-card.locked .rm-node svg { width: 8px; height: 8px; color: var(--locked); }
-.rm-card.current .rm-node { border-color: var(--amber); background: var(--amber); box-shadow: 0 0 0 4px rgba(255,173,0,0.16); }
+.rm-card.current .rm-node { border-color: var(--amber); background: var(--amber); box-shadow: 0 0 0 4px rgba(212,160,70,0.16); }
 .rm-box { flex: 1; border: 1px solid var(--line); border-radius: 5px; background: rgba(10,12,10,0.5); padding: 18px 16px 16px; display: flex; flex-direction: column; gap: 9px; }
 .rm-card.locked .rm-box { opacity: .72; }
 .rm-card.current .rm-box { border-color: var(--amber); background: rgba(30,24,10,0.55); box-shadow: 0 16px 50px rgba(0,0,0,.5); }
@@ -179,8 +178,8 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity
 .rm-bullets { list-style: none; display: flex; flex-direction: column; gap: 5px; margin: 2px 0; }
 .rm-bullets li { font-size: 12px; color: var(--bone-dim); padding-left: 16px; position: relative; line-height: 1.35; }
 .rm-bullets li::before { content: '\203A'; position: absolute; left: 2px; color: var(--green-bright); font-weight: 700; }
-.rm-pill { margin-top: auto; align-self: flex-start; font-family: 'Bebas Neue', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; padding: 6px 12px; border-radius: 3px; border: 1px solid var(--ok); color: var(--ok); }   /* complete = green */
-.rm-card.current .rm-pill { background: var(--amber); border-color: var(--amber); color: #241800; width: 100%; text-align: center; }
+.rm-pill { margin-top: auto; align-self: flex-start; font-family: 'Bebas Neue', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; padding: 6px 12px; border-radius: 3px; border: 1px solid var(--green); color: var(--green-bright); }
+.rm-card.current .rm-pill { background: var(--amber); border-color: var(--amber); color: #1a1205; width: 100%; text-align: center; }
 .rm-card.locked .rm-pill { border-color: var(--locked); color: var(--locked); }
 /* Build-in-the-open band */
 .rm-open { display: grid; grid-template-columns: 210px 1fr auto; gap: 28px; align-items: center; margin-top: 44px; padding: 22px; border: 1px solid var(--line); border-radius: 6px; background: rgba(10,12,10,0.4); }
@@ -189,7 +188,7 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity
 .rm-open-h svg { width: 22px; height: 22px; color: var(--green); flex-shrink: 0; }
 .rm-open-body p { font-size: 14px; color: var(--bone-dim); margin-top: 6px; max-width: 640px; line-height: 1.6; }
 .rm-dossier-link { display: flex; align-items: center; gap: 14px; border: 1px solid var(--amber); border-radius: 5px; padding: 16px 20px; transition: all .15s; max-width: 340px; }
-.rm-dossier-link:hover { background: rgba(255,173,0,0.1); }
+.rm-dossier-link:hover { background: rgba(212,160,70,0.1); }
 .rm-dossier-link svg { width: 30px; height: 30px; color: var(--amber-bright); flex-shrink: 0; }
 .rm-dossier-link b { font-family: 'Bebas Neue', sans-serif; font-size: 16px; letter-spacing: 1.5px; color: var(--amber-bright); display: block; }
 .rm-dossier-link span { font-size: 12.5px; color: var(--bone-dim); line-height: 1.4; }
@@ -201,7 +200,7 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity
 .devband { position: relative; padding: 60px 0; border-top: 1px solid var(--line); overflow: hidden; }
 .devband-bg { position: absolute; inset: 0; z-index: 0; }
 .devband-bg img { width: 100%; height: 100%; object-fit: cover; opacity: .25; }
-.devband-bg::after { content:''; position:absolute; inset:0; background: linear-gradient(180deg, var(--black), rgba(8,7,3,.7)); }
+.devband-bg::after { content:''; position:absolute; inset:0; background: linear-gradient(180deg, var(--black), rgba(5,5,5,.7)); }
 .devband-inner { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 30px; flex-wrap: wrap; }
 .devband-ctas { display: flex; flex-direction: column; gap: 12px; }
 .devband h2 { font-family: 'Bebas Neue', sans-serif; font-size: 30px; letter-spacing: 1.5px; }
@@ -221,8 +220,8 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity
 .chapter-bg { position: absolute; inset: 0; z-index: 0; }
 .chapter-bg img { width: 100%; height: 100%; object-fit: cover; filter: brightness(.55) saturate(.95); }
 .chapter-bg::after { content:''; position:absolute; inset:0;
-    background: radial-gradient(ellipse 80% 70% at 50% 50%, transparent 18%, rgba(8,7,3,.72) 100%), linear-gradient(90deg, rgba(8,7,3,.86) 0%, transparent 56%); }
-.chapter.right .chapter-bg::after { background: radial-gradient(ellipse 80% 70% at 50% 50%, transparent 18%, rgba(8,7,3,.72) 100%), linear-gradient(270deg, rgba(8,7,3,.86) 0%, transparent 56%); }
+    background: radial-gradient(ellipse 80% 70% at 50% 50%, transparent 18%, rgba(5,5,5,.72) 100%), linear-gradient(90deg, rgba(5,5,5,.86) 0%, transparent 56%); }
+.chapter.right .chapter-bg::after { background: radial-gradient(ellipse 80% 70% at 50% 50%, transparent 18%, rgba(5,5,5,.72) 100%), linear-gradient(270deg, rgba(5,5,5,.86) 0%, transparent 56%); }
 .chapter .container { position: relative; z-index: 2; }
 .chapter-inner { max-width: 620px; }
 .chapter.right .chapter-inner { margin-left: auto; text-align: right; }
@@ -301,7 +300,7 @@ body.menu-open .mnav-toggle span:nth-child(3){ transform:translateY(-7px) rotate
   body.menu-open .mnav{ transform:translateX(0); }
   .mnav a{ color:var(--bone-dim); font-family:'Inter',sans-serif; font-size:15px; font-weight:600; letter-spacing:1px; text-transform:uppercase; text-decoration:none; padding:15px 4px; border-bottom:1px solid var(--bone-faint); }
   .mnav a:hover{ color:var(--green-bright); }
-  .mnav .mnav-ks{ margin-top:20px; padding:14px; background:var(--amber); color:#241800; border:0; border-radius:4px; text-align:center; }
+  .mnav .mnav-ks{ margin-top:20px; padding:14px; background:var(--amber); color:#1a1205; border:0; border-radius:4px; text-align:center; }
   .mnav .mnav-steam{ margin-top:10px; padding:14px; background:var(--green-deep); color:var(--bone); border:1px solid var(--green); border-radius:4px; text-align:center; }
   .mnav-backdrop{ display:block; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:140; opacity:0; pointer-events:none; transition:opacity .28s; }
   body.menu-open .mnav-backdrop{ opacity:1; pointer-events:auto; }
@@ -323,6 +322,10 @@ body.menu-open .mnav-toggle span:nth-child(3){ transform:translateY(-7px) rotate
             <li><a href="#story">About</a></li>
         </ul>
         <div class="nav-right">
+            <a class="ks-btn" href="https://www.kickstarter.com/projects/602729946/airlock" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.3l2.9 6 6.6.9-4.8 4.6 1.2 6.5-5.9-3.1-5.9 3.1 1.2-6.5L2.5 9.2l6.6-.9z"/></svg>
+                Kickstarter
+            </a>
             <a class="steam-btn" href="https://store.steampowered.com/app/4652950/Airlock/?utm_source=officialsite" target="_blank" rel="noopener">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-9.9 8.6l5.3 2.2a2.8 2.8 0 011.6-.5l2.4-3.4v-.1a3.8 3.8 0 113.8 3.8h-.1l-3.4 2.4a2.8 2.8 0 01-5.5.8L2.3 14A10 10 0 1012 2zm-3.4 14.6l-1.2-.5a2.1 2.1 0 003.9-1.1 2.1 2.1 0 00-2.9-1.9l1.2.5a1.5 1.5 0 11-1 2.5zm8-7.2a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"/></svg>
                 Wishlist on Steam
@@ -339,6 +342,7 @@ body.menu-open .mnav-toggle span:nth-child(3){ transform:translateY(-7px) rotate
     <a href="diary.html">Dev Log</a>
     <a href="media.html">Media</a>
     <a href="#story">About</a>
+    <a class="mnav-ks" href="https://www.kickstarter.com/projects/602729946/airlock" target="_blank" rel="noopener">Back on Kickstarter</a>
     <a class="mnav-steam" href="https://store.steampowered.com/app/4652950/Airlock/?utm_source=officialsite" target="_blank" rel="noopener">Wishlist on Steam</a>
 </nav>
 
@@ -356,6 +360,10 @@ body.menu-open .mnav-toggle span:nth-child(3){ transform:translateY(-7px) rotate
         <p class="desc">Airlock is a single-player survival base-builder. Every choice shapes your bunker, your survivors, and the story they leave behind.</p>
         <div class="sub">Every shelter tells a story. What will yours become?</div>
         <div class="hero-btns">
+            <a class="ks-btn" href="https://www.kickstarter.com/projects/602729946/airlock" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.3l2.9 6 6.6.9-4.8 4.6 1.2 6.5-5.9-3.1-5.9 3.1 1.2-6.5L2.5 9.2l6.6-.9z"/></svg>
+                Back Us on Kickstarter
+            </a>
             <a class="steam-btn" href="https://store.steampowered.com/app/4652950/Airlock/?utm_source=officialsite" target="_blank" rel="noopener">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-9.9 8.6l5.3 2.2a2.8 2.8 0 011.6-.5l2.4-3.4v-.1a3.8 3.8 0 113.8 3.8h-.1l-3.4 2.4a2.8 2.8 0 01-5.5.8L2.3 14A10 10 0 1012 2zm-3.4 14.6l-1.2-.5a2.1 2.1 0 003.9-1.1 2.1 2.1 0 00-2.9-1.9l1.2.5a1.5 1.5 0 11-1 2.5zm8-7.2a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"/></svg>
                 Wishlist on Steam
@@ -397,50 +405,30 @@ body.menu-open .mnav-toggle span:nth-child(3){ transform:translateY(-7px) rotate
 <!-- ===== PILLAR CARDS ===== -->
 <section class="section">
     <div class="container cards">
-        <!-- Cards refreshed 2026-08-27: shots from the current playable build. -->
+        <!-- GIF cards animate on their own. Swap any src for a better shot. -->
         <article class="card">
-            <div class="card-media"><img src="shot_rescue.jpg" alt="Recruiting a survivor on the surface" loading="lazy"></div>
-            <div class="card-body"><h3>Rescue Survivors</h3><p>Survivors are out there, hiding. Follow a distress signal, clear whatever found them first, and offer them a place. Eleven named people, each with their own skills, history and reasons to say yes.</p></div>
+            <div class="card-media"><img src="steam_Airlock_CompanionShot.jpg" alt="Rescue survivors"></div>
+            <div class="card-body"><h3>Rescue Survivors</h3><p>They're out there. Find them. Bring them home.</p></div>
         </article>
         <article class="card">
-            <div class="card-media"><img src="shot_surface.jpg" alt="The overgrown city" loading="lazy"></div>
-            <div class="card-body"><h3>Explore The Surface</h3><p>An open city reclaimed by nature. A working compass, distance markers and a map that fills itself in as you chart it. Everything out there is a risk you chose to take.</p></div>
+            <div class="card-media"><img src="steam_Airlock_AntFarmView.jpg" alt="Build your shelter"></div>
+            <div class="card-body"><h3>Build Your Shelter</h3><p>Create a safe place beneath the ruins.</p></div>
         </article>
         <article class="card">
-            <div class="card-media"><img src="shot_expand.jpg" alt="Placing a module from the build menu" loading="lazy"></div>
-            <div class="card-body"><h3>Build Your Shelter</h3><p>Lay out your base room by room from a cutaway view. Fourteen modules across life support, storage, security, navigation and provisioning, placed, moved, upgraded or torn out.</p></div>
+            <div class="card-media"><img src="SP_AIR_GreenHouse_02_A.jpg" alt="Care for your people"></div>
+            <div class="card-body"><h3>Care For Your People</h3><p>Keep them fed. Keep them hopeful.</p></div>
         </article>
         <article class="card">
-            <div class="card-media"><img src="shot_power.jpg" alt="The power room and its broken second generator" loading="lazy"></div>
-            <div class="card-body"><h3>Keep The Power On</h3><p>Generators run on fuel you scavenge. Every room you add pulls more from the grid. Push it too far and the lights start to flicker, and when the power goes, so do the doors, the pumps and the grow lights.</p></div>
+            <div class="card-media"><img src="steam_Airlock_ActionShot.jpg" alt="Survive the night"></div>
+            <div class="card-body"><h3>Survive The Night</h3><p>The Altered come out when the sun goes down.</p></div>
         </article>
         <article class="card">
-            <div class="card-media"><img src="shot_water.jpg" alt="Water storage" loading="lazy"></div>
-            <div class="card-body"><h3>Find Clean Water</h3><p>Pump, store and ration. A water room lifts your reserves; let them run dry and your people feel it long before you do.</p></div>
+            <div class="card-media"><img src="steam_Airlock_PowerGenerator.jpg" alt="Power"></div>
+            <div class="card-body"><h3>Keep The Power On</h3><p>Wire up generators and salvage fuel. Lose power and the lights, doors and pumps die with it.</p></div>
         </article>
         <article class="card">
-            <div class="card-media"><img src="shot_farming.jpg" alt="The greenhouse" loading="lazy"></div>
-            <div class="card-body"><h3>Grow Your Own Food</h3><p>Plant crops and they grow on a real clock through seven stages. Grow lights run a twelve hour cycle and draw power like everything else. Water them yourself, or assign someone who will.</p></div>
-        </article>
-        <article class="card">
-            <div class="card-media"><img src="shot_food.jpg" alt="A meal on the table" loading="lazy"></div>
-            <div class="card-body"><h3>Feed Your People</h3><p>Cook what you grow and what you scavenge. A fed settler works. A hungry one does not stay hopeful for long.</p></div>
-        </article>
-        <article class="card">
-            <div class="card-media"><img src="shot_people.jpg" alt="The infirmary" loading="lazy"></div>
-            <div class="card-body"><h3>Care For Your People</h3><p>Health, hunger, thirst, stamina and morale, tracked for every person in the shelter. Build an infirmary, assign a medic, and keep them well enough to keep going.</p></div>
-        </article>
-        <article class="card">
-            <div class="card-media"><img src="shot_night.jpg" alt="The Altered on the surface at night" loading="lazy"></div>
-            <div class="card-body"><h3>Survive The Night</h3><p>When the sun goes down the Altered come. Hold the line with what you have, ration what is left, and make the hard calls.</p></div>
-        </article>
-        <article class="card">
-            <div class="card-media"><img src="Airlock_FightHordes.gif" alt="Clearing a horde in the street" loading="lazy"></div>
-            <div class="card-body"><h3>Clear The Hordes</h3><p>Horde zones sit out in the streets, each dozens strong. Take the contract, go in, and clear it. They stay cleared, and the map remembers.</p></div>
-        </article>
-        <article class="card">
-            <div class="card-media"><img src="shot_companion.jpg" alt="Marvel the dog" loading="lazy"></div>
-            <div class="card-body"><h3>You Are Not Alone</h3><p>Mara and Marvel are with you from the first minute. Give the dog an order and he will search, fetch, heel, hold or attack.</p></div>
+            <div class="card-media"><img src="steam_SP_AIR_WaterRoom_01.jpg" alt="Water"></div>
+            <div class="card-body"><h3>Find Clean Water</h3><p>Pump, filter and ration clean water. Thirst kills as quietly as the Altered.</p></div>
         </article>
     </div>
 </section>
@@ -483,7 +471,7 @@ body.menu-open .mnav-toggle span:nth-child(3){ transform:translateY(-7px) rotate
                 <button type="button" class="btn-ghost" id="dhSee">See it in action <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
             </div>
             <div class="dh-views" id="dhViews">
-                <img class="above" src="shot_dollhouse.jpg" alt="Dollhouse cutaway view">
+                <img class="above" src="steam_SP_AIR_Building_01_A.jpg" alt="Dollhouse cutaway view">
                 <!-- SWAP: best 'living below' first-person/interior shot -->
                 <img class="live" src="Airlock_ExploreYourBase.gif" alt="Living inside the shelter">
                 <button type="button" class="dh-toggle" id="dhToggle" title="Toggle view" aria-label="Toggle between dollhouse and live view">
@@ -497,7 +485,7 @@ body.menu-open .mnav-toggle span:nth-child(3){ transform:translateY(-7px) rotate
 <!-- ===== CHAPTERS (cinematic lore) ===== -->
 <div class="chapters" id="chapters">
     <section class="chapter">
-        <div class="chapter-bg"><img src="shot_surface.jpg" alt=""></div>
+        <div class="chapter-bg"><img src="screenshots/airlock_world_02.jpg" alt=""></div>
         <div class="container"><div class="chapter-inner">
             <div class="chapter-meta">Chapter 01 <span>·</span> The World</div>
             <h2 class="chapter-title">The Last Place<br>Standing</h2>
@@ -505,7 +493,7 @@ body.menu-open .mnav-toggle span:nth-child(3){ transform:translateY(-7px) rotate
         </div></div>
     </section>
     <section class="chapter right">
-        <div class="chapter-bg"><img src="shot_greenhouse.jpg" alt=""></div>
+        <div class="chapter-bg"><img src="screenshots/airlock_world_03.jpg" alt=""></div>
         <div class="container"><div class="chapter-inner">
             <div class="chapter-meta">Chapter 02 <span>·</span> The Rescue</div>
             <h2 class="chapter-title">Track<br>The Signal</h2>
@@ -513,7 +501,7 @@ body.menu-open .mnav-toggle span:nth-child(3){ transform:translateY(-7px) rotate
         </div></div>
     </section>
     <section class="chapter">
-        <div class="chapter-bg"><img src="shot_kitchen.jpg" alt=""></div>
+        <div class="chapter-bg"><img src="screenshots/airlock_underworld_04.jpg" alt=""></div>
         <div class="container"><div class="chapter-inner">
             <div class="chapter-meta">Chapter 03 <span>·</span> The Night</div>
             <h2 class="chapter-title">Hold<br>The Line</h2>
@@ -542,15 +530,15 @@ body.menu-open .mnav-toggle span:nth-child(3){ transform:translateY(-7px) rotate
                 </div>
                 <div class="dossier-row">
                     <div class="dossier-label">Current Phase</div>
-                    <div class="dossier-val">04 / Signals In The Dark</div>
+                    <div class="dossier-val">03 / The Airlock Opens</div>
                 </div>
                 <div class="dossier-row">
                     <div class="dossier-label">Status</div>
-                    <div class="dossier-val ok">Demo playable, end to end</div>
+                    <div class="dossier-val ok">In Progress</div>
                 </div>
                 <div class="dossier-foot">
                     <div class="dossier-label">Last Update</div>
-                    <div class="date">Aug 27 2026</div>
+                    <div class="date">Jul 22 2026</div>
                 </div>
             </aside>
         </div>
@@ -580,36 +568,34 @@ body.menu-open .mnav-toggle span:nth-child(3){ transform:translateY(-7px) rotate
                         <span class="rm-pill">Complete</span>
                     </div>
                 </div>
-                <!-- 03 (complete, 2026-08) -->
-                <div class="rm-card">
+                <!-- 03 (current) -->
+                <div class="rm-card current">
                     <div class="rm-node"></div>
                     <div class="rm-box">
                         <div class="rm-cnum">03</div>
                         <svg class="rm-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 13v8M9 21h6"/><circle cx="12" cy="10" r="2"/><path d="M6.5 15.5a7 7 0 010-9.9M17.5 5.6a7 7 0 010 9.9M8.6 13.4a4 4 0 010-5.7M15.4 7.7a4 4 0 010 5.7"/></svg>
                         <div class="rm-cname">The Airlock Opens</div>
-                        <p class="rm-cdesc">Playable demo, start to finish. 20+ missions.</p>
+                        <p class="rm-cdesc">Prototype / vertical slice.</p>
                         <ul class="rm-bullets">
                             <li>Shelter building</li>
                             <li>Power grid</li>
-                            <li>Water &amp; food</li>
-                            <li>Farming &amp; greenhouse</li>
-                            <li>Survivor AI &amp; assignment</li>
-                            <li>Surface, compass &amp; map</li>
-                            <li>Hordes &amp; combat</li>
+                            <li>Survivor AI</li>
+                            <li>Surface threat loop</li>
                             <li>Playable demo</li>
+                            <li>Steam page live</li>
                         </ul>
-                        <span class="rm-pill">Complete</span>
+                        <span class="rm-pill">Status: In Progress</span>
                     </div>
                 </div>
-                <!-- 04 (current, 2026-08) -->
-                <div class="rm-card current">
-                    <div class="rm-node"></div>
+                <!-- 04 -->
+                <div class="rm-card locked">
+                    <div class="rm-node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V8a4 4 0 018 0v3"/></svg></div>
                     <div class="rm-box">
                         <div class="rm-cnum">04</div>
                         <svg class="rm-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 13v8M9 21h6"/><circle cx="12" cy="10" r="2"/><path d="M6.5 15.5a7 7 0 010-9.9M17.5 5.6a7 7 0 010 9.9"/></svg>
                         <div class="rm-cname">Signals In The Dark</div>
-                        <p class="rm-cdesc">Funding and publisher conversations. In progress now.</p>
-                        <span class="rm-pill">Status: In Progress</span>
+                        <p class="rm-cdesc">Funding / publisher outreach.</p>
+                        <span class="rm-pill">Next</span>
                     </div>
                 </div>
                 <!-- 05 -->
@@ -703,8 +689,8 @@ body.menu-open .mnav-toggle span:nth-child(3){ transform:translateY(-7px) rotate
     <div class="devband-bg"><img src="city_bg_airlockPressAnyKey.jpg" alt=""></div>
     <div class="container devband-inner">
         <div>
-            <h2>The demo is playable</h2>
-            <p>Twenty missions, start to finish. Wishlist it on Steam, follow the build on Discord, and watch the shelter go up one room at a time.</p>
+            <h2>The Kickstarter is live</h2>
+            <p>Back AIRLOCK now and help fund full-time development. Every pledge brings the airlock closer.</p>
             <div class="socials">
                 <span style="font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--bone-faint)">Follow the development</span>
                 <!-- SWAP hrefs: real Discord / X / YouTube / Reddit URLs -->
@@ -713,6 +699,10 @@ body.menu-open .mnav-toggle span:nth-child(3){ transform:translateY(-7px) rotate
             </div>
         </div>
         <div class="devband-ctas">
+            <a class="ks-btn" href="https://www.kickstarter.com/projects/602729946/airlock" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.3l2.9 6 6.6.9-4.8 4.6 1.2 6.5-5.9-3.1-5.9 3.1 1.2-6.5L2.5 9.2l6.6-.9z"/></svg>
+                Back Us on Kickstarter
+            </a>
             <a class="steam-btn" href="https://store.steampowered.com/app/4652950/Airlock/?utm_source=officialsite" target="_blank" rel="noopener">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-9.9 8.6l5.3 2.2a2.8 2.8 0 011.6-.5l2.4-3.4v-.1a3.8 3.8 0 113.8 3.8h-.1l-3.4 2.4a2.8 2.8 0 01-5.5.8L2.3 14A10 10 0 1012 2zm-3.4 14.6l-1.2-.5a2.1 2.1 0 003.9-1.1 2.1 2.1 0 00-2.9-1.9l1.2.5a1.5 1.5 0 11-1 2.5zm8-7.2a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"/></svg>
                 Wishlist on Steam
@@ -727,6 +717,10 @@ body.menu-open .mnav-toggle span:nth-child(3){ transform:translateY(-7px) rotate
         <h2>Stay In The Loop</h2>
         <p>Dev diaries, demo announcements, and the call when the airlock opens. Follow the signal on the channels below.</p>
         <div class="nl-ctas">
+            <a class="ks-btn" href="https://www.kickstarter.com/projects/602729946/airlock" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.3l2.9 6 6.6.9-4.8 4.6 1.2 6.5-5.9-3.1-5.9 3.1 1.2-6.5L2.5 9.2l6.6-.9z"/></svg>
+                Back Us on Kickstarter
+            </a>
             <a class="steam-btn" href="https://store.steampowered.com/app/4652950/Airlock/?utm_source=officialsite" target="_blank" rel="noopener">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-9.9 8.6l5.3 2.2a2.8 2.8 0 011.6-.5l2.4-3.4v-.1a3.8 3.8 0 113.8 3.8h-.1l-3.4 2.4a2.8 2.8 0 01-5.5.8L2.3 14A10 10 0 1012 2zm-3.4 14.6l-1.2-.5a2.1 2.1 0 003.9-1.1 2.1 2.1 0 00-2.9-1.9l1.2.5a1.5 1.5 0 11-1 2.5zm8-7.2a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"/></svg>
                 Wishlist on Steam
@@ -770,7 +764,7 @@ body.menu-open .mnav-toggle span:nth-child(3){ transform:translateY(-7px) rotate
             <div class="footer-col">
                 <h5>Studio</h5>
                 <ul>
-                    
+                    <li><a href="https://www.kickstarter.com/projects/602729946/airlock" target="_blank" rel="noopener">Kickstarter</a></li>
                     <li><a href="https://store.steampowered.com/app/4652950/Airlock/?utm_source=officialsite" target="_blank" rel="noopener">Steam Page</a></li>
                     <li><a href="media.html">Press Kit</a></li>
                     <li><a href="roadmap.html">Full Dossier</a></li>

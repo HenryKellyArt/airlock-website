@@ -7,13 +7,11 @@
    ============================================================ */
 
 :root {
-    --black: #080703; --bg: #0e0d07; --bg-2: #15130c; --bg-3: #1c1911;
-    --bone: #ECE6D6;
-    --ok: #6FB585; --danger: #E0705C;   /* meanings, not brand */
-    --bone-dim: rgba(236,230,214,0.72); --bone-faint: rgba(236,230,214,0.16);
-    --green: #ffad00; --green-bright: #ffc23f; --green-deep: #5c3f00;
-    --amber: #ffad00; --amber-bright: #ffc23f;
-    --accent: #ffad00; --accent-bright: #ffc23f;   /* legacy alias -> sage green */
+    --black: #050505; --bg: #0A0A0A; --bg-2: #121512; --bg-3: #181b17;
+    --bone: #ECE6D6; --bone-dim: rgba(236,230,214,0.72); --bone-faint: rgba(236,230,214,0.16);
+    --green: #9CAF88; --green-bright: #B7C7A3; --green-deep: #54603c;
+    --amber: #D4A046; --amber-bright: #E8B86C;
+    --accent: #9CAF88; --accent-bright: #B7C7A3;   /* legacy alias -> sage green */
     --classified: rgba(236,230,214,0.34);
     --locked: rgba(236,230,214,0.34);
     --line: rgba(236,230,214,0.12);
@@ -26,11 +24,11 @@
 nav.nav, nav#nav {
     position: sticky; top: 0; left: auto; right: auto; z-index: 100;
     display: block; padding: 0; margin: 0;
-    background: rgba(8,7,3,0.82);
+    background: rgba(5,5,5,0.82);
     -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--line); transition: none;
 }
-nav.nav.scrolled, nav#nav.scrolled { padding: 0; background: rgba(8,7,3,0.92); }
+nav.nav.scrolled, nav#nav.scrolled { padding: 0; background: rgba(5,5,5,0.92); }
 .nav-inner { display: flex; align-items: center; gap: 30px; height: 72px; }
 .brand-logo img, .nav-logo img { height: 40px; width: auto; display: block; filter: none; }
 .nav-links { display: flex; gap: 26px; margin-left: 18px; list-style: none; }
@@ -55,7 +53,7 @@ nav.nav.scrolled, nav#nav.scrolled { padding: 0; background: rgba(8,7,3,0.92); }
     font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 1.5px;
     text-transform: uppercase; border-radius: 3px; transition: all .15s;
 }
-.steam-btn:hover, .nav-cta:hover { background: var(--green); color: #241800; transform: none; }
+.steam-btn:hover, .nav-cta:hover { background: var(--green); color: #04210a; transform: none; }
 .steam-btn svg { width: 18px; height: 18px; }
 .nav-toggle { display: none !important; }
 
@@ -82,7 +80,7 @@ body.menu-open .mnav-toggle span:nth-child(3) { transform:translateY(-7px) rotat
   body.menu-open .mnav { transform:translateX(0); }
   .mnav a { color:var(--bone-dim); font-family:'Inter',sans-serif; font-size:15px; font-weight:600; letter-spacing:1px; text-transform:uppercase; text-decoration:none; padding:15px 4px; border-bottom:1px solid var(--bone-faint); }
   .mnav a:hover { color:var(--green-bright); }
-  .mnav .mnav-ks { margin-top:20px; padding:14px; background:var(--amber); color:#241800; border:0; border-radius:4px; text-align:center; }
+  .mnav .mnav-ks { margin-top:20px; padding:14px; background:var(--amber); color:#1a1205; border:0; border-radius:4px; text-align:center; }
   .mnav .mnav-steam { margin-top:10px; padding:14px; background:var(--green-deep); color:var(--bone); border:1px solid var(--green); border-radius:4px; text-align:center; }
   .mnav-backdrop { display:block; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:140; opacity:0; pointer-events:none; transition:opacity .28s; }
   body.menu-open .mnav-backdrop { opacity:1; pointer-events:auto; }
@@ -91,11 +89,11 @@ body.menu-open .mnav-toggle span:nth-child(3) { transform:translateY(-7px) rotat
 /* Kickstarter CTA - amber (our "live / happening now" accent). Campaign live 2026-06. */
 .ks-btn {
     display: inline-flex; align-items: center; gap: 9px; background: var(--amber);
-    color: #241800; border: 1px solid var(--amber); padding: 11px 20px;
+    color: #1a1205; border: 1px solid var(--amber); padding: 11px 20px;
     font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 1.5px;
     text-transform: uppercase; border-radius: 3px; transition: all .15s;
 }
-.ks-btn:hover { background: var(--amber-bright); border-color: var(--amber-bright); color: #241800; }
+.ks-btn:hover { background: var(--amber-bright); border-color: var(--amber-bright); color: #1a1205; }
 .ks-btn svg { width: 18px; height: 18px; }
 
 /* ===== STATUS COLOURS: in-progress = amber, declassified = green, classified = muted ===== */
@@ -103,19 +101,14 @@ body.menu-open .mnav-toggle span:nth-child(3) { transform:translateY(-7px) rotat
 .stage-substage-stamp.in-progress {
     color: var(--amber); border-color: var(--amber);
 }
-
-/* 2026-08-27: complete / declassified reads GREEN, live reads GOLD. Gold is now the
-   primary accent so it can no longer signal "in progress" on its own. */
-.stamp.complete, .stamp.declassified, .substage-stamp.complete, .stage-stamp.complete,
-.dossier-val.ok, .stamp.done { color: var(--ok); border-color: var(--ok); }
-.stamp.in-progress { background: rgba(255,173,0,0.10); }
-.substage.in-progress { border-left-color: var(--amber); background: rgba(255,173,0,0.06); }
+.stamp.in-progress { background: rgba(212,160,70,0.10); }
+.substage.in-progress { border-left-color: var(--amber); background: rgba(212,160,70,0.06); }
 .stamp.partial { color: var(--amber); border-color: var(--amber); }
 
 /* ===== SUB-NAV (roadmap / diary) active -> green (was hardcoded amber) ===== */
-.subnav-item.active { color: var(--green-bright); background: rgba(255,173,0,0.08); }
+.subnav-item.active { color: var(--green-bright); background: rgba(156,175,136,0.08); }
 .subnav-item.active::after { background: var(--green-bright); }
-.subnav-item:hover { background: rgba(255,173,0,0.06); }
+.subnav-item:hover { background: rgba(156,175,136,0.06); }
 
 /* ===== DIARY video accents -> keep amber as the secondary pop (intentional) ===== */
 /* (video-play / video-tag stay amber via their literal values; they read as the
